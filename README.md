@@ -1,7 +1,7 @@
 # PLP-Locadora
 System for renting games, series and movies.
 ----------
-| | Developed by | |
+| Developed by | | |
 :--: | :--: | :--:
 |Felipe Jerônimo Bernardo da Silva | [Github]()| Função
 |Francisco Antonio Dantas de Sousa| [Github](https://github.com/franciscodantas)| Função

@@ -8,4 +8,7 @@ module Models.Jogo where
         categoria:: String,
         qtdAlugueis:: Int,
         precoPorDia:: Float
-    } deriving (Show, Generic)
+    } deriving (Generic)
+
+    instance Show Jogo where
+        show (Jogo identificador nome descricao categoria qtdAlugueis precoPorDia) = "Nome: " ++ nome ++ "\n(" ++ filter (\c -> c /= '/' && c /= '\'') descricao ++ ")\n" ++ "Valor por dia: R$" ++ show precoPorDia

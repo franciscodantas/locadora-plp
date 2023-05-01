@@ -116,8 +116,8 @@ editJogoQtdJSON identifier qtd = do
     renameFile "../Temp.json" "DataBase/Jogo.json"
 
 saveAlteracoesJogo :: [Jogo] -> IO()
-saveAlteracoesJogo JogoList = do
-    B.writeFile "../Temp.json" $ encode JogoList
+saveAlteracoesJogo jogoList = do
+    B.writeFile "../Temp.json" $ encode jogoList
     removeFile "DataBase/Jogo.json"
     renameFile "../Temp.json" "DataBase/Jogo.json"
 
@@ -167,8 +167,8 @@ editSerieQtdJSON identifier qtd = do
     renameFile "../Temp.json" "DataBase/Serie.json"
 
 saveAlteracoesSerie :: [Serie] -> IO()
-saveAlteracoesSerie SerieList = do
-    B.writeFile "../Temp.json" $ encode SerieList
+saveAlteracoesSerie serieList = do
+    B.writeFile "../Temp.json" $ encode serieList
     removeFile "DataBase/Serie.json"
     renameFile "../Temp.json" "DataBase/Serie.json"
 
@@ -262,8 +262,8 @@ editClienteHistoricoJSON identifier compra = do
     renameFile "../Temp.json" "DataBase/Cliente.json"
 
 saveAlteracoesCliente :: [Cliente] -> IO()
-saveAlteracoesCliente ClienteList = do
-    B.writeFile "../Temp.json" $ encode ClienteList
+saveAlteracoesCliente clienteList = do
+    B.writeFile "../Temp.json" $ encode clienteList
     removeFile "DataBase/Cliente.json"
     renameFile "../Temp.json" "DataBase/Cliente.json"
 
@@ -330,8 +330,8 @@ removeFuncionarioByID identifierS (x:xs)
     | otherwise = [x] ++ (removeFuncionarioByID identifierS xs)
 
 saveAlteracoesFuncionario :: [Funcionario] -> IO()
-saveAlteracoesFuncionario FuncionarioList = do
-    B.writeFile "../Temp.json" $ encode FuncionarioList
+saveAlteracoesFuncionario funcionarioList = do
+    B.writeFile "../Temp.json" $ encode funcionarioList
     removeFile "DataBase/Funcionario.json"
     renameFile "../Temp.json" "DataBase/Funcionario.json"
 

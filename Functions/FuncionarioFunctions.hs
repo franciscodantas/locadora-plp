@@ -22,7 +22,7 @@ module Functions.FuncionarioFunctions where
     cadastrarCliente nome = do
         id <- gerarIdCliente
         BD.saveClienteJSON id nome
-        return (show (BD.getClienteByID id (getClienteJSON "DataBase/Serie.json")))
+        return (show (BD.getClienteByID id (getClienteJSON "DataBase/Cliente.json")))
 
     organizaListagem :: Show t => [t] -> String
     organizaListagem [] = ""

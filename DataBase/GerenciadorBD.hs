@@ -64,6 +64,12 @@ editFilmeQtdJSON identifier qtd = do
     removeFile "DataBase/Filme.json"
     renameFile "../Temp.json" "DataBase/Filme.json"
 
+saveAlteracoesFilme :: [Filme] -> IO()
+saveAlteracoesFilme filmeList = do
+    B.writeFile "../Temp.json" $ encode filmeList
+    removeFile "DataBase/Filme.json"
+    renameFile "../Temp.json" "DataBase/Filme.json"
+
 instance FromJSON Jogo
 instance ToJSON Jogo
 
@@ -109,6 +115,12 @@ editJogoQtdJSON identifier qtd = do
     removeFile "DataBase/Jogo.json"
     renameFile "../Temp.json" "DataBase/Jogo.json"
 
+saveAlteracoesJogo :: [Jogo] -> IO()
+saveAlteracoesJogo JogoList = do
+    B.writeFile "../Temp.json" $ encode JogoList
+    removeFile "DataBase/Jogo.json"
+    renameFile "../Temp.json" "DataBase/Jogo.json"
+
 instance FromJSON Serie
 instance ToJSON Serie
 
@@ -151,6 +163,12 @@ editSerieQtdJSON identifier qtd = do
     let newSerieList = (removeSerieByID identifier serieList) ++ [p]
 
     B.writeFile "../Temp.json" $ encode newSerieList
+    removeFile "DataBase/Serie.json"
+    renameFile "../Temp.json" "DataBase/Serie.json"
+
+saveAlteracoesSerie :: [Serie] -> IO()
+saveAlteracoesSerie SerieList = do
+    B.writeFile "../Temp.json" $ encode SerieList
     removeFile "DataBase/Serie.json"
     renameFile "../Temp.json" "DataBase/Serie.json"
 
@@ -243,6 +261,12 @@ editClienteHistoricoJSON identifier compra = do
     removeFile "DataBase/Cliente.json"
     renameFile "../Temp.json" "DataBase/Cliente.json"
 
+saveAlteracoesCliente :: [Cliente] -> IO()
+saveAlteracoesCliente ClienteList = do
+    B.writeFile "../Temp.json" $ encode ClienteList
+    removeFile "DataBase/Cliente.json"
+    renameFile "../Temp.json" "DataBase/Cliente.json"
+
 instance FromJSON Gerente
 instance ToJSON Gerente
 
@@ -298,6 +322,18 @@ getFuncionarioByID _ [] = Funcionario "-1" ""
 getFuncionarioByID identifierS (x:xs)
     | (Models.Funcionario.identificador x) == identifierS = x
     | otherwise = getFuncionarioByID identifierS xs
+
+removeFuncionarioByID :: String -> [Funcionario] -> [Funcionario]
+removeFuncionarioByID _ [] = []
+removeFuncionarioByID identifierS (x:xs)
+    | (Models.Funcionario.identificador x) == identifierS = xs
+    | otherwise = [x] ++ (removeFuncionarioByID identifierS xs)
+
+saveAlteracoesFuncionario :: [Funcionario] -> IO()
+saveAlteracoesFuncionario FuncionarioList = do
+    B.writeFile "../Temp.json" $ encode FuncionarioList
+    removeFile "DataBase/Funcionario.json"
+    renameFile "../Temp.json" "DataBase/Funcionario.json"
 
 -- Pega todo histórico --
 getCompraJSON :: String -> [Compra]

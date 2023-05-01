@@ -89,3 +89,4 @@ module Functions.FuncionarioFunctions where
         let funcionarios = getFuncionarioJSON "DataBase/Funcionario.json"
             funcionario = getFuncionarioByID id funcionarios
         Models.Funcionario.identificador funcionario /= "-1" && senha == "12988"
+

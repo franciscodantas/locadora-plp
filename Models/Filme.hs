@@ -11,4 +11,5 @@ module Models.Filme where
     } deriving (Generic)
 
     instance Show Filme where
+        show :: Filme -> String
         show (Filme identificador nome descricao categoria qtdAlugueis precoPorDia) = "Nome: " ++ nome ++ "\n(" ++ filter (\c -> c /= '/' && c /= '\'') descricao ++ ")\n" ++ "Valor por dia: R$" ++ show precoPorDia

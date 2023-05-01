@@ -11,4 +11,5 @@ module Models.Serie where
     } deriving (Generic)
 
     instance Show Serie where
+        show :: Serie -> String
         show (Serie identificador nome descricao categoria qtdAlugueis precoPorDia) = "Nome: " ++ nome ++ "\n(" ++ filter (\c -> c /= '/' && c /= '\'') descricao ++ ")\n" ++ "Valor por dia: R$" ++ show precoPorDia

@@ -230,30 +230,123 @@ menuFuncionario:: Int -> IO()
 menuFuncionario op
     | op == 1 = do
       putStrLn FuncF.listarFilmes
-      main
+      funcionario
     | op == 2 = do
       putStrLn FuncF.listarSeries
-      main
+      funcionario
     | op == 3 = do
       putStrLn FuncF.listarJogos
-      main
+      funcionario
     | op == 4 = do
       putStrLn "Nome do Cliente:"
       nome <- getLine
-      resultadoCadastro <- FuncF.cadastrarCliente nome
+      putStrLn "Id do Cliente:"
+      idCliente <- getLine
+      putStrLn "Seu Id:"
+      id <- getLine
+      putStrLn "Sua senha:"
+      senha <- getLine
+      resultadoCadastro <- FuncF.cadastrarCliente nome idCliente id senha
       putStrLn resultadoCadastro
-      main
+      funcionario
     | op == 5 = do
-      putStrLn FuncF.listarSeries
-      main
-    | op == 6 = funcionario
-    | op == 7 = funcionario
-    | op == 8 = funcionario
-    | op == 9 = funcionario
-    | op == 10 = funcionario
-    | op == 11 = funcionario
-    | op == 12 = funcionario
-    | op == 13 = funcionario
+      putStrLn FuncF.listarClientes
+      funcionario
+    | op == 6 = do
+      putStrLn "Id do cliente:"
+      id <- getLine
+      putStrLn "Id do Funcionario:"
+      idFun <- getLine
+      putStrLn "Senha:"
+      senha <- getLine
+      putStrLn (FuncF.excluirCliente id idFun senha)
+      funcionario
+    | op == 7 = do
+      putStrLn "Id do cliente:"
+      id <- getLine
+      putStrLn (FuncF.exibirHistorico id)
+      funcionario
+    | op == 8 = do
+      putStrLn "Id da serie:"
+      idSerie <- getLine
+      putStrLn "Nome da serie:"
+      nome <- getLine
+      putStrLn "Descrição:"
+      descricao <- getLine
+      putStrLn "Categoria:"
+      categoria <- getLine
+      putStrLn "Preço:"
+      preco <- getLine
+      putStrLn "Id do Funcionario:"
+      idFun <- getLine
+      putStrLn "Senha:"
+      senha <- getLine
+      resultado <- FuncF.cadastrarSerie idFun senha idSerie nome descricao categoria preco
+      putStrLn resultado
+      funcionario
+    | op == 9 = do
+      putStrLn "Id da Série:"
+      id <- getLine
+      putStrLn "Id do Funcionario:"
+      idFun <- getLine
+      putStrLn "Senha:"
+      senha <- getLine
+      putStrLn (FuncF.excluirSerie id idFun senha)
+      funcionario
+    | op == 10 = do
+      putStrLn "Id do filme:"
+      idSerie <- getLine
+      putStrLn "Nome do filme:"
+      nome <- getLine
+      putStrLn "Descrição:"
+      descricao <- getLine
+      putStrLn "Categoria:"
+      categoria <- getLine
+      putStrLn "Preço:"
+      preco <- getLine
+      putStrLn "Id do Funcionario:"
+      idFun <- getLine
+      putStrLn "Senha:"
+      senha <- getLine
+      resultado <- FuncF.cadastrarFilme idFun senha idSerie nome descricao categoria preco
+      putStrLn resultado
+      funcionario
+    | op == 11 = do
+      putStrLn "Id da Filme:"
+      id <- getLine
+      putStrLn "Id do Funcionario:"
+      idFun <- getLine
+      putStrLn "Senha:"
+      senha <- getLine
+      putStrLn (FuncF.excluirFilme id idFun senha)
+      funcionario
+    | op == 12 = do
+      putStrLn "Id do jogo:"
+      idSerie <- getLine
+      putStrLn "Nome do jogo:"
+      nome <- getLine
+      putStrLn "Descrição:"
+      descricao <- getLine
+      putStrLn "Categoria:"
+      categoria <- getLine
+      putStrLn "Preço:"
+      preco <- getLine
+      putStrLn "Id do Funcionario:"
+      idFun <- getLine
+      putStrLn "Senha:"
+      senha <- getLine
+      resultado <- FuncF.cadastrarJogo idFun senha idSerie nome descricao categoria preco
+      putStrLn resultado
+      funcionario
+    | op == 13 = do
+      putStrLn "Id da Jogo:"
+      id <- getLine
+      putStrLn "Id do Funcionario:"
+      idFun <- getLine
+      putStrLn "Senha:"
+      senha <- getLine
+      putStrLn (FuncF.excluirJogo id idFun senha)
+      funcionario
     | op == 14 = main
     | otherwise = do
         putStr "Entrada inválida...\n"

@@ -8,4 +8,8 @@ module Models.Cliente where
         nome:: String,
         carrinho:: [Produto],
         historico:: [Compra]
-    } deriving (Show, Generic)
+    } deriving (Generic)
+
+    instance Show Cliente where
+        show :: Cliente -> String
+        show (Cliente identificador nome carrinho historico) = "Nome: " ++ nome ++ "- " ++ identificador ++ " - realizou " ++ show (length historico) ++ " compra(as)"

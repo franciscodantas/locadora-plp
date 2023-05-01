@@ -29,12 +29,13 @@ module Functions.FuncionarioFunctions where
         else return "Cadastro falhou!"
     
     {- Faz a remoção do cliente no sistema -}
-    excluirCliente :: String -> String -> String -> String
+    excluirCliente :: String -> String -> String -> IO String
     excluirCliente id idFun senha=  do
         if validaFuncionario idFun senha then do
-            removeClienteByID id (getClienteJSON "DataBase/Cliente.json")
-            "Remoção feita com sucesso"
-        else "Não foi possivel realizar ação"
+            let removida = removeClienteByID id (getClienteJSON "DataBase/Cliente.json")
+            saveAlteracoesCliente removida
+            return "Remoção feita com sucesso"
+        else return "Não foi possivel realizar ação"
 
     {- Lista o historico de um determinado cliente -}
     exibirHistorico :: String -> String
@@ -52,12 +53,13 @@ module Functions.FuncionarioFunctions where
             return "Cadastro falhou"
     
      {- exclui uma serie do  sistema -}
-    excluirSerie :: String -> String -> String -> String
+    excluirSerie :: String -> String -> String -> IO String
     excluirSerie id idFun senha =  do
         if validaFuncionario idFun senha then do
-            removeSerieByID id (getSerieJSON "DataBase/Serie.json")
-            "Remoção feita com sucesso"
-        else "Não foi possivel realizar ação"
+            let removida = removeSerieByID id (getSerieJSON "DataBase/Serie.json")
+            saveAlteracoesSerie removida
+            return "Remoção feita com sucesso"
+        else return "Não foi possivel realizar ação"
 
     {- cadastra um filme no sistema -}
     cadastrarFilme :: String ->  String -> String -> String ->  String -> String -> String -> IO String
@@ -68,12 +70,13 @@ module Functions.FuncionarioFunctions where
         else
             return "Cadastro falhou"
     {- exclui um filme sistema -}
-    excluirFilme :: String -> String -> String -> String
+    excluirFilme :: String -> String -> String -> IO String
     excluirFilme id idFun senha =  do
         if validaFuncionario idFun senha then do
-            removeFilmeByID id (getFilmeJSON "DataBase/Filme.json")
-            "Remoção feita com sucesso"
-        else "Não foi possivel realizar ação"
+            let removida = removeFilmeByID id (getFilmeJSON "DataBase/Filme.json")
+            saveAlteracoesFilme removida
+            return "Remoção feita com sucesso"
+        else return "Não foi possivel realizar ação"
     
     {- cadastra um jogo no sistema -}
     cadastrarJogo :: String ->  String -> String -> String ->  String -> String -> String -> IO String
@@ -85,12 +88,13 @@ module Functions.FuncionarioFunctions where
             return "Cadastro falhou"
 
     {- exclui um jogo do sistema -}
-    excluirJogo :: String -> String -> String -> String
+    excluirJogo :: String -> String -> String -> IO String
     excluirJogo id idFun senha =  do
         if validaFuncionario idFun senha then do
-            removeJogoByID id (getJogoJSON "DataBase/Jogo.json")
-            "Remoção feita com sucesso"
-        else "Não foi possivel realizar ação"
+            let removida = removeJogoByID id (getJogoJSON "DataBase/Jogo.json")
+            saveAlteracoesJogo removida
+            return "Remoção feita com sucesso"
+        else return "Não foi possivel realizar ação"
     
      {- faz a organização das lista em uma string por linha usando a sua
         representação em string -}

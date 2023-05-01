@@ -259,7 +259,8 @@ menuFuncionario op
       idFun <- getLine
       putStrLn "Senha:"
       senha <- getLine
-      putStrLn (FuncF.excluirCliente id idFun senha)
+      resultado <- FuncF.excluirCliente id idFun senha
+      putStrLn resultado
       funcionario
     | op == 7 = do
       putStrLn "Id do cliente:"
@@ -291,7 +292,8 @@ menuFuncionario op
       idFun <- getLine
       putStrLn "Senha:"
       senha <- getLine
-      putStrLn (FuncF.excluirSerie id idFun senha)
+      resultado <- FuncF.excluirSerie id idFun senha
+      putStrLn resultado
       funcionario
     | op == 10 = do
       putStrLn "Id do filme:"
@@ -318,7 +320,8 @@ menuFuncionario op
       idFun <- getLine
       putStrLn "Senha:"
       senha <- getLine
-      putStrLn (FuncF.excluirFilme id idFun senha)
+      resultado <- FuncF.excluirFilme id idFun senha
+      putStrLn resultado
       funcionario
     | op == 12 = do
       putStrLn "Id do jogo:"
@@ -345,7 +348,8 @@ menuFuncionario op
       idFun <- getLine
       putStrLn "Senha:"
       senha <- getLine
-      putStrLn (FuncF.excluirJogo id idFun senha)
+      resultado <- FuncF.excluirJogo id idFun senha
+      putStrLn resultado
       funcionario
     | op == 14 = main
     | otherwise = do

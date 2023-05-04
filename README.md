@@ -13,6 +13,6 @@ System for renting games, series and movies.
 
 To install the system, you need to have haskell-stack installed on the machine.
 With the stack installed it will be necessary that:
-- Open the PLP-Locadora folder;
+- Open the locadora-plp folder;
 - Run the *stack build* command and wait for the project to be built;
-- After the installation is finished, execute the command *stack exec PLP-Locadora-exe*.
+- After the installation is finished, execute the command *stack exec locadora-plp-exe*.

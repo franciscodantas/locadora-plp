@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveGeneric #-}
 module Models.Funcionario where
+
     import GHC.Generics
     
     

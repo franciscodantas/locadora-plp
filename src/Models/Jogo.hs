@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveGeneric #-}
 module Models.Jogo where
+
     import GHC.Generics
 
     data Jogo = Jogo {
@@ -11,5 +13,4 @@ module Models.Jogo where
     } deriving (Generic)
 
     instance Show Jogo where
-        show :: Jogo -> String
         show (Jogo identificador nome descricao categoria qtdAlugueis precoPorDia) = "Nome: " ++ nome ++ "\n(" ++ filter (\c -> c /= '/' && c /= '\'') descricao ++ ")\n" ++ "Valor por dia: R$" ++ show precoPorDia

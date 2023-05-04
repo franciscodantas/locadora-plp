@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveGeneric #-}
 module Models.Cliente where
+
     import GHC.Generics
     import Models.Produto as Produto
     import Models.Compra as Compra
@@ -11,5 +13,4 @@ module Models.Cliente where
     } deriving (Generic)
 
     instance Show Cliente where
-        show :: Cliente -> String
         show (Cliente identificador nome carrinho historico) = "Nome: " ++ nome ++ "- " ++ identificador ++ " - realizou " ++ show (length historico) ++ " compra(as)"

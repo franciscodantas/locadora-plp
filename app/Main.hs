@@ -230,13 +230,13 @@ menuFuncionario:: Int -> IO()
 menuFuncionario op
     | op == 1 = do
       putStrLn FuncF.listarFilmes
-      main
+      funcionario
     | op == 2 = do
       putStrLn FuncF.listarSeries
-      main
+      funcionario
     | op == 3 = do
       putStrLn FuncF.listarJogos
-      main
+      funcionario
     | op == 4 = do
       putStrLn "Nome do Cliente:"
       nome <- getLine
@@ -248,10 +248,10 @@ menuFuncionario op
       senha <- getLine
       resultadoCadastro <- FuncF.cadastrarCliente nome idCliente id senha
       putStrLn resultadoCadastro
-      main
+      funcionario
     | op == 5 = do
       putStrLn FuncF.listarClientes
-      main
+      funcionario
     | op == 6 = do
       putStrLn "Id do cliente:"
       id <- getLine
@@ -261,12 +261,12 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.excluirCliente id idFun senha
       putStrLn resultado
-      main
+      funcionario
     | op == 7 = do
       putStrLn "Id do cliente:"
       id <- getLine
       putStrLn (FuncF.exibirHistorico id)
-      main
+      funcionario
     | op == 8 = do
       putStrLn "Id da serie:"
       idSerie <- getLine
@@ -284,7 +284,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.cadastrarSerie idFun senha idSerie nome descricao categoria preco
       putStrLn resultado
-      main
+      funcionario
     | op == 9 = do
       putStrLn "Id da Série:"
       id <- getLine
@@ -294,7 +294,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.excluirSerie id idFun senha
       putStrLn resultado
-      main
+      funcionario
     | op == 10 = do
       putStrLn "Id do filme:"
       idSerie <- getLine
@@ -312,7 +312,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.cadastrarFilme idFun senha idSerie nome descricao categoria preco
       putStrLn resultado
-      main
+      funcionario
     | op == 11 = do
       putStrLn "Id da Filme:"
       id <- getLine
@@ -322,7 +322,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.excluirFilme id idFun senha
       putStrLn resultado
-      main
+      funcionario
     | op == 12 = do
       putStrLn "Id do jogo:"
       idSerie <- getLine
@@ -340,7 +340,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.cadastrarJogo idFun senha idSerie nome descricao categoria preco
       putStrLn resultado
-      main
+      funcionario
     | op == 13 = do
       putStrLn "Id da Jogo:"
       id <- getLine
@@ -350,7 +350,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.excluirJogo id idFun senha
       putStrLn resultado
-      main
+      funcionario
     | op == 14 = main
     | otherwise = do
         putStr "Entrada inválida...\n"

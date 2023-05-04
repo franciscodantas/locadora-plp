@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveGeneric #-}
 module Models.Compra where
+
     import GHC.Generics
 
     data Compra = Compra {
@@ -11,5 +13,4 @@ module Models.Compra where
     } deriving (Generic)
 
     instance Show Compra where
-        show :: Compra -> String
         show (Compra id idCliente nomeCliente idProduto nomeProduto dataCompra) = nomeCliente ++ " comprou " ++ nomeProduto ++ " no dia " ++ dataCompra

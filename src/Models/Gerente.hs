@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveGeneric #-}
 module Models.Gerente where
+
     import GHC.Generics
     
     data Gerente = Gerente {

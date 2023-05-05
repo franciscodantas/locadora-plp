@@ -10,7 +10,7 @@ module Models.Compra where
         idProduto:: String,
         nomeProduto:: String,
         dataCompra:: String
-    } deriving (Generic)
+    } deriving (Generic,Eq)
 
     instance Show Compra where
         show (Compra id idCliente nomeCliente idProduto nomeProduto dataCompra) = nomeCliente ++ " comprou " ++ nomeProduto ++ " no dia " ++ dataCompra

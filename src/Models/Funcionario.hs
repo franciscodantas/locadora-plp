@@ -7,7 +7,10 @@ module Models.Funcionario where
     data Funcionario = Funcionario {
         identificador :: String,
         nome:: String
-    } deriving (Show, Generic, Read)
+    } deriving (Generic, Read)
+
+    instance Show Funcionario where
+        show (Funcionario identificador nome) = "Nome: " ++ nome ++ " - (" ++ identificador ++")"
 
     
 

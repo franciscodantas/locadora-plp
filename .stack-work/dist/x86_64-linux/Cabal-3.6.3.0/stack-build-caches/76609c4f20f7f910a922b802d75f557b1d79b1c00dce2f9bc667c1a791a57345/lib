@@ -1,0 +1,32 @@
+/workspaces/locadora-plp/CHANGELOG.md:
+  hash: 0a2cadefc3edaa72139dc7a49a6cdfd770b047f299f34b184e146be183bba4f7
+/workspaces/locadora-plp/README.md:
+  hash: 2566d2b2c0746f2308373230dcbe7a7fb37d8d2c780aff7c6ede7577ef6f682d
+/workspaces/locadora-plp/locadora-plp.cabal:
+  hash: 96617bcc947f69bb549e9bca1eabb28541be67261e4b9a981ad9af4e273c250c
+/workspaces/locadora-plp/package.yaml:
+  hash: 6e9f6a53119500a9236ef05b2b5a022efbf370e8bc17adc5eabe23090e1df663
+/workspaces/locadora-plp/src/DataBase/GerenciadorBD.hs:
+  hash: b58f7c5d8940d2c21dac83298a8557a5620553d49605ae38c75fecb5c40bde82
+/workspaces/locadora-plp/src/Functions/FuncionarioFunctions.hs:
+  hash: bf3bbc28c1afcd411c42bab2b5f7e08f0f8f7b587c47e4bb1dcef7e270f39920
+/workspaces/locadora-plp/src/Functions/GerenteFunctions.hs:
+  hash: ca25e86c913640c17044334763455e248cc2a69548c908f07178e25cfd559a8a
+/workspaces/locadora-plp/src/Lib.hs:
+  hash: 11d6d255cb397fa45980eb516ea685146565d9de2108c4eea356ea41db8364be
+/workspaces/locadora-plp/src/Models/Cliente.hs:
+  hash: ef980386723763011b98721d8aa9b1fb122ff26275a79e11b29851e8ba223d53
+/workspaces/locadora-plp/src/Models/Compra.hs:
+  hash: ffa8f6efdff4b969349211ac47fa5d01cc60adbb929745a75e6bdcd3868d3726
+/workspaces/locadora-plp/src/Models/Filme.hs:
+  hash: 0f36d5be55126964bf0945f6acccde77941f5de36235117b5ea3917f09efdb70
+/workspaces/locadora-plp/src/Models/Funcionario.hs:
+  hash: 15538bb4d91ebe0fb3f28b94db5d6230ce258a689ee81594ad8fa0005b6b906a
+/workspaces/locadora-plp/src/Models/Gerente.hs:
+  hash: dd36a10d18aeef77d3713dd8bf98bb3dcce4ab338b9d2429aecd36ff57e50f82
+/workspaces/locadora-plp/src/Models/Jogo.hs:
+  hash: c17e098b30968724b052e834e5deb39b86eabb80bbae4312eed4b15f39b7dfa0
+/workspaces/locadora-plp/src/Models/Produto.hs:
+  hash: 2e789d2e4e2692e45d4d1b312eb65947fdd546a7f849e8ef0d57d4976b08f20f
+/workspaces/locadora-plp/src/Models/Serie.hs:
+  hash: 5f1ab95fb5c78afe1ac933dec3de6fbc9793dd9418b6da8c36f231f152fcad55

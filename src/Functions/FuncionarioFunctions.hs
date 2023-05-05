@@ -41,7 +41,8 @@ module Functions.FuncionarioFunctions where
     exibirHistorico :: String -> String
     exibirHistorico id = do
         let cliente = BD.getClienteByID id (getClienteJSON "DataBase/Cliente.json")
-        "Historico do cliente: " ++ organizaListagem (Models.Cliente.historico cliente)
+        if Models.Cliente.historico cliente == [] then "O cliente " ++ (Models.Cliente.nome cliente) ++ " não realizou compras."
+        else "Historico do cliente: " ++ organizaListagem (Models.Cliente.historico cliente)
 
     {- cadastra uma serie no sistema -}
     cadastrarSerie :: String ->  String -> String -> String ->  String -> String -> String -> IO String

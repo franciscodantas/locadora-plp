@@ -1,9 +1,17 @@
+/home/codespace/.ghcup/ghc/9.2.7/lib/ghc-9.2.7/include/ghcversion.h:
+  hash: d590b76d2d5f98f01894882dc106d920a101f52edb6a09b9a7f8dc701b075565
+/usr/include/stdc-predef.h:
+  hash: 64fdf694f7b3d51ec6c45c06dcb71ebbe9455742d3ea673012016668853d3bff
+/workspaces/locadora-plp/.stack-work/dist/x86_64-linux/Cabal-3.6.3.0/build/locadora-plp-exe/autogen/Paths_locadora_plp.hs:
+  hash: 1b24e4d7b1a51e11575ac7c85683c55085c478ea05488c0249a6a087a25eb5c9
+/workspaces/locadora-plp/.stack-work/dist/x86_64-linux/Cabal-3.6.3.0/build/locadora-plp-exe/autogen/cabal_macros.h:
+  hash: 16fa3d4809f7d77ea3e1b3310e90606f71ff2b7f9e7a8db8f3b73cbaedf78522
 /workspaces/locadora-plp/CHANGELOG.md:
   hash: 0a2cadefc3edaa72139dc7a49a6cdfd770b047f299f34b184e146be183bba4f7
 /workspaces/locadora-plp/README.md:
   hash: 2566d2b2c0746f2308373230dcbe7a7fb37d8d2c780aff7c6ede7577ef6f682d
 /workspaces/locadora-plp/app/Main.hs:
-  hash: 5ac191e7b041f78480e7a196cddd597b5244de10b7db8bf78e991822b3400f87
+  hash: 1d0072bfe91e7fe4ec53602677644cf98be3933a250edcb7f9b5b51cf0af0709
 /workspaces/locadora-plp/locadora-plp.cabal:
   hash: 96617bcc947f69bb549e9bca1eabb28541be67261e4b9a981ad9af4e273c250c
 /workspaces/locadora-plp/package.yaml:

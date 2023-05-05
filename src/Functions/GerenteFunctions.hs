@@ -1,7 +1,6 @@
 module Functions.GerenteFunctions (
     cadastraFunc,
-    exibirFuncionario,
-    exibirFuncionarios
+    exibirFuncionario, listarFun
 ) where
 
     import DataBase.GerenciadorBD as Bd
@@ -20,8 +19,8 @@ module Functions.GerenteFunctions (
         let funcionario = show(Bd.getFuncionarioByID id (Bd.getFuncionarioJSON "DataBase/Funcionario.json"))
         if funcionario == "Nome:  - (-1)" then "Funcionario não existe" else show(funcionario)
 
-    va :: String
-    va = "Vá se fuder"
+    listarFun :: String
+    listarFun = organizaListagem (Bd.getFuncionarioJSON "DataBase/Funcionario.json")
 
     organizaListagem :: Show t => [t] -> String
     organizaListagem [] = ""

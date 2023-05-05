@@ -1,3 +1,11 @@
+/home/codespace/.ghcup/ghc/9.2.7/lib/ghc-9.2.7/include/ghcversion.h:
+  hash: d590b76d2d5f98f01894882dc106d920a101f52edb6a09b9a7f8dc701b075565
+/usr/include/stdc-predef.h:
+  hash: 64fdf694f7b3d51ec6c45c06dcb71ebbe9455742d3ea673012016668853d3bff
+/workspaces/locadora-plp/.stack-work/dist/x86_64-linux/Cabal-3.6.3.0/build/autogen/Paths_locadora_plp.hs:
+  hash: a0dfb362f0b18a5614970716e17ce26836a2f825552e6533ea2fc14e6883699a
+/workspaces/locadora-plp/.stack-work/dist/x86_64-linux/Cabal-3.6.3.0/build/autogen/cabal_macros.h:
+  hash: 9ef7614da89a9135bb84bba10228b91771ce997466b0eace0bc243edb3890c77
 /workspaces/locadora-plp/CHANGELOG.md:
   hash: 0a2cadefc3edaa72139dc7a49a6cdfd770b047f299f34b184e146be183bba4f7
 /workspaces/locadora-plp/README.md:
@@ -11,7 +19,7 @@
 /workspaces/locadora-plp/src/Functions/FuncionarioFunctions.hs:
   hash: bf3bbc28c1afcd411c42bab2b5f7e08f0f8f7b587c47e4bb1dcef7e270f39920
 /workspaces/locadora-plp/src/Functions/GerenteFunctions.hs:
-  hash: ca25e86c913640c17044334763455e248cc2a69548c908f07178e25cfd559a8a
+  hash: 39c8160def473638784e837d1863239da09541f32c0eb7c4476fd112705ee92c
 /workspaces/locadora-plp/src/Lib.hs:
   hash: 11d6d255cb397fa45980eb516ea685146565d9de2108c4eea356ea41db8364be
 /workspaces/locadora-plp/src/Models/Cliente.hs:

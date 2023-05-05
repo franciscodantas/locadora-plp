@@ -256,7 +256,7 @@ menuGerente op
       putStrLn (FuncG.exibirFuncionario id)
       gerente
     | op == 3 = do 
-      putStrLn FuncG.va
+      putStrLn FuncG.listarFun
       gerente
     | op == 4 = gerente
     | op == 5 = main

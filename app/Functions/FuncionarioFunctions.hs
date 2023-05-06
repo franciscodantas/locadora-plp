@@ -6,33 +6,33 @@ module Functions.FuncionarioFunctions where
 
     {- Lista os filmes do sistema -}
     listarFilmes:: String
-    listarFilmes = organizaListagem (BD.getFilmeJSON "DataBase/Filme.json")
+    listarFilmes = organizaListagem (BD.getFilmeJSON "app/DataBase/Filme.json")
 
     {- Lista as series do sistema do sistema -}
     listarSeries:: String
-    listarSeries = organizaListagem (BD.getSerieJSON "DataBase/Serie.json")
+    listarSeries = organizaListagem (BD.getSerieJSON "app/DataBase/Serie.json")
 
     {- Lista os jogos do sistema -}
     listarJogos:: String
-    listarJogos = organizaListagem (BD.getJogoJSON "DataBase/Jogo.json")
+    listarJogos = organizaListagem (BD.getJogoJSON "app/DataBase/Jogo.json")
 
     {- Lista os clientes do sistema -}
     listarClientes:: String
-    listarClientes = organizaListagem (BD.getClienteJSON "DataBase/Cliente.json")
+    listarClientes = organizaListagem (BD.getClienteJSON "app/DataBase/Cliente.json")
 
     {- cadastra um cliente no sistema -}
     cadastrarCliente :: String -> String -> String -> String -> IO String
     cadastrarCliente nome idCliente idFun senha = do
         if validaFuncionario idFun senha then do
             BD.saveClienteJSON idCliente nome
-            return (show (BD.getClienteByID idCliente (getClienteJSON "DataBase/Cliente.json")))
+            return (show (BD.getClienteByID idCliente (getClienteJSON "app/DataBase/Cliente.json")))
         else return "Cadastro falhou!"
     
     {- Faz a remoção do cliente no sistema -}
     excluirCliente :: String -> String -> String -> IO String
     excluirCliente id idFun senha=  do
         if validaFuncionario idFun senha then do
-            let removida = removeClienteByID id (getClienteJSON "DataBase/Cliente.json")
+            let removida = removeClienteByID id (getClienteJSON "app/DataBase/Cliente.json")
             saveAlteracoesCliente removida
             return "Remoção feita com sucesso"
         else return "Não foi possivel realizar ação"
@@ -40,7 +40,7 @@ module Functions.FuncionarioFunctions where
     {- Lista o historico de um determinado cliente -}
     exibirHistorico :: String -> String
     exibirHistorico id = do
-        let cliente = BD.getClienteByID id (getClienteJSON "DataBase/Cliente.json")
+        let cliente = BD.getClienteByID id (getClienteJSON "app/DataBase/Cliente.json")
         "Historico do cliente: " ++ organizaListagem (Models.Cliente.historico cliente)
 
     {- cadastra uma serie no sistema -}
@@ -56,7 +56,7 @@ module Functions.FuncionarioFunctions where
     excluirSerie :: String -> String -> String -> IO String
     excluirSerie id idFun senha =  do
         if validaFuncionario idFun senha then do
-            let removida = removeSerieByID id (getSerieJSON "DataBase/Serie.json")
+            let removida = removeSerieByID id (getSerieJSON "app/DataBase/Serie.json")
             saveAlteracoesSerie removida
             return "Remoção feita com sucesso"
         else return "Não foi possivel realizar ação"
@@ -73,7 +73,7 @@ module Functions.FuncionarioFunctions where
     excluirFilme :: String -> String -> String -> IO String
     excluirFilme id idFun senha =  do
         if validaFuncionario idFun senha then do
-            let removida = removeFilmeByID id (getFilmeJSON "DataBase/Filme.json")
+            let removida = removeFilmeByID id (getFilmeJSON "app/DataBase/Filme.json")
             saveAlteracoesFilme removida
             return "Remoção feita com sucesso"
         else return "Não foi possivel realizar ação"
@@ -91,7 +91,7 @@ module Functions.FuncionarioFunctions where
     excluirJogo :: String -> String -> String -> IO String
     excluirJogo id idFun senha =  do
         if validaFuncionario idFun senha then do
-            let removida = removeJogoByID id (getJogoJSON "DataBase/Jogo.json")
+            let removida = removeJogoByID id (getJogoJSON "app/DataBase/Jogo.json")
             saveAlteracoesJogo removida
             return "Remoção feita com sucesso"
         else return "Não foi possivel realizar ação"
@@ -106,7 +106,7 @@ module Functions.FuncionarioFunctions where
         para representar uma camada de segurança do sitesma -}
     validaFuncionario:: String -> String -> Bool
     validaFuncionario id senha = do
-        let funcionarios = getFuncionarioJSON "DataBase/Funcionario.json"
+        let funcionarios = getFuncionarioJSON "app/DataBase/Funcionario.json"
             funcionario = getFuncionarioByID id funcionarios
         Models.Funcionario.identificador funcionario /= "-1" && senha == "12988"
 

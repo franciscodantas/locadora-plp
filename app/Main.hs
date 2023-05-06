@@ -5,6 +5,7 @@ module Main where
 import DataBase.GerenciadorBD as BD
 
 import Functions.FuncionarioFunctions as FuncF
+import Functions.GerenteFunctions as FuncG
 
 import Models.Filme
 import Models.Serie
@@ -94,14 +95,17 @@ funcionario  = do
 menuFuncionario:: Int -> IO()
 menuFuncionario op
     | op == 1 = do
+      putStrLn "Filmes cadastrados:"
       putStrLn FuncF.listarFilmes
-      main
+      funcionario
     | op == 2 = do
+      putStrLn "Series cadastradas:"
       putStrLn FuncF.listarSeries
-      main
+      funcionario
     | op == 3 = do
+      putStrLn "Jogos cadastrados:"
       putStrLn FuncF.listarJogos
-      main
+      funcionario
     | op == 4 = do
       putStrLn "Nome do Cliente:"
       nome <- getLine
@@ -113,10 +117,11 @@ menuFuncionario op
       senha <- getLine
       resultadoCadastro <- FuncF.cadastrarCliente nome idCliente id senha
       putStrLn resultadoCadastro
-      main
+      funcionario
     | op == 5 = do
+      putStrLn "Clientes cadastrados:"
       putStrLn FuncF.listarClientes
-      main
+      funcionario
     | op == 6 = do
       putStrLn "Id do cliente:"
       id <- getLine
@@ -126,12 +131,12 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.excluirCliente id idFun senha
       putStrLn resultado
-      main
+      funcionario
     | op == 7 = do
       putStrLn "Id do cliente:"
       id <- getLine
       putStrLn (FuncF.exibirHistorico id)
-      main
+      funcionario
     | op == 8 = do
       putStrLn "Id da serie:"
       idSerie <- getLine
@@ -149,7 +154,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.cadastrarSerie idFun senha idSerie nome descricao categoria preco
       putStrLn resultado
-      main
+      funcionario
     | op == 9 = do
       putStrLn "Id da Série:"
       id <- getLine
@@ -159,7 +164,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.excluirSerie id idFun senha
       putStrLn resultado
-      main
+      funcionario
     | op == 10 = do
       putStrLn "Id do filme:"
       idSerie <- getLine
@@ -177,7 +182,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.cadastrarFilme idFun senha idSerie nome descricao categoria preco
       putStrLn resultado
-      main
+      funcionario
     | op == 11 = do
       putStrLn "Id da Filme:"
       id <- getLine
@@ -187,7 +192,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.excluirFilme id idFun senha
       putStrLn resultado
-      main
+      funcionario
     | op == 12 = do
       putStrLn "Id do jogo:"
       idSerie <- getLine
@@ -205,7 +210,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.cadastrarJogo idFun senha idSerie nome descricao categoria preco
       putStrLn resultado
-      main
+      funcionario
     | op == 13 = do
       putStrLn "Id da Jogo:"
       id <- getLine
@@ -215,7 +220,7 @@ menuFuncionario op
       senha <- getLine
       resultado <- FuncF.excluirJogo id idFun senha
       putStrLn resultado
-      main
+      funcionario
     | op == 14 = main
     | otherwise = do
         putStr "Entrada inválida...\n"
@@ -226,7 +231,7 @@ gerente = do
     putStr "\n======== Locadora - Sistema - Gerente ========\n"
     putStr "1- Cadastrar funcionário\n"
     putStr "2- Exibir funcionário\n"
-    putStr "3- Exibir funcionários\n"
+    putStr "3- Listar funcionários\n"
     putStr "4- Estatisticas de vendas\n"
     putStr "5- menu principal\n"
     putStr "----> "
@@ -235,11 +240,27 @@ gerente = do
 
 menuGerente:: Int -> IO()
 menuGerente op
-    | op == 1 = gerente    | op == 2 = gerente
-    | op == 3 = gerente
-    | op == 4 = gerente
+    | op == 1 = do
+      putStrLn "Identidade do Funcionario:"
+      id <- getLine
+      putStrLn "Nome:"
+      nome <- getLine
+      putStrLn "Senha do gerente:"
+      senha <- getLine
+      resultado <- FuncG.cadastraFunc id nome senha
+      putStrLn resultado
+      gerente
+    | op == 2 = do
+      putStrLn "Identidade do Funcionario:"
+      id <- getLine
+      putStrLn (FuncG.exibirFuncionario id)
+      gerente
+    | op == 3 = do 
+      putStrLn FuncG.listarFun
+      gerente
+    | op == 4 = do
+      putStrLn "To Do"
     | op == 5 = main
     | otherwise = do
         putStr "Entrada inválida...\n"
         gerente
-

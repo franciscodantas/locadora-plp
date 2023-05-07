@@ -4,6 +4,7 @@ module Main where
 
 import DataBase.GerenciadorBD as BD
 
+import Functions.ClienteFunctions as FuncC
 import Functions.FuncionarioFunctions as FuncF
 import Functions.GerenteFunctions as FuncG
 

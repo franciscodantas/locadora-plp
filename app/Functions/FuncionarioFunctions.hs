@@ -22,13 +22,12 @@ module Functions.FuncionarioFunctions where
 
     {- cadastra um cliente no sistema -}
     cadastrarCliente :: String -> String -> String -> String -> IO String
-    cadastrarCliente "" _ _ _ = return "Nome inválido"
-    cadastrarCliente _ "" _ _ = return "Id inválido"
-    cadastrarCliente nome idCliente idFun senha = do
-        if validaFuncionario idFun senha then do
+    cadastrarCliente nome idCliente idFun senha
+        | any null [(filter (/= ' ') idCliente), (filter (/= ' ') nome)] = return "Cadastro falhou!"
+        | not (validaFuncionario idFun senha) = return "Cadastro falhou!"
+        | otherwise = do
             BD.saveClienteJSON idCliente nome
             return (show (BD.getClienteByID idCliente (getClienteJSON "app/DataBase/Cliente.json")))
-        else return "Cadastro falhou!"
     
     {- Faz a remoção do cliente no sistema -}
     excluirCliente :: String -> String -> String -> IO String
@@ -51,17 +50,14 @@ module Functions.FuncionarioFunctions where
 
     {- cadastra uma serie no sistema -}
     cadastrarSerie :: String ->  String -> String -> String ->  String -> String -> String -> IO String
-    cadastrarSerie _ _ "" _ _ _ _ = return "Id inválido!"
-    cadastrarSerie _ _ _ "" _ _ _ = return "Nome inválido!"
-    cadastrarSerie _ _ _ _ "" _ _ = return "Descrição inválida!"
-    cadastrarSerie _ _ _ _ _ "" _ = return "Categoria inválida!"
-    cadastrarSerie _ _ _ _ _ _ "" = return "Preço inválido!"
-    cadastrarSerie idFun senha idSerie nome descricao categoria precoPorDia = do
-        if validaFuncionario idFun senha then do
+    cadastrarSerie idFun senha idSerie nome descricao categoria precoPorDia
+        | any null [(filter (/= ' ') idSerie), (filter (/= ' ') nome) , 
+            (filter (/= ' ') descricao),(filter (/= ' ') categoria), (filter (/= ' ') precoPorDia)] = return "Cadastro falhou!"
+        | not (validaFuncionario idFun senha) = return "Cadastro falhou"
+        | otherwise = do
             BD.saveSerieJSON idSerie nome descricao categoria (read precoPorDia)
             return "Cadastro realizado"
-        else
-            return "Cadastro falhou"
+            
     
      {- exclui uma serie do  sistema -}
     excluirSerie :: String -> String -> String -> IO String
@@ -77,17 +73,14 @@ module Functions.FuncionarioFunctions where
 
     {- cadastra um filme no sistema -}
     cadastrarFilme :: String ->  String -> String -> String ->  String -> String -> String -> IO String
-    cadastrarFilme _ _ "" _ _ _ _ = return "Id inválido!"
-    cadastrarFilme _ _ _ "" _ _ _ = return "Nome inválido!"
-    cadastrarFilme _ _ _ _ "" _ _ = return "Descrição inválida!"
-    cadastrarFilme _ _ _ _ _ "" _ = return "Categoria inválida!"
-    cadastrarFilme _ _ _ _ _ _ "" = return "Preço inválido!"
-    cadastrarFilme idFun senha idFilme nome descricao categoria precoPorDia = do
-        if validaFuncionario idFun senha then do
+    cadastrarFilme idFun senha idFilme nome descricao categoria precoPorDia
+        | any null [(filter (/= ' ') idFilme), (filter (/= ' ') nome) , 
+            (filter (/= ' ') descricao),(filter (/= ' ') categoria), (filter (/= ' ') precoPorDia)] = return "Cadastro falhou!"
+        | not (validaFuncionario idFun senha) = return "Cadastro falhou"
+        | otherwise = do
             BD.saveFilmeJSON idFilme nome descricao categoria (read precoPorDia)
             return "Cadastro realizado"
-        else
-            return "Cadastro falhou"
+
     {- exclui um filme sistema -}
     excluirFilme :: String -> String -> String -> IO String
     excluirFilme "" _ _ = return "Id inválido!"
@@ -102,17 +95,13 @@ module Functions.FuncionarioFunctions where
     
     {- cadastra um jogo no sistema -}
     cadastrarJogo :: String ->  String -> String -> String ->  String -> String -> String -> IO String
-    cadastrarJogo _ _ "" _ _ _ _ = return "Id inválido!"
-    cadastrarJogo _ _ _ "" _ _ _ = return "Nome inválido!"
-    cadastrarJogo _ _ _ _ "" _ _ = return "Descrição inválida!"
-    cadastrarJogo _ _ _ _ _ "" _ = return "Categoria inválida!"
-    cadastrarJogo _ _ _ _ _ _ "" = return "Preço inválido!"
-    cadastrarJogo idFun senha idJogo nome descricao categoria precoPorDia = do
-        if validaFuncionario idFun senha then do
+    cadastrarJogo idFun senha idJogo nome descricao categoria precoPorDia
+        | any null [(filter (/= ' ') idJogo), (filter (/= ' ') nome) , 
+            (filter (/= ' ') descricao),(filter (/= ' ') categoria), (filter (/= ' ') precoPorDia)] = return "Cadastro falhou!"
+        | not (validaFuncionario idFun senha) = return "Cadastro falhou"
+        | otherwise = do
             BD.saveJogoJSON idJogo nome descricao categoria (read precoPorDia)
             return "Cadastro realizado"
-        else
-            return "Cadastro falhou"
 
     {- exclui um jogo do sistema -}
     excluirJogo :: String -> String -> String -> IO String

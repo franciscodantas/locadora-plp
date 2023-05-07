@@ -10,14 +10,12 @@ module Functions.GerenteFunctions (
     import Data.List (sortBy)
 
     cadastraFunc :: String -> String -> String -> IO String
-    cadastraFunc "" _ _ = return "Cadastro falhou!"
-    cadastraFunc _ "" _ = return "Cadastro falhou!"
-    cadastraFunc id nome senha = do
-        if validaGerente senha then do
+    cadastraFunc id nome senha
+        | any null [(filter (/= ' ') id), (filter (/= ' ') nome)] = return "Cadastro falhou!"
+        | not (validaGerente senha) = return "Cadastro falhou!"
+        | otherwise = do
             Bd.saveFuncionarioJSON id nome
             return (show(Bd.getFuncionarioByID id (Bd.getFuncionarioJSON "app/DataBase/Funcionario.json")))
-        else
-            return "Cadastro falhou!"
     
     exibirFuncionario :: String -> String
     exibirFuncionario "" = "Id inválido!"
@@ -71,3 +69,6 @@ module Functions.GerenteFunctions (
 
     validaGerente:: String -> Bool
     validaGerente senha = senha == "01110"
+
+    removeEspacos :: String -> String 
+    removeEspacos = map (\c -> if c == ' ' then '-' else c)

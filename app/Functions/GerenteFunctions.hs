@@ -10,6 +10,8 @@ module Functions.GerenteFunctions (
     import Data.List (sortBy)
 
     cadastraFunc :: String -> String -> String -> IO String
+    cadastraFunc "" _ _ = return "Cadastro falhou!"
+    cadastraFunc _ "" _ = return "Cadastro falhou!"
     cadastraFunc id nome senha = do
         if validaGerente senha then do
             Bd.saveFuncionarioJSON id nome
@@ -18,6 +20,7 @@ module Functions.GerenteFunctions (
             return "Cadastro falhou!"
     
     exibirFuncionario :: String -> String
+    exibirFuncionario "" = "Id inválido!"
     exibirFuncionario id = do
         let funcionario = show(Bd.getFuncionarioByID id (Bd.getFuncionarioJSON "app/DataBase/Funcionario.json"))
         if funcionario == "Nome:  - (-1)" then "Funcionario não existe" else show(funcionario)

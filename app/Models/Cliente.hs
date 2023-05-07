@@ -16,3 +16,6 @@ module Models.Cliente where
     instance Show Cliente where
         show :: Cliente -> String
         show (Cliente identificador nome carrinho historico) = "Nome: " ++ nome ++ "- " ++ identificador ++ " - realizou " ++ show (length historico) ++ " compra(as)"
+    
+    getCompras :: Cliente -> [Compra]
+    getCompras cliente = historico cliente

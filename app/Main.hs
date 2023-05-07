@@ -259,7 +259,7 @@ menuGerente op
       putStrLn FuncG.listarFun
       gerente
     | op == 4 = do
-      putStrLn "To Do"
+      putStrLn FuncG.estatisticas
     | op == 5 = main
     | otherwise = do
         putStr "Entrada inválida...\n"

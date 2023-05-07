@@ -41,35 +41,164 @@ opcaoSelecionada op
             putStr "Entrada inválida...\n"
             main
 
-cliente:: IO()
-cliente  = do
-    putStr "\n======== Locadora - Sistema - Cliente ========\n"
-    putStr "1 - Listar filmes\n"
-    putStr "2 - Escolher filme\n"
-    putStr "3 - Listar series\n"
-    putStr "4 - Escolher serie\n"
-    putStr "5 - Listar jogos\n"
-    putStr "6 - Escolher jogo\n"
-    putStr "7 - Recomendações\n"
-    putStr "8 - menu principal\n"
-    putStr "----> "
-    op <- readLn:: IO Int
-    menuCliente op
+cliente :: IO ()
+cliente = do
+  putStr "\n======== Locadora - Sistema - Cliente ========\n"
+  putStr "1 - Listar filmes\n" 
+  putStr "2 - Escolher filme\n"
+  putStr "3 - Listar series\n"
+  putStr "4 - Escolher serie\n"
+  putStr "5 - Listar jogos\n"
+  putStr "6 - Escolher jogo\n"
+  putStr "7 - Adicionar Filme ao carrinho\n"
+  putStr "8 - Adicionar Jogo ao carrinho\n"
+  putStr "9 - Adicionar Série ao carrinho\n"
+  putStr "10 - Remover do carrinho\n"
+  putStr "11 - Ver carrinho\n"
+  putStr "12 - Recomendações\n" --
+  putStr "13 - menu principal\n"
+  putStr "----> "
+  op <- readLn :: IO Int
+  -- limparTela
+  menuCliente op
 
+subMenuDiasSemanas :: IO String
+subMenuDiasSemanas = do
+  putStrLn "1 - Alugar por dias"
+  putStrLn "2 - Alugar por semana"
+  getLine
 
-menuCliente:: Int -> IO()
+menuCliente :: Int -> IO ()
 menuCliente op
-    | op == 1 = cliente
-    | op == 2 = cliente
-    | op == 3 = cliente
-    | op == 4 = cliente
-    | op == 5 = cliente
-    | op == 6 = cliente
-    | op == 7 = cliente
-    | op == 8 = main
-    | otherwise = do
-        putStr "Entrada inválida...\n"
-        cliente
+  | op == 1 = do
+      putStrLn FuncC.listarFilmes
+      cliente
+  | op == 2 = do
+      putStrLn "Seu id: "
+      idCliente <- getLine
+      putStrLn "Nome do Filme:"
+      nome <- getLine
+      escolha <- subMenuDiasSemanas
+      if escolha == "1"
+        then do
+          putStrLn "Quantidade de dias:"
+          qtdDias <- readLn :: IO Int
+          resultadoAluguel <- FuncC.alugaFilmeDias idCliente nome qtdDias
+          putStrLn resultadoAluguel
+          cliente
+        else
+          if escolha == "2"
+            then do
+              putStrLn "Quantidade de semanas:"
+              qtdSemanas <- readLn :: IO Int
+              resultadoAluguel <- FuncC.alugaFilmeSemanas idCliente nome qtdSemanas
+              putStrLn resultadoAluguel
+              cliente
+            else do
+              putStrLn "Opção inválida!"
+              cliente
+  | op == 3 = do
+      putStrLn FuncC.listarSeries
+      cliente
+  | op == 4 = do
+      putStrLn "Seu id: "
+      idCliente <- getLine
+      putStrLn "Nome da Série:"
+      nome <- getLine
+      escolha <- subMenuDiasSemanas
+      if escolha == "1"
+        then do
+          putStrLn "Quantidade de dias:"
+          qtdDias <- readLn :: IO Int
+          resultadoAluguel <- FuncC.alugaSerieDias idCliente nome qtdDias
+          putStrLn resultadoAluguel
+          cliente
+        else
+          if escolha == "2"
+            then do
+              putStrLn "Quantidade de semanas:"
+              qtdSemanas <- readLn :: IO Int
+              resultadoAluguel <- FuncC.alugaSerieSemanas idCliente nome qtdSemanas
+              putStrLn resultadoAluguel
+              cliente
+            else do
+              putStrLn "Opção inválida!"
+              cliente
+  | op == 5 = do
+      putStrLn FuncC.listarJogos
+      cliente
+  | op == 6 = do
+      putStrLn "Seu id: "
+      idCliente <- getLine
+      putStrLn "Nome do Jogo:"
+      nome <- getLine
+      escolha <- subMenuDiasSemanas
+      if escolha == "1"
+        then do
+          putStrLn "Quantidade de dias:"
+          qtdDias <- readLn :: IO Int
+          resultadoAluguel <- FuncC.alugaJogoDias idCliente nome qtdDias
+          putStrLn resultadoAluguel
+          cliente
+        else
+          if escolha == "2"
+            then do
+              putStrLn "Quantidade de semanas:"
+              qtdSemanas <- readLn :: IO Int
+              resultadoAluguel <- FuncC.alugaJogoSemanas idCliente nome qtdSemanas
+              putStrLn resultadoAluguel
+              cliente
+            else do
+              putStrLn "Opção inválida!"
+              cliente
+  | op == 7 = do
+      putStrLn "Seu id: "
+      idCliente <- getLine
+      putStrLn "Nome do Produto:"
+      nomeProduto <- getLine
+      resultado <- FuncC.adicionarFilmeAoCarrinho idCliente nomeProduto
+      putStrLn resultado
+      cliente
+  | op == 8 = do
+      putStrLn "Seu id: "
+      idCliente <- getLine
+      putStrLn "Nome do Produto:"
+      nomeProduto <- getLine
+      resultado <- FuncC.adicionarJogoAoCarrinho idCliente nomeProduto
+      putStrLn resultado
+      cliente
+  | op == 9 = do
+      putStrLn "Seu id: "
+      idCliente <- getLine
+      putStrLn "Nome do Produto:"
+      nomeProduto <- getLine
+      resultado <- FuncC.adicionarSerieAoCarrinho idCliente nomeProduto
+      putStrLn resultado
+      cliente
+  | op == 10 = do
+      putStrLn "Seu id: "
+      idCliente <- getLine
+      putStrLn "Nome do Produto:"
+      nomeProduto <- getLine
+      resultado <- FuncC.removerProduto idCliente nomeProduto
+      putStrLn resultado
+      cliente
+  | op == 11 = do
+      putStrLn "Seu id: "
+      idCliente <- getLine
+      let resultado = FuncC.listarProdutos idCliente
+      putStrLn resultado
+      cliente
+  | op == 12 = do
+      putStrLn "Seu id: "
+      idCliente <- getLine
+      let resultado = FuncC.recomendacoes idCliente
+      putStrLn resultado
+      cliente
+  | op == 13 = main
+  | otherwise = do
+      putStr "Entrada inválida...\n"
+      cliente
 
 funcionario:: IO()
 funcionario  = do

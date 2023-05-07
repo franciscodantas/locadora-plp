@@ -5,6 +5,7 @@ module Main where
 import DataBase.GerenciadorBD as BD
 
 import Functions.FuncionarioFunctions as FuncF
+import Functions.ClienteFunctions as FuncC
 
 import Models.Filme
 import Models.Serie
@@ -179,13 +180,16 @@ cliente:: IO()
 cliente  = do
     putStr "\n======== Locadora - Sistema - Cliente ========\n"
     putStr "1 - Listar filmes\n"
-    putStr "2 - Escolher filme\n"
-    putStr "3 - Listar series\n"
-    putStr "4 - Escolher serie\n"
-    putStr "5 - Listar jogos\n"
-    putStr "6 - Escolher jogo\n"
-    putStr "7 - Recomendações\n"
-    putStr "8 - menu principal\n"
+    putStr "2 - Filmes por categoria\n"
+    putStr "3 - Escolher filme\n"
+    putStr "4 - Listar series\n"
+    putStr "5 - Series por categoria\n"
+    putStr "6 - Escolher serie\n"
+    putStr "7 - Listar jogos\n"
+    putStr "8 - Jogos por categoria\n"
+    putStr "9 - Escolher jogo\n"
+    putStr "10 - Recomendações\n"
+    putStr "11 - menu principal\n"
     putStr "----> "
     op <- readLn:: IO Int
     menuCliente op
@@ -193,14 +197,48 @@ cliente  = do
 
 menuCliente:: Int -> IO()
 menuCliente op
-    | op == 1 = cliente
-    | op == 2 = cliente
-    | op == 3 = cliente
-    | op == 4 = cliente
-    | op == 5 = cliente
-    | op == 6 = cliente
-    | op == 7 = cliente
-    | op == 8 = main
+    | op == 1 = do
+      putStrLn FuncF.listarFilmes
+      cliente
+    | op == 2 = do
+      putStrLn "Categoria:\n"
+      cat <- getLine
+      FuncC.pesquisaFilmes cat
+    | op == 3 = do
+      putStrLn "Id do filme:\n"
+      id <- getLine
+      putStrLn "Seu Id:\n"
+      idCliente <- getLine
+      FuncC.addFilme idCliente id
+    | op == 4 = do
+      putStrLn FuncF.listarSeries
+      cliente
+    | op == 5 = do
+      putStrLn "Categoria:\n"
+      cat <- getLine
+      FuncC.pesquisaSeries cat
+    | op == 6 = do
+      putStrLn "Id da serie:\n"
+      id <- getLine
+      putStrLn "Seu Id:\n"
+      idCliente <- getLine
+      FuncC.addSerie idCliente id
+    | op == 7 = do
+      putStrLn FuncF.listarJogos
+      cliente
+    | op == 8 = do
+      putStrLn "Categoria:\n"
+      cat <- getLine
+      FuncC.pesquisaJogos cat
+    | op == 9 = do
+      putStrLn "Id do jogo:\n"
+      id <- getLine
+      putStrLn "Seu Id:\n"
+      idCliente <- getLine
+      FuncC.addJogo idCliente id
+    | op 10 = --T0D0
+      cliente
+    | op 11 = main
     | otherwise = do
         putStr "Entrada inválida...\n"
         cliente

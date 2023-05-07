@@ -34,12 +34,16 @@ module Functions.GerenteFunctions (
     
     getMaisVendido :: [Compra] -> String
     getMaisVendido historico = do
-        let top3 = take 3 (contagem historico)
-        "Produtos mais vendidos:\n" ++ organizaProdutos top3 1
+        let top3 = take 3 (repetidos(contagem historico))
+        "Produtos mais vendidos (Top 3):\n" ++ organizaProdutos top3 1
+    
+    repetidos :: [(Compra,Int)] -> [(Compra,Int)]
+    repetidos [] = []
+    repetidos (x:xs) = x : repetidos (filter (/= x) xs)
     
     organizaProdutos :: [(Compra,Int)] -> Int -> String
-    organizaProdutos [] _ = ""
-    organizaProdutos compras 3 = ""
+    organizaProdutos [] cont = show cont ++ "."
+    organizaProdutos compras 4 = ""
     organizaProdutos (x:xs) cont = show cont ++ ". " ++ Models.Compra.nomeProduto (fst x) ++ " - " ++ show(snd x) ++ " venda(as)\n" ++ organizaProdutos xs (cont+1)
     
     contagem :: [Compra] -> [(Compra,Int)]

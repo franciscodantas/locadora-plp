@@ -260,6 +260,7 @@ menuGerente op
       gerente
     | op == 4 = do
       putStrLn FuncG.estatisticas
+      gerente
     | op == 5 = main
     | otherwise = do
         putStr "Entrada inválida...\n"

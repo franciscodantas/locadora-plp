@@ -7,4 +7,4 @@ module Models.Produto where
     data Produto = Produto {
         id:: String,
         idProduto:: String
-    } deriving (Show, Generic)
+    } deriving (Show, Generic,Eq)

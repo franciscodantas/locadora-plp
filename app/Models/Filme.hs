@@ -11,7 +11,7 @@ module Models.Filme where
         categoria:: String,
         qtdAlugueis:: Int,
         precoPorDia:: Float
-    } deriving (Generic)
+    } deriving (Generic,Eq)
 
     instance Show Filme where
         show :: Filme -> String

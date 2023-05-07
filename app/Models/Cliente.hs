@@ -11,7 +11,7 @@ module Models.Cliente where
         nome:: String,
         carrinho:: [Produto],
         historico:: [Compra]
-    } deriving (Generic)
+    } deriving (Generic,Eq)
 
     instance Show Cliente where
         show :: Cliente -> String

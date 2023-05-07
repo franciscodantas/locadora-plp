@@ -11,7 +11,7 @@ module Models.Serie where
         categoria:: String,
         qtdAlugueis:: Int,
         precoPorDia:: Float
-    } deriving (Generic)
+    } deriving (Generic,Eq)
 
     instance Show Serie where
         show :: Serie -> String

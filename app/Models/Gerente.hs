@@ -7,4 +7,4 @@ module Models.Gerente where
     data Gerente = Gerente {
         identificador :: String,
         nome:: String
-    } deriving (Show, Generic)
+    } deriving (Show, Generic,Eq)

@@ -11,7 +11,7 @@ module Models.Jogo where
         categoria:: String,
         qtdAlugueis:: Int,
         precoPorDia:: Float
-    } deriving (Generic)
+    } deriving (Generic,Eq)
 
     instance Show Jogo where
         show :: Jogo -> String

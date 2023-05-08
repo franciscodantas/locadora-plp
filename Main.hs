@@ -5,6 +5,7 @@ module Main where
 import DataBase.GerenciadorBD as BD
 
 import Functions.FuncionarioFunctions as FuncF
+import Functions.GerenteFunctions as FuncG
 
 import Models.Filme
 import Models.Serie
@@ -370,9 +371,25 @@ gerente = do
 
 menuGerente:: Int -> IO()
 menuGerente op
-    | op == 1 = gerente    | op == 2 = gerente
-    | op == 3 = gerente
-    | op == 4 = gerente
+    | op == 1 = do
+      putStrLn "nome do funcionario:"
+      nomeFun <- getLine
+      putStrLn "codigo do funcionario:"
+      codigoFunc <- getLine
+      cadastroFuncionario <- FuncG.cadastrarFuncionario codigoFunc nomeFun
+      putStrLn cadastroFuncionario
+      main
+    | op == 2 = do
+      putStrLn "codigo do funcionario:"
+      codigoFunc <- getLine
+      exibeFuncionario <- FuncG.listarFuncionario codigoFunc
+      putStrLn exibeFuncionario
+      main
+    | op == 3 = do
+      exibeFuncionarios <- FuncG.listarFuncionarios
+      putStrLn exibeFuncionarios
+      main
+    | op == 4 = gerente --TODO
     | op == 5 = main
     | otherwise = do
         putStr "Entrada inválida...\n"

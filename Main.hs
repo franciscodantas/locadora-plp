@@ -372,9 +372,9 @@ gerente = do
 menuGerente:: Int -> IO()
 menuGerente op
     | op == 1 = do
-      putStrLn "nome do funcionario:"
+      putStrLn "nome do funcionario: "
       nomeFun <- getLine
-      putStrLn "codigo do funcionario:"
+      putStrLn "codigo do funcionario: "
       codigoFunc <- getLine
       cadastroFuncionario <- FuncG.cadastrarFuncionario codigoFunc nomeFun
       putStrLn cadastroFuncionario

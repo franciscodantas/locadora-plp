@@ -31,10 +31,10 @@ module Functions.GerenteFunctions where
 
                                     
 
-    {- Estatisticas de vendas 
+    {- Estatisticas de vendas   
 
     exibirEstatisticas :: String -> IO String
     exibirEstatisticas id = do
         let Funcionario = BD.getFuncionarioByID id (getFuncionarioJSON "DataBase/Funcionario.json")
         
-        -}
+    -}

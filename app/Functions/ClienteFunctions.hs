@@ -249,7 +249,7 @@ recomendacoes op idCliente = do
   if op == "1"
     then do
       let cat = getCategoriasFilmes (getFilmList hist []) [] --Lista de categorias de filmes que o cliente alugou antes
-      if any null cat || null  cat then do
+      if any null cat || null  cat then do -- se não tiver mais nenhum filme da categoria ou ele nunca comprou nada irá retornar o filme mais vendido.
         let cat = getMaisVendido (getHistorico (BD.getClienteJSON "app/DataBase/Cliente.json"))
         let recs = getFilmList cat []
         "Filmes recomendados:\n" ++ organizaListagem (filter (\x -> Models.Filme.identificador x /= "-1") recs)

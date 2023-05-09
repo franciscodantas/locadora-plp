@@ -13,6 +13,7 @@ import Models.Jogo
 import Models.Produto
 import Models.Serie
 import System.Random (mkStdGen, newStdGen, randomRs)
+import Data.List (sortBy)
 
 {- Lista os filmes do sistema -}
 listarFilmes :: String
@@ -244,25 +245,41 @@ recomendacoes :: String -> String -> String
 recomendacoes op idCliente = do
   let cliente = BD.getClienteByID idCliente (BD.getClienteJSON "app/DataBase/Cliente.json")
   let hist = getHistoricoID (Models.Cliente.historico cliente) []
+
   if op == "1"
     then do
       let cat = getCategoriasFilmes (getFilmList hist []) [] --Lista de categorias de filmes que o cliente alugou antes
-      let filmesNaoAlugados = filter (\x -> (notElem (Models.Filme.identificador x) hist)) (BD.getFilmeJSON "app/DataBase/Filme.json") --Lista de todos os filmes que o cliente nunca alugou
-      let recs = filter (\x -> (elem (Models.Filme.categoria x) cat)) filmesNaoAlugados --Lista dos filmes que o cliente nunca alugou e são de categorias vistas no histórico
-      "Filmes recomendados:\n" ++ organizaListagem recs
+      if any null cat || null  cat then do
+        let cat = getMaisVendido (getHistorico (BD.getClienteJSON "app/DataBase/Cliente.json"))
+        let recs = getFilmList cat []
+        "Filmes recomendados:\n" ++ organizaListagem (filter (\x -> Models.Filme.identificador x /= "-1") recs)
+      else do
+        let filmesNaoAlugados = filter (\x -> (notElem (Models.Filme.identificador x) hist)) (BD.getFilmeJSON "app/DataBase/Filme.json") --Lista de todos os filmes que o cliente nunca alugou
+        let recs = filter (\x -> (elem (Models.Filme.categoria x) cat)) filmesNaoAlugados --Lista dos filmes que o cliente nunca alugou e são de categorias vistas no histórico
+        "Filmes recomendados:\n" ++ organizaListagem recs
   --Recomendações de séries e jogos seguem a mesma lógica
     else if op == "2"
       then do
         let cat = getCategoriasSeries (getSerList hist []) []
-        let seriesNaoAlugadas = filter (\x -> (notElem (Models.Serie.identificador x) hist)) (BD.getSerieJSON "app/DataBase/Serie.json")
-        let recs = filter (\x -> (elem (Models.Serie.categoria x) cat)) seriesNaoAlugadas
-        "Séries recomendadas:\n" ++ organizaListagem recs
+        if any null cat || null  cat then do
+          let cat = getMaisVendido (getHistorico (BD.getClienteJSON "app/DataBase/Cliente.json"))
+          let recs = getSerList cat []
+          "Séries recomendadas:\n" ++ organizaListagem (filter (\x -> Models.Serie.identificador x /= "-1") recs)
+        else do
+          let seriesNaoAlugadas = filter (\x -> (notElem (Models.Serie.identificador x) hist)) (BD.getSerieJSON "app/DataBase/Serie.json")
+          let recs = filter (\x -> (elem (Models.Serie.categoria x) cat)) seriesNaoAlugadas
+          "Séries recomendadas:\n" ++ organizaListagem recs
       else if op == "3"
         then do
-        let cat = getCategoriasJogos (getJogoList hist []) []
-        let jogosNaoAlugados = filter (\x -> (notElem (Models.Jogo.identificador x) hist)) (BD.getJogoJSON "app/DataBase/Jogo.json")
-        let recs = filter (\x -> (elem (Models.Jogo.categoria x) cat)) jogosNaoAlugados
-        "Jogos recomendados:\n" ++ organizaListagem recs
+          let cat = getCategoriasJogos (getJogoList hist []) []
+          if any null cat || null  cat then do
+            let cat = getMaisVendido (getHistorico (BD.getClienteJSON "app/DataBase/Cliente.json"))
+            let recs = getJogoList cat []
+            "Jogos recomendados:\n" ++ organizaListagem (filter (\x -> Models.Jogo.identificador x /= "-1") recs)
+          else do
+            let jogosNaoAlugados = filter (\x -> (notElem (Models.Jogo.identificador x) hist)) (BD.getJogoJSON "app/DataBase/Jogo.json")
+            let recs = filter (\x -> (elem (Models.Jogo.categoria x) cat)) jogosNaoAlugados
+            "Jogos recomendados:\n" ++ organizaListagem recs
         else
           "Opção inválida.\n"
 
@@ -294,7 +311,7 @@ getCategoriasFilmes:: [Filme] -> [String] -> [String]
 getCategoriasFilmes [] categorias = categorias
 getCategoriasFilmes (x:xs) categorias = do
   let c = Models.Filme.categoria x
-  if (elem c categorias) 
+  if (elem c categorias)
     then
       getCategoriasFilmes xs categorias
     else do
@@ -314,7 +331,7 @@ getCategoriasSeries:: [Serie] -> [String] -> [String]
 getCategoriasSeries [] categorias = categorias
 getCategoriasSeries (x:xs) categorias = do
   let c = Models.Serie.categoria x
-  if (elem c categorias) 
+  if (elem c categorias)
     then
       getCategoriasSeries xs categorias
     else do
@@ -334,7 +351,7 @@ getCategoriasJogos:: [Jogo] -> [String] -> [String]
 getCategoriasJogos [] categorias = categorias
 getCategoriasJogos (x:xs) categorias = do
   let c = Models.Jogo.categoria x
-  if (elem c categorias) 
+  if (elem c categorias)
     then
       getCategoriasJogos xs categorias
     else do
@@ -352,3 +369,21 @@ getHistoricoID (x:xs) lista = do
 append:: t -> [t] -> [t]
 append a [] = [a]
 append a (x:xs) = x : append a xs
+
+getMaisVendido :: [Compra] -> [String]
+getMaisVendido historico = (repetidos (contagem historico))
+
+
+repetidos :: [(Compra,Int)] -> [String]
+repetidos [] = []
+repetidos (x:xs) = (Models.Compra.idProduto (fst x)) : repetidos (filter (/= x) xs)
+
+contagem :: [Compra] -> [(Compra,Int)]
+contagem historico = do
+  let aux = map (\c -> (c, length (filter (==c) historico))) historico
+  let ordenado = sortBy (\(_, n1) (_, n2) -> compare n2 n1) aux
+  ordenado
+
+getHistorico :: [Cliente] -> [Compra]
+getHistorico [] = []
+getHistorico (x:xs) = Models.Cliente.getCompras x ++ getHistorico xs

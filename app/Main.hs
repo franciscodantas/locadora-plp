@@ -175,6 +175,7 @@ menuCliente op
           cat <- getLine
           let filmes = FuncC.pesquisaFilmes cat
           putStrLn filmes
+          cliente
         else
           if escolha == "2"
             then do
@@ -182,6 +183,7 @@ menuCliente op
               cat <- getLine
               let series = FuncC.pesquisaSeries cat
               putStrLn series
+              cliente
             else
               if escolha == "3"
                 then do
@@ -189,6 +191,7 @@ menuCliente op
                   cat <- getLine
                   let jogos = FuncC.pesquisaJogos cat
                   putStrLn jogos
+                  cliente
                 else do
                   putStrLn "Opção inválida!"
                   cliente

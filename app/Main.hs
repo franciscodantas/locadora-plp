@@ -51,13 +51,14 @@ cliente = do
   putStr "4 - Escolher serie\n"
   putStr "5 - Listar jogos\n"
   putStr "6 - Escolher jogo\n"
-  putStr "7 - Adicionar Filme ao carrinho\n"
-  putStr "8 - Adicionar Jogo ao carrinho\n"
-  putStr "9 - Adicionar Série ao carrinho\n"
-  putStr "10 - Remover do carrinho\n"
-  putStr "11 - Ver carrinho\n"
-  putStr "12 - Recomendações\n" --
-  putStr "13 - menu principal\n"
+  putStr "7 - Produto por categoria\n"
+  putStr "8 - Adicionar Filme ao carrinho\n"
+  putStr "9 - Adicionar Jogo ao carrinho\n"
+  putStr "10 - Adicionar Série ao carrinho\n"
+  putStr "11 - Remover do carrinho\n"
+  putStr "12 - Ver carrinho\n"
+  putStr "13 - Recomendações\n" --
+  putStr "14 - menu principal\n"
   putStr "----> "
   op <- readLn :: IO Int
   -- limparTela
@@ -67,6 +68,20 @@ subMenuDiasSemanas :: IO String
 subMenuDiasSemanas = do
   putStrLn "1 - Alugar por dias"
   putStrLn "2 - Alugar por semana"
+  getLine
+
+subMenuCategoria :: IO String
+subMenuCategoria = do
+  putStrLn "1 - Filmes por categoria"
+  putStrLn "2 - Séries por categoria"
+  putStrLn "3 - Jogos por categoria"
+  getLine
+
+subMenuRecs :: IO String
+subMenuRecs = do
+  putStrLn "1 - Recomendações de filme"
+  putStrLn "2 - Recomendações de séries"
+  putStrLn "3 - Recomendações de jogos"
   getLine
 
 menuCliente :: Int -> IO ()
@@ -153,6 +168,31 @@ menuCliente op
               putStrLn "Opção inválida!"
               cliente
   | op == 7 = do
+      escolha <- subMenuCategoria
+      if escolha == "1"
+        then do
+          putStrLn "Categoria:\n"
+          cat <- getLine
+          let filmes = FuncC.pesquisaFilmes cat
+          putStrLn filmes
+        else
+          if escolha == "2"
+            then do
+              putStrLn "Categoria:\n"
+              cat <- getLine
+              let series = FuncC.pesquisaSeries cat
+              putStrLn series
+            else
+              if escolha == "3"
+                then do
+                  putStrLn "Categoria:\n"
+                  cat <- getLine
+                  let jogos = FuncC.pesquisaJogos cat
+                  putStrLn jogos
+                else do
+                  putStrLn "Opção inválida!"
+                  cliente
+  | op == 8 = do
       putStrLn "Seu id: "
       idCliente <- getLine
       putStrLn "Nome do Produto:"
@@ -160,7 +200,7 @@ menuCliente op
       resultado <- FuncC.adicionarFilmeAoCarrinho idCliente nomeProduto
       putStrLn resultado
       cliente
-  | op == 8 = do
+  | op == 9 = do
       putStrLn "Seu id: "
       idCliente <- getLine
       putStrLn "Nome do Produto:"
@@ -168,7 +208,7 @@ menuCliente op
       resultado <- FuncC.adicionarJogoAoCarrinho idCliente nomeProduto
       putStrLn resultado
       cliente
-  | op == 9 = do
+  | op == 10 = do
       putStrLn "Seu id: "
       idCliente <- getLine
       putStrLn "Nome do Produto:"
@@ -176,7 +216,7 @@ menuCliente op
       resultado <- FuncC.adicionarSerieAoCarrinho idCliente nomeProduto
       putStrLn resultado
       cliente
-  | op == 10 = do
+  | op == 11 = do
       putStrLn "Seu id: "
       idCliente <- getLine
       putStrLn "Nome do Produto:"
@@ -184,19 +224,20 @@ menuCliente op
       resultado <- FuncC.removerProduto idCliente nomeProduto
       putStrLn resultado
       cliente
-  | op == 11 = do
+  | op == 12 = do
       putStrLn "Seu id: "
       idCliente <- getLine
       let resultado = FuncC.listarProdutos idCliente
       putStrLn resultado
       cliente
-  | op == 12 = do
+  | op == 13 = do
       putStrLn "Seu id: "
       idCliente <- getLine
-      let resultado = FuncC.recomendacoes idCliente
-      putStrLn resultado
+      escolha <- subMenuRecs
+      let recs = FuncC.recomendacoes escolha idCliente
+      putStrLn recs
       cliente
-  | op == 13 = main
+  | op == 14 = main
   | otherwise = do
       putStr "Entrada inválida...\n"
       cliente

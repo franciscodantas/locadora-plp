@@ -18,13 +18,31 @@ import System.Random (mkStdGen, newStdGen, randomRs)
 listarFilmes :: String
 listarFilmes = "Lista de filmes:\n" ++ organizaListagem (BD.getFilmeJSON "app/DataBase/Filme.json")
 
+{- Lista filmes de uma categoria -}
+pesquisaFilmes:: String -> String
+pesquisaFilmes cat = do
+  let filmes = filtraFilmes cat (BD.getFilmeJSON "app/DataBase/Filme.json")
+  "Lista de filmes:\n" ++ organizaListagem filmes
+
 {- Lista as series do sistema do sistema -}
 listarSeries :: String
 listarSeries = "Lista de série:\n" ++ organizaListagem (BD.getSerieJSON "app/DataBase/Serie.json")
 
+{- Lista series de uma categoria -}
+pesquisaSeries:: String -> String
+pesquisaSeries cat = do
+  let series = filtraSeries cat (BD.getSerieJSON "app/DataBase/Serie.json")
+  "Lista de séries:\n" ++ organizaListagem series
+
 {- Lista os jogos do sistema -}
 listarJogos :: String
 listarJogos = "Lista de jogo:\n" ++ organizaListagem (BD.getJogoJSON "app/DataBase/Jogo.json")
+
+{- Lista jogos de uma categoria -}
+pesquisaJogos:: String -> String
+pesquisaJogos cat = do
+  let jogos = filtraJogos cat (BD.getJogoJSON "app/DataBase/Jogo.json")
+  "Lista de jogos:\n" ++ organizaListagem jogos
 
 {- Faz a organização das lista em uma string por linha usando a sua representação em string -}
 organizaListagem :: Show t => [t] -> String
@@ -222,6 +240,115 @@ removerProduto idCliente nomeProduto = do
           BD.removeClienteProdutoJSON idCliente idFilme
           return "Produto removido com sucesso!"
 
-recomendacoes :: String -> String
-recomendacoes idCliente = ""
+recomendacoes :: String -> String -> String
+recomendacoes op idCliente = do
+  let cliente = BD.getClienteByID idCliente (BD.getClienteJSON "app/DataBase/Cliente.json")
+  let hist = getHistoricoID (Models.Cliente.historico cliente) []
+  if op == "1"
+    then do
+      let cat = getCategoriasFilmes (getFilmList hist []) [] --Lista de categorias de filmes que o cliente alugou antes
+      let filmesNaoAlugados = filter (\x -> (notElem (Models.Filme.identificador x) hist)) (BD.getFilmeJSON "app/DataBase/Filme.json") --Lista de todos os filmes que o cliente nunca alugou
+      let recs = filter (\x -> (elem (Models.Filme.categoria x) cat)) filmesNaoAlugados --Lista dos filmes que o cliente nunca alugou e são de categorias vistas no histórico
+      "Filmes recomendados:\n" ++ organizaListagem recs
+  --Recomendações de séries e jogos seguem a mesma lógica
+    else if op == "2"
+      then do
+        let cat = getCategoriasSeries (getSerList hist []) []
+        let seriesNaoAlugadas = filter (\x -> (notElem (Models.Serie.identificador x) hist)) (BD.getSerieJSON "app/DataBase/Serie.json")
+        let recs = filter (\x -> (elem (Models.Serie.categoria x) cat)) seriesNaoAlugadas
+        "Séries recomendadas:\n" ++ organizaListagem recs
+      else if op == "3"
+        then do
+        let cat = getCategoriasJogos (getJogoList hist []) []
+        let jogosNaoAlugados = filter (\x -> (notElem (Models.Jogo.identificador x) hist)) (BD.getJogoJSON "app/DataBase/Jogo.json")
+        let recs = filter (\x -> (elem (Models.Jogo.categoria x) cat)) jogosNaoAlugados
+        "Jogos recomendados:\n" ++ organizaListagem recs
+        else
+          "Opção inválida.\n"
 
+{- Filtra filmes por categoria -}
+filtraFilmes:: String -> [Filme] -> [Filme]
+filtraFilmes cat [] = []
+filtraFilmes cat lista = filter (\x -> (Models.Filme.categoria x) == cat) lista
+
+{- Filtra séries por categoria -}
+filtraSeries:: String -> [Serie] -> [Serie]
+filtraSeries cat [] = []
+filtraSeries cat lista = filter (\x -> (Models.Serie.categoria x) == cat) lista
+
+{- Filtra jogos por categoria -}
+filtraJogos:: String -> [Jogo] -> [Jogo]
+filtraJogos cat [] = []
+filtraJogos cat lista = filter (\x -> (Models.Jogo.categoria x) == cat) lista
+
+{- Retorna uma lista de filmes com base em uma lista de IDs -}
+getFilmList:: [String] -> [Filme] -> [Filme]
+getFilmList [] filmes = filmes
+getFilmList (x:xs) filmes = do
+  let f = BD.getFilmeByID x (BD.getFilmeJSON "app/DataBase/Filme.json")
+  let newList = append f filmes
+  getFilmList xs newList
+
+{- Retorna uma lista de categorias baseado em uma lista de filmes -}
+getCategoriasFilmes:: [Filme] -> [String] -> [String]
+getCategoriasFilmes [] categorias = categorias
+getCategoriasFilmes (x:xs) categorias = do
+  let c = Models.Filme.categoria x
+  if (elem c categorias) 
+    then
+      getCategoriasFilmes xs categorias
+    else do
+      let newLista = append c categorias
+      getCategoriasFilmes xs newLista
+
+{- Retorna uma lista de séries com base em uma lista de IDs -}
+getSerList:: [String] -> [Serie] -> [Serie]
+getSerList [] series = series
+getSerList (x:xs) series = do
+  let f = BD.getSerieByID x (BD.getSerieJSON "app/DataBase/Serie.json")
+  let newList = append f series
+  getSerList xs newList
+
+{- Retorna uma lista de categorias baseado em uma lista de séries -}
+getCategoriasSeries:: [Serie] -> [String] -> [String]
+getCategoriasSeries [] categorias = categorias
+getCategoriasSeries (x:xs) categorias = do
+  let c = Models.Serie.categoria x
+  if (elem c categorias) 
+    then
+      getCategoriasSeries xs categorias
+    else do
+      let newLista = append c categorias
+      getCategoriasSeries xs newLista
+
+{- Retorna uma lista de jogos com base em uma lista de IDs -}
+getJogoList:: [String] -> [Jogo] -> [Jogo]
+getJogoList [] jogos = jogos
+getJogoList (x:xs) jogos = do
+  let f = BD.getJogoByID x (BD.getJogoJSON "app/DataBase/Jogo.json")
+  let newList = append f jogos
+  getJogoList xs newList
+
+{- Retorna uma lista de categorias baseado em uma lista de jogos -}
+getCategoriasJogos:: [Jogo] -> [String] -> [String]
+getCategoriasJogos [] categorias = categorias
+getCategoriasJogos (x:xs) categorias = do
+  let c = Models.Jogo.categoria x
+  if (elem c categorias) 
+    then
+      getCategoriasJogos xs categorias
+    else do
+      let newLista = append c categorias
+      getCategoriasJogos xs newLista
+
+{- Retorna uma lista com os IDs dos produtos no histórico de um cliente -}
+getHistoricoID:: [Compra] -> [String] -> [String]
+getHistoricoID [] lista = lista
+getHistoricoID (x:xs) lista = do
+  let newLista = append (Models.Compra.idProduto x) lista
+  getHistoricoID xs newLista
+
+{- Adiciona um elemento novo a uma lista de elementos -}
+append:: t -> [t] -> [t]
+append a [] = [a]
+append a (x:xs) = x : append a xs

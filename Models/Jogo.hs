@@ -1,3 +1,6 @@
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE InstanceSigs #-}
+
 module Models.Jogo where
     import GHC.Generics
 
@@ -8,7 +11,7 @@ module Models.Jogo where
         categoria:: String,
         qtdAlugueis:: Int,
         precoPorDia:: Float
-    } deriving (Generic)
+    } deriving (Generic,Eq)
 
     instance Show Jogo where
         show :: Jogo -> String

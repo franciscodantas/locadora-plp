@@ -47,8 +47,8 @@ module Functions.GerenteFunctions (
     repetidos (x:xs) = x : repetidos (filter (/= x) xs)
     
     organizaProdutos :: [(Compra,Int)] -> Int -> String
-    organizaProdutos [] cont = show cont ++ "."
     organizaProdutos compras 4 = ""
+    organizaProdutos [] cont = show cont ++ "."
     organizaProdutos (x:xs) cont = show cont ++ ". " ++ Models.Compra.nomeProduto (fst x) ++ " - " ++ show(snd x) ++ " venda(as)\n" ++ organizaProdutos xs (cont+1)
     
     contagem :: [Compra] -> [(Compra,Int)]

@@ -161,6 +161,16 @@
   (major1) == 9 && (major2) <  2 || \
   (major1) == 9 && (major2) == 2 && (minor) <= 7)
 #endif /* MIN_TOOL_VERSION_runghc */
+/* tool strip-2.40 */
+#ifndef TOOL_VERSION_strip
+#define TOOL_VERSION_strip "2.40"
+#endif /* TOOL_VERSION_strip */
+#ifndef MIN_TOOL_VERSION_strip
+#define MIN_TOOL_VERSION_strip(major1,major2,minor) (\
+  (major1) <  2 || \
+  (major1) == 2 && (major2) <  40 || \
+  (major1) == 2 && (major2) == 40 && (minor) <= 0)
+#endif /* MIN_TOOL_VERSION_strip */
 
 #ifndef CURRENT_COMPONENT_ID
 #define CURRENT_COMPONENT_ID "PLP-Locadora-0.1.0.0-inplace-PLP-Locadora"

@@ -28,6 +28,7 @@ executable PLP-Locadora
     other-modules:
         DataBase.GerenciadorBD
         Functions.ClienteFunctions
+        Functions.GerenteFunctions
         Functions.FuncionarioFunctions
         Models.Cliente
         Models.Compra

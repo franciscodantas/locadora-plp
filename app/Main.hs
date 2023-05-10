@@ -390,6 +390,13 @@ menuGerente op
       gerente
     | op == 4 = do
       putStrLn FuncG.estatisticas
+      putStrLn FuncG.rendaFilmes
+      putStrLn FuncG.rendaSeries
+      putStrLn FuncG.rendaJogos
+      putStrLn FuncG.rendaTotal
+      putStrLn FuncG.totalClientes
+      putStrLn FuncG.totalFuncionarios
+      putStrLn FuncG.totalJogosDisponiveis
       gerente
     | op == 5 = main
     | otherwise = do

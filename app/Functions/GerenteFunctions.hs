@@ -1,12 +1,16 @@
 module Functions.GerenteFunctions (
     cadastraFunc,
-    exibirFuncionario, listarFun,estatisticas
+    exibirFuncionario, listarFun,estatisticas, rendaFilmes, rendaSeries, 
+    rendaJogos, rendaTotal, totalClientes, totalFuncionarios, totalJogosDisponiveis
 ) where
 
     import DataBase.GerenciadorBD as Bd
     import Models.Funcionario
     import Models.Cliente
     import Models.Compra
+    import Models.Filme
+    import Models.Serie
+    import Models.Jogo
     import Data.List (sortBy)
 
     cadastraFunc :: String -> String -> String -> IO String
@@ -72,3 +76,45 @@ module Functions.GerenteFunctions (
 
     removeEspacos :: String -> String 
     removeEspacos = map (\c -> if c == ' ' then '-' else c)
+    
+    rendaFilmes :: String
+    rendaFilmes = "\n A renda dos filmes alugados é de: R$ " ++ show (calculaRendaFilmes) ++ ",00"
+
+    rendaSeries :: String
+    rendaSeries = "\n A renda das series alugadas é de: R$ " ++ show (calculaRendaSeries) ++ ",00"
+    
+    rendaJogos :: String
+    rendaJogos = "\n A renda dos jogos alugadas é de: R$ " ++ show (calculaRendaJogos) ++ ",00"
+
+    calculaRendaFilmes :: Integer
+    calculaRendaFilmes = floor renda :: Integer
+        where
+            filmes = Bd.getFilmeJSON "app/DataBase/Filme.json"
+            renda = sum [fromIntegral (Models.Filme.qtdAlugueis f) * Models.Filme.precoPorDia f | f <- filmes]
+
+    calculaRendaSeries :: Integer
+    calculaRendaSeries = floor renda :: Integer
+        where
+            series = Bd.getSerieJSON "app/DataBase/Serie.json"
+            renda = sum [fromIntegral (Models.Serie.qtdAlugueis s) * Models.Serie.precoPorDia s | s <- series]
+
+    calculaRendaJogos :: Integer
+    calculaRendaJogos = floor renda :: Integer
+        where
+            jogos = Bd.getJogoJSON "app/DataBase/Jogo.json"
+            renda = sum [fromIntegral (Models.Jogo.qtdAlugueis j) * Models.Jogo.precoPorDia j | j <- jogos]
+
+    rendaTotal :: String
+    rendaTotal = "\n A renda total dos alugueis é de: R$ " ++ show (calculaRendaTotal) ++ ",00"
+
+    calculaRendaTotal :: Integer
+    calculaRendaTotal = (calculaRendaFilmes + calculaRendaJogos + calculaRendaSeries)
+
+    totalClientes :: String
+    totalClientes = "\nQuantidade de clientes ativos: " ++ show (length (getClienteJSON "app/DataBase/Cliente.json"))
+
+    totalFuncionarios :: String
+    totalFuncionarios = "Quantidade de funcionarios: " ++ show (length (getFuncionarioJSON "app/DataBase/Funcionario.json"))
+
+    totalJogosDisponiveis :: String
+    totalJogosDisponiveis = "Jogos disponiveis para alugar: " ++ show (length (getFuncionarioJSON "app/DataBase/Jogo.json"))

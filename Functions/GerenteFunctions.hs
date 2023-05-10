@@ -102,12 +102,12 @@ module Functions.GerenteFunctions (
     rendaSeries:: Float
     rendaSeries = do
         let series = BD.getSerieJSON "DataBase/Serie.json"
-        sum [Models.Serie.qtdAlugueis s * Models.Serie.precoPorDia s | s <- Series]
+        sum [Models.Serie.qtdAlugueis s * Models.Serie.precoPorDia s | s <- series]
 
     rendaJogos:: Float
     rendaJogos = do
         let jogos = BD.getSerieJSON "DataBase/Jogo.json"
-        sum [Models.Jogo.qtdAlugueis j * Models.Jogo.precoPorDia j | j <- Jogos]
+        sum [Models.Jogo.qtdAlugueis j * Models.Jogo.precoPorDia j | j <- jogos]
 
     totalRenda :: Float
     totalRenda = rendaFilmes + rendaSeries + rendaJogos

@@ -1,6 +1,6 @@
 # PLP-Locadora
 
-Imagine uma locadora de filmes, séries e jogos super moderna! Com uma interface intuitiva, você pode facilmente buscar e adicionar seus títulos favoritos ao carrinho. Quer uma sugestão? A locadora recomenda filmes, séries e jogos mais populares ou com base no seu histórico de aluguel. Os funcionários podem cadastrar novos clientes e editar o acervo, enquanto o gerente pode gerir funcionários e acompanhar as estatísticas de vendas. Com certeza, uma ótima opção para quem gosta de entretenimento em casa!
+Imagine uma locadora de filmes, séries e jogos super moderna! Você pode facilmente buscar e adicionar seus títulos favoritos ao carrinho. Quer uma sugestão? A locadora recomenda filmes, séries e jogos mais populares ou com base no seu histórico de aluguel. Os funcionários podem cadastrar novos clientes e editar o acervo, enquanto o gerente pode gerir funcionários e acompanhar as estatísticas de vendas. Com certeza, uma ótima opção para quem gosta de entretenimento em casa!
 
 Clique [aqui](https://docs.google.com/document/d/1Hd8hqg1ZLk40Qy2-A8kXrYkZBt3Vb7vGPT5a1jN4DLM/edit?usp=sharing) para ver as especificações.
 

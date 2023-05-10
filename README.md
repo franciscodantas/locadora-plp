@@ -19,14 +19,17 @@ Para esse projeto foi usado o Cabal, por isso será necessária sua instalação
 ### Instruções para execução
 
 1. Faça o `clean` do projeto para garantir a corretude do sistema:
+
    ```sh
    cabal clean
     ```
-2. Build o projeto para que todas as dependências sejam instaladas:
+2. `build` o projeto para que todas as dependências sejam instaladas:
+
     ```sh
     cabal build
     ```
-3. Execute o sistema:
+3. Execute o sistema com `run`:
+
     ```sh
     cabal run
     ```

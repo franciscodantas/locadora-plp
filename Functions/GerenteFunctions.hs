@@ -72,3 +72,47 @@ module Functions.GerenteFunctions (
 
     removeEspacos :: String -> String 
     removeEspacos = map (\c -> if c == ' ' then '-' else c)
+
+    cadastrarFuncionario :: String -> String -> IO String
+    cadastrarFuncionario idFuncionario nome = do
+        if validaFuncionario idFuncionario nome then do
+            BD.saveFuncionarioJSON idFuncionario nome
+            return (show (BD.getFuncionarioByID idFuncionario (getFuncionarioJSON "DataBase/Funcionario.json")))
+        else return "Cadastro falhou!"
+
+
+    {- Lista os Funcionarios do sistema -}
+    listarFuncionarios:: String
+    listarFuncionarios = organizaListagem (BD.getFuncionarioJSON "DataBase/Funcionario.json")
+
+
+    {- Exibir funcionário -}
+
+    listarFuncionario:: String -> IO String
+    listarFuncionario idFuncionario = do
+        if validaFuncionario idFuncionario then
+            return (show (BD.getFuncionarioByID idFuncionario (getFuncionarioJSON "DataBase/Funcionario.json")))
+        else return "Não encontrado"
+
+    rendaFilmes:: Float
+    rendaFilmes = do
+        let filmes = BD.getFilmeJSON "DataBase/Filme.json"
+        sum [Models.Filme.qtdAlugueis f * Models.Filme.precoPorDia f | f <- filmes]
+
+    rendaSeries:: Float
+    rendaSeries = do
+        let series = BD.getSerieJSON "DataBase/Serie.json"
+        sum [Models.Serie.qtdAlugueis s * Models.Serie.precoPorDia s | s <- Series]
+
+    rendaJogos:: Float
+    rendaJogos = do
+        let jogos = BD.getSerieJSON "DataBase/Jogo.json"
+        sum [Models.Jogo.qtdAlugueis j * Models.Jogo.precoPorDia j | j <- Jogos]
+
+    totalRenda :: Float
+    totalRenda = rendaFilmes + rendaSeries + rendaJogos
+
+    estatisticasNovas :: String
+    estatisticasNovas = do
+        let historico = getHistorico (Bd.getClienteJSON "app/DataBase/Cliente.json")
+        "Estatistícas das rendas:\n---------------\n" ++ rendaFilmes ++ "\n---------------\n" ++ rendaSeries ++ "\n---------------\n" ++ rendaJogos ++ "\n---------------\n" totalRenda

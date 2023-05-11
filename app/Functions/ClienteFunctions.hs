@@ -5,6 +5,9 @@ import Data.Char (isAlpha, isAlphaNum, toLower)
 import Data.Time.Clock (getCurrentTime)
 import Data.Time.Format (defaultTimeLocale, formatTime)
 import DataBase.GerenciadorBD as BD
+import System.Random (mkStdGen, newStdGen, randomRs)
+import Data.List (sortBy)
+import Control.Monad.Trans.Class (liftIO)
 import Models.Cliente
 import Models.Compra
 import Models.Filme
@@ -12,8 +15,6 @@ import Models.Funcionario
 import Models.Jogo
 import Models.Produto
 import Models.Serie
-import System.Random (mkStdGen, newStdGen, randomRs)
-import Data.List (sortBy)
 
 {- Lista os filmes do sistema -}
 listarFilmes :: IO String
@@ -29,24 +30,30 @@ pesquisaFilmes cat = do
   return $ "Lista de filmes:\n" ++ organizaListagem filmesFiltrados
 
 {- Lista as series do sistema do sistema -}
-listarSeries :: String
-listarSeries = "Lista de série:\n" ++ organizaListagem (BD.getSerieJSON "app/DataBase/Serie.json")
+listarSeries :: IO String
+listarSeries = do
+  series <- BD.getSerieJSON "app/DataBase/Serie.json"
+  return $ "Lista de série:\n" ++ organizaListagem series
 
 {- Lista series de uma categoria -}
-pesquisaSeries:: String -> String
+pesquisaSeries:: String -> IO String
 pesquisaSeries cat = do
-  let series = filtraSeries cat (BD.getSerieJSON "app/DataBase/Serie.json")
-  "Lista de séries:\n" ++ organizaListagem series
+  series <- BD.getSerieJSON "app/DataBase/Serie.json"
+  let seriesFiltradas = filtraSeries cat series
+  return ("Lista de séries:\n" ++ organizaListagem seriesFiltradas)
 
 {- Lista os jogos do sistema -}
-listarJogos :: String
-listarJogos = "Lista de jogo:\n" ++ organizaListagem (BD.getJogoJSON "app/DataBase/Jogo.json")
+listarJogos :: IO String
+listarJogos = do
+  jogos <- BD.getJogoJSON "app/DataBase/Jogo.json"
+  return $ "Lista de jogos:\n" ++ organizaListagem jogos
 
 {- Lista jogos de uma categoria -}
-pesquisaJogos:: String -> String
+pesquisaJogos :: String -> IO String
 pesquisaJogos cat = do
-  let jogos = filtraJogos cat (BD.getJogoJSON "app/DataBase/Jogo.json")
-  "Lista de jogos:\n" ++ organizaListagem jogos
+  jogos <- BD.getJogoJSON "app/DataBase/Jogo.json"
+  let jogosFiltrados = filtraJogos cat jogos
+  return $ "Lista de jogos:\n" ++ organizaListagem jogosFiltrados
 
 {- Faz a organização das lista em uma string por linha usando a sua representação em string -}
 organizaListagem :: Show t => [t] -> String
@@ -83,7 +90,7 @@ alugaFilmeSemanas idCliente nomeProduto qtdSemanas = do
   let cliente = BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
-  filmeList <- (BD.getFilmeJSON "app/DataBase/Filme.json")
+  filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
   let filme = BD.getFilmeByNome nomeProduto filmeList
   let idFilme = Models.Filme.identificador filme
 
@@ -103,7 +110,8 @@ alugaSerieDias idCliente nomeProduto qtdDias = do
   let cliente = BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
-  let serie = BD.getSerieByNome nomeProduto (BD.getSerieJSON "app/DataBase/Serie.json")
+  serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
+  let serie = BD.getSerieByNome nomeProduto serieList
   let idSerie = Models.Serie.identificador serie
 
   dataCompra <- getCurrentDate
@@ -122,7 +130,8 @@ alugaSerieSemanas idCliente nomeProduto qtdSemanas = do
   let cliente = BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
-  let serie = BD.getSerieByNome nomeProduto (BD.getSerieJSON "app/DataBase/Serie.json")
+  serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
+  let serie = BD.getSerieByNome nomeProduto serieList
   let idSerie = Models.Serie.identificador serie
 
   dataCompra <- getCurrentDate
@@ -132,7 +141,7 @@ alugaSerieSemanas idCliente nomeProduto qtdSemanas = do
   BD.editClienteHistoricoJSON idCliente compra
 
   let preco = fromIntegral qtdSemanas * 7 * Models.Serie.precoPorDia serie
-  let saida = "\nAluguel de " ++ nomeProduto ++ "realizado por " ++ show preco ++ " reais\n"
+  let saida = "\nAluguel de " ++ nomeProduto ++ " realizado por " ++ show preco ++ " reais\n"
   return saida
 
 alugaJogoDias :: String -> String -> Int -> IO String
@@ -141,7 +150,8 @@ alugaJogoDias idCliente nomeProduto qtdDias = do
   let cliente = BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
-  let jogo = BD.getJogoByNome nomeProduto (BD.getJogoJSON "app/DataBase/Jogo.json")
+  jogos <- BD.getJogoJSON "app/DataBase/Jogo.json"
+  let jogo = BD.getJogoByNome nomeProduto jogos
   let idJogo = Models.Jogo.identificador jogo
 
   dataCompra <- getCurrentDate
@@ -151,7 +161,7 @@ alugaJogoDias idCliente nomeProduto qtdDias = do
   BD.editClienteHistoricoJSON idCliente compra
 
   let preco = fromIntegral qtdDias * Models.Jogo.precoPorDia jogo
-  let saida = "\nAluguel de " ++ nomeProduto ++ "realizado por " ++ show preco ++ " reais\n"
+  let saida = "\nAluguel de " ++ nomeProduto ++ " realizado por " ++ show preco ++ " reais\n"
   return saida
 
 alugaJogoSemanas :: String -> String -> Int -> IO String
@@ -160,7 +170,8 @@ alugaJogoSemanas idCliente nomeProduto qtdSemanas = do
   let cliente = BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
-  let jogo = BD.getJogoByNome nomeProduto (BD.getJogoJSON "app/DataBase/Jogo.json")
+  jogos <- BD.getJogoJSON "app/DataBase/Jogo.json"
+  let jogo = BD.getJogoByNome nomeProduto jogos
   let idJogo = Models.Jogo.identificador jogo
 
   dataCompra <- getCurrentDate
@@ -170,7 +181,7 @@ alugaJogoSemanas idCliente nomeProduto qtdSemanas = do
   BD.editClienteHistoricoJSON idCliente compra
 
   let preco = fromIntegral qtdSemanas * 7 * Models.Jogo.precoPorDia jogo
-  let saida = "\nAluguel de " ++ nomeProduto ++ "realizado por " ++ show preco ++ " reais\n"
+  let saida = "\nAluguel de " ++ nomeProduto ++ " realizado por " ++ show preco ++ " reais\n"
   return saida
 
 generateID :: Char -> String
@@ -183,12 +194,11 @@ generateID c =
    in idStr ++ "-" ++ [toLower c]
 
 getCurrentDate :: IO String
-getCurrentDate = do
-  formatTime defaultTimeLocale "%d/%m/%y" <$> getCurrentTime
+getCurrentDate = formatTime defaultTimeLocale "%d/%m/%y" <$> getCurrentTime
 
 adicionarFilmeAoCarrinho :: String -> String -> IO String
 adicionarFilmeAoCarrinho idCliente nomeProduto = do
-  filmeList <- (BD.getFilmeJSON "app/DataBase/Filme.json")
+  filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
   let filme = BD.getFilmeByNome nomeProduto filmeList
   let idFilme = Models.Filme.identificador filme
 
@@ -202,7 +212,8 @@ adicionarFilmeAoCarrinho idCliente nomeProduto = do
 
 adicionarSerieAoCarrinho :: String -> String -> IO String
 adicionarSerieAoCarrinho idCliente nomeProduto = do
-  let serie = BD.getSerieByNome nomeProduto (BD.getSerieJSON "app/DataBase/Serie.json")
+  serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
+  let serie = BD.getSerieByNome nomeProduto serieList
   let idSerie = Models.Serie.identificador serie
 
   let produto = Produto (generateID 'p') idSerie
@@ -215,7 +226,8 @@ adicionarSerieAoCarrinho idCliente nomeProduto = do
 
 adicionarJogoAoCarrinho :: String -> String -> IO String
 adicionarJogoAoCarrinho idCliente nomeProduto = do
-  let jogo = BD.getJogoByNome nomeProduto (BD.getJogoJSON "app/DataBase/Jogo.json")
+  jogoList <- BD.getJogoJSON "app/DataBase/Jogo.json"
+  let jogo = BD.getJogoByNome nomeProduto jogoList
   let idJogo = Models.Jogo.identificador jogo
 
   let produto = Produto (generateID 'p') idJogo
@@ -233,22 +245,24 @@ listarProdutos idCliente = do
 
 removerProduto :: String -> String -> IO String
 removerProduto idCliente nomeProduto = do
-  filmeList <- (BD.getFilmeJSON "app/DataBase/Filme.json")
+  filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
   let filme = BD.getFilmeByNome nomeProduto filmeList
   let idFilme = Models.Filme.identificador filme
 
-  let serie = BD.getSerieByNome nomeProduto (BD.getSerieJSON "app/DataBase/Serie.json")
+  serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
+  let serie = BD.getSerieByNome nomeProduto serieList
   let idSerie = Models.Serie.identificador serie
 
-  let jogo = BD.getJogoByNome nomeProduto (BD.getJogoJSON "app/DataBase/Jogo.json")
+  jogoList <- BD.getJogoJSON "app/DataBase/Jogo.json"
+  let jogo = BD.getJogoByNome nomeProduto jogoList
   let idJogo = Models.Jogo.identificador jogo
 
-  if ((Models.Filme.identificador filme) == "-1" && (Models.Serie.identificador serie) == "-1")
+  if (Models.Filme.identificador filme) == "-1" && (Models.Serie.identificador serie) == "-1"
     then do
       BD.removeClienteProdutoJSON idCliente idJogo
       return "Produto removido com sucesso!"
     else
-      if ((Models.Filme.identificador filme) == "-1" && (Models.Jogo.identificador jogo) == "-1")
+      if (Models.Filme.identificador filme) == "-1" && (Models.Jogo.identificador jogo) == "-1"
         then do
           BD.removeClienteProdutoJSON idCliente idSerie
           return "Produto removido com sucesso!"
@@ -258,7 +272,7 @@ removerProduto idCliente nomeProduto = do
 
 recomendacoes :: String -> String -> IO String
 recomendacoes op idCliente = do
-  clientList <- (BD.getClienteJSON "app/DataBase/Cliente.json")
+  clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
   let cliente = BD.getClienteByID idCliente clientList
       hist = getHistoricoID (Models.Cliente.historico cliente) []
 
@@ -270,9 +284,9 @@ recomendacoes op idCliente = do
             recs = getFilmList cat []
         return $ "Filmes recomendados:\n" ++ organizaListagem (filter (\x -> Models.Filme.identificador x /= "-1") recs)
       else do
-        filmeList <- (BD.getFilmeJSON "app/DataBase/Filme.json")
-        let filmesNaoAlugados = filter (\x -> (notElem (Models.Filme.identificador x) hist)) filmeList
-            recs = filter (\x -> (elem (Models.Filme.categoria x) cat)) filmesNaoAlugados
+        filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
+        let filmesNaoAlugados = filter (\x -> notElem (Models.Filme.identificador x) hist) filmeList
+            recs = filter (\x -> elem (Models.Filme.categoria x) cat) filmesNaoAlugados
         return $ "Filmes recomendados:\n" ++ organizaListagem recs
     "2" -> do
       let cat = getCategoriasSeries (getSerList hist []) []
@@ -281,8 +295,8 @@ recomendacoes op idCliente = do
             recs = getSerList cat []
         return $ "Séries recomendadas:\n" ++ organizaListagem (filter (\x -> Models.Serie.identificador x /= "-1") recs)
       else do
-        let seriesNaoAlugadas = filter (\x -> (notElem (Models.Serie.identificador x) hist)) (BD.getSerieJSON "app/DataBase/Serie.json")
-            recs = filter (\x -> (elem (Models.Serie.categoria x) cat)) seriesNaoAlugadas
+        let seriesNaoAlugadas = filter (\x -> notElem (Models.Serie.identificador x) hist) (BD.getSerieJSON "app/DataBase/Serie.json")
+            recs = filter (\x -> elem (Models.Serie.categoria x) cat) seriesNaoAlugadas
         return $ "Séries recomendadas:\n" ++ organizaListagem recs
     "3" -> do
       let cat = getCategoriasJogos (getJogoList hist []) []
@@ -291,25 +305,25 @@ recomendacoes op idCliente = do
             recs = getJogoList cat []
         return $ "Jogos recomendados:\n" ++ organizaListagem (filter (\x -> Models.Jogo.identificador x /= "-1") recs)
       else do
-        let jogosNaoAlugados = filter (\x -> (notElem (Models.Jogo.identificador x) hist)) (BD.getJogoJSON "app/DataBase/Jogo.json")
-            recs = filter (\x -> (elem (Models.Jogo.categoria x) cat)) jogosNaoAlugados
-        return $ "Jogos recomendados:\n"
+        let jogosNaoAlugados = filter (\x -> notElem (Models.Jogo.identificador x) hist) (BD.getJogoJSON "app/DataBase/Jogo.json")
+            recs = filter (\x -> elem (Models.Jogo.categoria x) cat) jogosNaoAlugados
+        return "Jogos recomendados:\n"
 
 
 {- Filtra filmes por categoria -}
 filtraFilmes:: String -> [Filme] -> [Filme]
 filtraFilmes cat [] = []
-filtraFilmes cat lista = filter (\x -> (Models.Filme.categoria x) == cat) lista
+filtraFilmes cat lista = filter (\x -> Models.Filme.categoria x == cat) lista
 
 {- Filtra séries por categoria -}
 filtraSeries:: String -> [Serie] -> [Serie]
 filtraSeries cat [] = []
-filtraSeries cat lista = filter (\x -> (Models.Serie.categoria x) == cat) lista
+filtraSeries cat lista = filter (\x -> Models.Serie.categoria x == cat) lista
 
 {- Filtra jogos por categoria -}
 filtraJogos:: String -> [Jogo] -> [Jogo]
 filtraJogos cat [] = []
-filtraJogos cat lista = filter (\x -> (Models.Jogo.categoria x) == cat) lista
+filtraJogos cat lista = filter (\x -> Models.Jogo.categoria x == cat) lista
 
 {- Retorna uma lista de filmes com base em uma lista de IDs -}
 getFilmList :: [String] -> IO [Filme] -> IO [Filme]
@@ -324,7 +338,7 @@ getCategoriasFilmes:: [Filme] -> [String] -> [String]
 getCategoriasFilmes [] categorias = categorias
 getCategoriasFilmes (x:xs) categorias = do
   let c = Models.Filme.categoria x
-  if (elem c categorias)
+  if elem c categorias
     then
       getCategoriasFilmes xs categorias
     else do
@@ -332,11 +346,13 @@ getCategoriasFilmes (x:xs) categorias = do
       getCategoriasFilmes xs newLista
 
 {- Retorna uma lista de séries com base em uma lista de IDs -}
-getSerList:: [String] -> [Serie] -> [Serie]
-getSerList [] series = series
+
+getSerList :: [String] -> [Serie] -> IO [Serie]
+getSerList [] series = return series
 getSerList (x:xs) series = do
-  let f = BD.getSerieByID x (BD.getSerieJSON "app/DataBase/Serie.json")
-  let newList = append f series
+  serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
+  let f = BD.getSerieByID x serieList
+  newList <- fmap ((:) <$> liftIO f <*> return series)
   getSerList xs newList
 
 {- Retorna uma lista de categorias baseado em uma lista de séries -}
@@ -344,7 +360,7 @@ getCategoriasSeries:: [Serie] -> [String] -> [String]
 getCategoriasSeries [] categorias = categorias
 getCategoriasSeries (x:xs) categorias = do
   let c = Models.Serie.categoria x
-  if (elem c categorias)
+  if elem c categorias
     then
       getCategoriasSeries xs categorias
     else do
@@ -364,7 +380,7 @@ getCategoriasJogos:: [Jogo] -> [String] -> [String]
 getCategoriasJogos [] categorias = categorias
 getCategoriasJogos (x:xs) categorias = do
   let c = Models.Jogo.categoria x
-  if (elem c categorias)
+  if elem c categorias
     then
       getCategoriasJogos xs categorias
     else do
@@ -380,16 +396,15 @@ getHistoricoID (x:xs) lista = do
 
 {- Adiciona um elemento novo a uma lista de elementos -}
 append:: t -> [t] -> [t]
-append a [] = [a]
-append a (x:xs) = x : append a xs
+append a xs = foldr (:) [a] xs
 
 getMaisVendido :: [Compra] -> [String]
-getMaisVendido historico = (repetidos (contagem historico))
+getMaisVendido historico = repetidos (contagem historico)
 
 
 repetidos :: [(Compra,Int)] -> [String]
 repetidos [] = []
-repetidos (x:xs) = (Models.Compra.idProduto (fst x)) : repetidos (filter (/= x) xs)
+repetidos (x:xs) = Models.Compra.idProduto (fst x) : repetidos (filter (/= x) xs)
 
 contagem :: [Compra] -> [(Compra,Int)]
 contagem historico = do
@@ -398,5 +413,4 @@ contagem historico = do
   ordenado
 
 getHistorico :: [Cliente] -> [Compra]
-getHistorico [] = []
-getHistorico (x:xs) = Models.Cliente.getCompras x ++ getHistorico xs
+getHistorico xs = foldr ((++) . Models.Cliente.getCompras) [] xs

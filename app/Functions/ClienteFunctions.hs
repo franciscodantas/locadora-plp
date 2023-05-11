@@ -249,37 +249,22 @@ recomendacoes op idCliente = do
   if op == "1"
     then do
       let cat = getCategoriasFilmes (getFilmList hist []) [] --Lista de categorias de filmes que o cliente alugou antes
-      if any null cat || null  cat then do -- se não tiver mais nenhum filme da categoria ou ele nunca comprou nada irá retornar o filme mais vendido.
-        let cat = getMaisVendido (getHistorico (BD.getClienteJSON "app/DataBase/Cliente.json"))
-        let recs = getFilmList cat []
-        "Filmes recomendados:\n" ++ organizaListagem (filter (\x -> Models.Filme.identificador x /= "-1") recs)
-      else do
-        let filmesNaoAlugados = filter (\x -> (notElem (Models.Filme.identificador x) hist)) (BD.getFilmeJSON "app/DataBase/Filme.json") --Lista de todos os filmes que o cliente nunca alugou
-        let recs = filter (\x -> (elem (Models.Filme.categoria x) cat)) filmesNaoAlugados --Lista dos filmes que o cliente nunca alugou e são de categorias vistas no histórico
-        "Filmes recomendados:\n" ++ organizaListagem recs
+      let filmesNaoAlugados = filter (\x -> (notElem (Models.Filme.identificador x) hist)) (BD.getFilmeJSON "app/DataBase/Filme.json") --Lista de todos os filmes que o cliente nunca alugou
+      let recs = filter (\x -> (elem (Models.Filme.categoria x) cat)) filmesNaoAlugados --Lista dos filmes que o cliente nunca alugou e são de categorias vistas no histórico
+      "Filmes recomendados:\n" ++ organizaListagem recs
   --Recomendações de séries e jogos seguem a mesma lógica
     else if op == "2"
       then do
         let cat = getCategoriasSeries (getSerList hist []) []
-        if any null cat || null  cat then do
-          let cat = getMaisVendido (getHistorico (BD.getClienteJSON "app/DataBase/Cliente.json"))
-          let recs = getSerList cat []
-          "Séries recomendadas:\n" ++ organizaListagem (filter (\x -> Models.Serie.identificador x /= "-1") recs)
-        else do
-          let seriesNaoAlugadas = filter (\x -> (notElem (Models.Serie.identificador x) hist)) (BD.getSerieJSON "app/DataBase/Serie.json")
-          let recs = filter (\x -> (elem (Models.Serie.categoria x) cat)) seriesNaoAlugadas
-          "Séries recomendadas:\n" ++ organizaListagem recs
+        let seriesNaoAlugadas = filter (\x -> (notElem (Models.Serie.identificador x) hist)) (BD.getSerieJSON "app/DataBase/Serie.json")
+        let recs = filter (\x -> (elem (Models.Serie.categoria x) cat)) seriesNaoAlugadas
+        "Séries recomendadas:\n" ++ organizaListagem recs
       else if op == "3"
         then do
           let cat = getCategoriasJogos (getJogoList hist []) []
-          if any null cat || null  cat then do
-            let cat = getMaisVendido (getHistorico (BD.getClienteJSON "app/DataBase/Cliente.json"))
-            let recs = getJogoList cat []
-            "Jogos recomendados:\n" ++ organizaListagem (filter (\x -> Models.Jogo.identificador x /= "-1") recs)
-          else do
-            let jogosNaoAlugados = filter (\x -> (notElem (Models.Jogo.identificador x) hist)) (BD.getJogoJSON "app/DataBase/Jogo.json")
-            let recs = filter (\x -> (elem (Models.Jogo.categoria x) cat)) jogosNaoAlugados
-            "Jogos recomendados:\n" ++ organizaListagem recs
+          let jogosNaoAlugados = filter (\x -> (notElem (Models.Jogo.identificador x) hist)) (BD.getJogoJSON "app/DataBase/Jogo.json")
+          let recs = filter (\x -> (elem (Models.Jogo.categoria x) cat)) jogosNaoAlugados
+          "Jogos recomendados:\n" ++ organizaListagem recs
         else
           "Opção inválida.\n"
 

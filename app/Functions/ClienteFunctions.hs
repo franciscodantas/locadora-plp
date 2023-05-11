@@ -16,14 +16,17 @@ import System.Random (mkStdGen, newStdGen, randomRs)
 import Data.List (sortBy)
 
 {- Lista os filmes do sistema -}
-listarFilmes :: String
-listarFilmes = "Lista de filmes:\n" ++ organizaListagem (BD.getFilmeJSON "app/DataBase/Filme.json")
+listarFilmes :: IO String
+listarFilmes = do
+  filmes <- BD.getFilmeJSON "app/DataBase/Filme.json"
+  return $ "Lista de filmes:\n" ++ organizaListagem filmes
 
 {- Lista filmes de uma categoria -}
-pesquisaFilmes:: String -> String
+pesquisaFilmes :: String -> IO String
 pesquisaFilmes cat = do
-  let filmes = filtraFilmes cat (BD.getFilmeJSON "app/DataBase/Filme.json")
-  "Lista de filmes:\n" ++ organizaListagem filmes
+  filmes <- BD.getFilmeJSON "app/DataBase/Filme.json"
+  let filmesFiltrados = filtraFilmes cat filmes
+  return $ "Lista de filmes:\n" ++ organizaListagem filmesFiltrados
 
 {- Lista as series do sistema do sistema -}
 listarSeries :: String
@@ -59,7 +62,8 @@ alugaFilmeDias idCliente nomeProduto qtdDias = do
   let cliente = BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
-  let filme = BD.getFilmeByNome nomeProduto (BD.getFilmeJSON "app/DataBase/Filme.json")
+  filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
+  let filme = BD.getFilmeByNome nomeProduto filmeList
   let idFilme = Models.Filme.identificador filme
 
   dataCompra <- getCurrentDate
@@ -79,7 +83,8 @@ alugaFilmeSemanas idCliente nomeProduto qtdSemanas = do
   let cliente = BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
-  let filme = BD.getFilmeByNome nomeProduto (BD.getFilmeJSON "app/DataBase/Filme.json")
+  filmeList <- (BD.getFilmeJSON "app/DataBase/Filme.json")
+  let filme = BD.getFilmeByNome nomeProduto filmeList
   let idFilme = Models.Filme.identificador filme
 
   dataCompra <- getCurrentDate
@@ -183,7 +188,8 @@ getCurrentDate = do
 
 adicionarFilmeAoCarrinho :: String -> String -> IO String
 adicionarFilmeAoCarrinho idCliente nomeProduto = do
-  let filme = BD.getFilmeByNome nomeProduto (BD.getFilmeJSON "app/DataBase/Filme.json")
+  filmeList <- (BD.getFilmeJSON "app/DataBase/Filme.json")
+  let filme = BD.getFilmeByNome nomeProduto filmeList
   let idFilme = Models.Filme.identificador filme
 
   let produto = Produto (generateID 'p') idFilme
@@ -227,7 +233,8 @@ listarProdutos idCliente = do
 
 removerProduto :: String -> String -> IO String
 removerProduto idCliente nomeProduto = do
-  let filme = BD.getFilmeByNome nomeProduto (BD.getFilmeJSON "app/DataBase/Filme.json")
+  filmeList <- (BD.getFilmeJSON "app/DataBase/Filme.json")
+  let filme = BD.getFilmeByNome nomeProduto filmeList
   let idFilme = Models.Filme.identificador filme
 
   let serie = BD.getSerieByNome nomeProduto (BD.getSerieJSON "app/DataBase/Serie.json")
@@ -263,7 +270,8 @@ recomendacoes op idCliente = do
             recs = getFilmList cat []
         return $ "Filmes recomendados:\n" ++ organizaListagem (filter (\x -> Models.Filme.identificador x /= "-1") recs)
       else do
-        let filmesNaoAlugados = filter (\x -> (notElem (Models.Filme.identificador x) hist)) (BD.getFilmeJSON "app/DataBase/Filme.json")
+        filmeList <- (BD.getFilmeJSON "app/DataBase/Filme.json")
+        let filmesNaoAlugados = filter (\x -> (notElem (Models.Filme.identificador x) hist)) filmeList
             recs = filter (\x -> (elem (Models.Filme.categoria x) cat)) filmesNaoAlugados
         return $ "Filmes recomendados:\n" ++ organizaListagem recs
     "2" -> do
@@ -304,12 +312,12 @@ filtraJogos cat [] = []
 filtraJogos cat lista = filter (\x -> (Models.Jogo.categoria x) == cat) lista
 
 {- Retorna uma lista de filmes com base em uma lista de IDs -}
-getFilmList:: [String] -> [Filme] -> [Filme]
+getFilmList :: [String] -> IO [Filme] -> IO [Filme]
 getFilmList [] filmes = filmes
 getFilmList (x:xs) filmes = do
-  let f = BD.getFilmeByID x (BD.getFilmeJSON "app/DataBase/Filme.json")
-  let newList = append f filmes
-  getFilmList xs newList
+  filme <- BD.getFilmeByID x =<< filmes
+  newFilmes <- getFilmList xs filmes
+  return (filme : newFilmes)
 
 {- Retorna uma lista de categorias baseado em uma lista de filmes -}
 getCategoriasFilmes:: [Filme] -> [String] -> [String]

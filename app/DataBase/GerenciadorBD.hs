@@ -72,10 +72,10 @@ saveFilmeJSON identificador nome descricao categoria preco = do
   saveAlteracoesFilme newFilmeList
 
 -- Pega um filme por id
-getFilmeByID :: String -> [Filme] -> Filme
-getFilmeByID _ [] = Filme "-1" "" "" "" 0 0.0
+getFilmeByID :: String -> [Filme] -> IO Filme
+getFilmeByID _ [] = return $ Filme "-1" "" "" "" 0 0.0
 getFilmeByID identifierS (x : xs)
-  | Models.Filme.identificador x == identifierS = x
+  | Models.Filme.identificador x == identifierS = return x
   | otherwise = getFilmeByID identifierS xs
 
 -- Pega um filme por nome
@@ -96,10 +96,9 @@ removeFilmeByID identifierS (x : xs)
 editFilmeQtdJSON :: String -> Int -> IO ()
 editFilmeQtdJSON identifier qtd = do
   filmeList <- getFilmeJSON "app/DataBase/Filme.json"
-  let f = getFilmeByID identifier filmeList
+  f <- getFilmeByID identifier filmeList
   let p = Filme identifier (Models.Filme.nome f) (Models.Filme.descricao f) (Models.Filme.categoria f) qtd (Models.Filme.precoPorDia f)
   let newFilmeList = removeFilmeByID identifier filmeList ++ [p]
-
   saveAlteracoesFilme newFilmeList
 
 -- Salve as uma lista de filmes alterados
@@ -111,25 +110,27 @@ saveAlteracoesFilme filmeList = do
 
 {- ==== MÉTODOS PARA BANCO  DE JOGOS ==== -}
 -- Pega todos os Jogos --
-getJogoJSON :: String -> [Jogo]
+getJogoJSON :: FilePath -> IO [Jogo]
 getJogoJSON path = do
-  let file = unsafePerformIO (B.readFile path)
-  let decodedFile = decode file :: Maybe [Jogo]
-  Data.Maybe.fromMaybe [] decodedFile
+  contents <- B.readFile path
+  case eitherDecode' contents of
+    Left err -> error err
+    Right jogos -> return jogos
 
 -- Salva um novo Jogo no arquivos de Jogos --
 saveJogoJSON :: String -> String -> String -> String -> Float -> IO ()
 saveJogoJSON identificador nome descricao categoria preco = do
   let p = Jogo identificador nome descricao categoria 0 preco
-  let newJogoList = getJogoJSON "app/DataBase/Jogo.json" ++ [p]
+  jogoList <- getJogoJSON "app/DataBase/Jogo.json"
+  let newJogoList = jogoList ++ [p]
 
   saveAlteracoesJogo newJogoList
 
 -- Pega um jogo por id
-getJogoByID :: String -> [Jogo] -> Jogo
-getJogoByID _ [] = Jogo "-1" "" "" "" 0 0.0
+getJogoByID :: String -> [Jogo] -> IO Jogo
+getJogoByID _ [] = return $ Jogo "-1" "" "" "" 0 0.0
 getJogoByID identifierS (x : xs)
-  | Models.Jogo.identificador x == identifierS = x
+  | Models.Jogo.identificador x == identifierS = return x
   | otherwise = getJogoByID identifierS xs
 
 -- Pega um jogo por nome
@@ -149,11 +150,10 @@ removeJogoByID identifierS (x : xs)
 -- Edita a quantidade de alugueis de um jogo
 editJogoQtdJSON :: String -> Int -> IO ()
 editJogoQtdJSON identifier qtd = do
-  let jogoList = getJogoJSON "app/DataBase/Jogo.json"
-  let f = getJogoByID identifier jogoList
+  jogoList <- getJogoJSON "app/DataBase/Jogo.json"
+  f <- getJogoByID identifier jogoList
   let p = Jogo identifier (Models.Jogo.nome f) (Models.Jogo.descricao f) (Models.Jogo.categoria f) qtd (Models.Jogo.precoPorDia f)
   let newJogoList = removeJogoByID identifier jogoList ++ [p]
-
   saveAlteracoesJogo newJogoList
 
 -- Salva uma lista de jogos alterados
@@ -165,25 +165,27 @@ saveAlteracoesJogo jogoList = do
 
 {- ==== MÉTODOS PARA BANCO  DE SERIES ==== -}
 -- Pega todos os Series --
-getSerieJSON :: String -> [Serie]
+getSerieJSON :: FilePath -> IO [Serie]
 getSerieJSON path = do
-  let file = unsafePerformIO (B.readFile path)
-  let decodedFile = decode file :: Maybe [Serie]
-  Data.Maybe.fromMaybe [] decodedFile
+  contents <- B.readFile path
+  case eitherDecode' contents of
+    Left err -> error err
+    Right series -> return series
 
 -- Salva um nova série no arquivos de Series --
 saveSerieJSON :: String -> String -> String -> String -> Float -> IO ()
 saveSerieJSON identificador nome descricao categoria preco = do
   let p = Serie identificador nome descricao categoria 0 preco
-  let newSerieList = getSerieJSON "app/DataBase/Serie.json" ++ [p]
+  jogoList <- getSerieJSON "app/DataBase/Serie.json"
+  let newSerieList = jogoList ++ [p]
 
   saveAlteracoesSerie newSerieList
 
 -- Pega um série por id
-getSerieByID :: String -> [Serie] -> Serie
-getSerieByID _ [] = Serie "-1" "" "" "" 0 0.0
+getSerieByID :: String -> [Serie] -> IO Serie
+getSerieByID _ [] = return $ Serie "-1" "" "" "" 0 0.0
 getSerieByID identifierS (x : xs)
-  | Models.Serie.identificador x == identifierS = x
+  | Models.Serie.identificador x == identifierS = return $ x
   | otherwise = getSerieByID identifierS xs
 
 -- Pega um série por nome
@@ -203,11 +205,10 @@ removeSerieByID identifierS (x : xs)
 -- Edita a quantidade alugueis de uma série
 editSerieQtdJSON :: String -> Int -> IO ()
 editSerieQtdJSON identifier qtd = do
-  let serieList = getSerieJSON "app/DataBase/Serie.json"
-  let f = getSerieByID identifier serieList
+  serieList <- getSerieJSON "app/DataBase/Serie.json"
+  f <- getSerieByID identifier serieList
   let p = Serie identifier (Models.Serie.nome f) (Models.Serie.descricao f) (Models.Serie.categoria f) qtd (Models.Serie.precoPorDia f)
   let newSerieList = removeSerieByID identifier serieList ++ [p]
-
   saveAlteracoesSerie newSerieList
 
 -- Salva uma lista de séries alteradas
@@ -313,11 +314,11 @@ produtoToString produtos = helper produtos 1
     helper [] _ = return ""
     helper (x : xs) i = do
       filmeList <- getFilmeJSON "app/DataBase/Filme.json"
-      let serieList = getSerieJSON "app/DataBase/Serie.json"
-      let jogoList = getJogoJSON "app/DataBase/Jogo.json"
-      let f = getFilmeByID (Models.Produto.idProduto x) filmeList
-      let s = getSerieByID (Models.Produto.idProduto x) serieList
-      let j = getJogoByID (Models.Produto.idProduto x) jogoList
+      serieList <- getSerieJSON "app/DataBase/Serie.json"
+      jogoList <- getJogoJSON "app/DataBase/Jogo.json"
+      f <- getFilmeByID (Models.Produto.idProduto x) filmeList
+      s <- getSerieByID (Models.Produto.idProduto x) serieList
+      j <- getJogoByID (Models.Produto.idProduto x) jogoList
       let saida = show i ++ " - "
       if ((Models.Filme.identificador f) == "-1" && (Models.Serie.identificador s) == "-1")
         then do
@@ -331,7 +332,7 @@ produtoToString produtos = helper produtos 1
                   ++ "Preço por dia: "
                   ++ show (Models.Jogo.precoPorDia j)
                   ++ "\n"
-          (saida ++) <$> (info ++) <$> helper xs (i + 1)
+          ((saida ++) <$> (info ++)) <$> helper xs (i + 1)
         else
           if ((Models.Filme.identificador f) == "-1" && (Models.Jogo.identificador j) == "-1")
             then do
@@ -345,7 +346,7 @@ produtoToString produtos = helper produtos 1
                       ++ "Preço por dia: "
                       ++ show (Models.Serie.precoPorDia s)
                       ++ "\n"
-              (saida ++) <$> (info ++) <$> helper xs (i + 1)
+              ((saida ++) <$> (info ++)) <$> helper xs (i + 1)
             else do
               let info =
                     "\nNome: "
@@ -357,7 +358,7 @@ produtoToString produtos = helper produtos 1
                       ++ "Preço por dia: "
                       ++ show (Models.Filme.precoPorDia f)
                       ++ "\n"
-              (saida ++) <$> (info ++) <$> helper xs (i + 1)
+              ((saida ++) <$> (info ++)) <$> helper xs (i + 1)
 
 
 -- Pega carrinho
@@ -376,19 +377,21 @@ saveAlteracoesCliente clienteList = do
 
 {- ==== MÉTODOS PARA BANCO  DE GERENTE ==== -}
 -- Pega todos os Gerentes --
-getGerenteJSON :: String -> [Gerente]
+getGerenteJSON :: FilePath -> IO [Gerente]
 getGerenteJSON path = do
-  let file = unsafePerformIO (B.readFile path)
-  let decodedFile = decode file :: Maybe [Gerente]
-  Data.Maybe.fromMaybe [] decodedFile
+  contents <- B.readFile path
+  case eitherDecode' contents of
+    Left err -> error err
+    Right gerentes -> return gerentes
 
 -- Salva um novo Gerente no arquivos de Gerentes --
 saveGerenteJSON :: String -> String -> IO ()
 saveGerenteJSON identificador nome = do
   let p = Gerente identificador nome
-  let gerenteList = getGerenteJSON "app/DataBase/Gerente.json" ++ [p]
+  gerenteList <- getGerenteJSON "app/DataBase/Gerente.json"
+  let newGerenteList = gerenteList ++ [p]
 
-  B.writeFile "../Temp.json" $ encode gerenteList
+  B.writeFile "../Temp.json" $ encode newGerenteList
   removeFile "app/DataBase/Gerente.json"
   renameFile "../Temp.json" "app/DataBase/Gerente.json"
 
@@ -401,17 +404,20 @@ getGerenteByID identifierS (x : xs)
 
 {- ==== MÉTODOS PARA BANCO  DE FUNCIONÁRIO ==== -}
 -- Pega todos os Funcionarios --
-getFuncionarioJSON :: String -> [Funcionario]
+getFuncionarioJSON :: FilePath -> IO [Funcionario]
 getFuncionarioJSON path = do
-  let file = unsafePerformIO (B.readFile path)
-  let decodedFile = decode file :: Maybe [Funcionario]
-  Data.Maybe.fromMaybe [] decodedFile
+  contents <- B.readFile path
+  case eitherDecode' contents of
+    Left err -> error err
+    Right funcionarios -> return funcionarios
+
 
 -- Salva um novo Funcionario no arquivos de Funcionarios --
 saveFuncionarioJSON :: String -> String -> IO ()
 saveFuncionarioJSON identificador nome = do
   let p = Funcionario identificador nome
-  let newFuncionarioList = getFuncionarioJSON "app/DataBase/Funcionario.json" ++ [p]
+  funcionarioList <- getFuncionarioJSON "app/DataBase/Funcionario.json"
+  let newFuncionarioList = funcionarioList ++ [p]
 
   saveAlteracoesFuncionario newFuncionarioList
 
@@ -438,17 +444,19 @@ saveAlteracoesFuncionario funcionarioList = do
 
 {- ==== MÉTODOS PARA BANCO  DE COMPRAS ==== -}
 -- Pega todo histórico --
-getCompraJSON :: String -> [Compra]
+getCompraJSON :: FilePath -> IO [Compra]
 getCompraJSON path = do
-  let file = unsafePerformIO (B.readFile path)
-  let decodedFile = decode file :: Maybe [Compra]
-  Data.Maybe.fromMaybe [] decodedFile
+  contents <- B.readFile path
+  case eitherDecode' contents of
+    Left err -> error err
+    Right compras -> return compras
 
 -- Add compra ao histórico --
 saveCompraJSON :: Compra -> IO ()
 saveCompraJSON compra = do
-  let compraList = getCompraJSON "app/DataBase/Historico.json" ++ [compra]
+  compraList <- getCompraJSON "app/DataBase/Historico.json"
+  let newCompraList = compraList ++ [compra]
 
-  B.writeFile "../Temp.json" $ encode compraList
+  B.writeFile "../Temp.json" $ encode newCompraList
   removeFile "app/DataBase/Historico.json"
   renameFile "../Temp.json" "app/DataBase/Historico.json"

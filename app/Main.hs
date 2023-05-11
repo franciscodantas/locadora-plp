@@ -69,7 +69,7 @@ cliente = do
   putStr "11 - Remover do carrinho\n" --v
   putStr "12 - Ver carrinho\n" --v
   putStr "13 - Recomendações\n" --v
-  putStr "14  - Listar histórico cliente\n"
+  putStr "14 - Listar histórico cliente\n"
   putStr "15 - menu principal\n" --v
   putStr "----> " --v
   op <- readLn :: IO Int --v

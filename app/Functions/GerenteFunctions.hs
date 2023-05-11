@@ -19,16 +19,20 @@ module Functions.GerenteFunctions (
         | not (validaGerente senha) = return "Cadastro falhou!"
         | otherwise = do
             Bd.saveFuncionarioJSON id nome
-            return (show(Bd.getFuncionarioByID id (Bd.getFuncionarioJSON "app/DataBase/Funcionario.json")))
+            getFun <- Bd.getFuncionarioJSON "app/DataBase/Funcionario.json"
+            return (show(Bd.getFuncionarioByID id getFun))
     
-    exibirFuncionario :: String -> String
-    exibirFuncionario "" = "Id inválido!"
+    exibirFuncionario :: String -> IO String
+    exibirFuncionario "" = return "Id inválido!"
     exibirFuncionario id = do
-        let funcionario = show(Bd.getFuncionarioByID id (Bd.getFuncionarioJSON "app/DataBase/Funcionario.json"))
-        if funcionario == "Nome:  - (-1)" then "Funcionario não existe" else show(funcionario)
+        getFun <- Bd.getFuncionarioJSON "app/DataBase/Funcionario.json"
+        let funcionario = show(Bd.getFuncionarioByID id getFun)
+        if funcionario == "Nome:  - (-1)" then return "Funcionario não existe" else return (show(funcionario))
 
-    listarFun :: String
-    listarFun = organizaListagem (Bd.getFuncionarioJSON "app/DataBase/Funcionario.json")
+    listarFun :: IO String
+    listarFun = do
+        getFun <- Bd.getFuncionarioJSON "app/DataBase/Funcionario.json"
+        return $ organizaListagem getFun
 
     estatisticas :: IO String
     estatisticas = do
@@ -79,38 +83,53 @@ module Functions.GerenteFunctions (
     removeEspacos :: String -> String 
     removeEspacos = map (\c -> if c == ' ' then '-' else c)
     
-    rendaFilmes :: String
-    rendaFilmes = "\n A renda dos filmes alugados é de: R$ " ++ show (calculaRendaFilmes) ++ ",00"
+    rendaFilmes :: IO String
+    rendaFilmes = do
+        calF <- calculaRendaFilmes
+        return $ "\n A renda dos filmes alugados é de: R$ " ++ show calF ++ ",00"
 
-    rendaSeries :: String
-    rendaSeries = "\n A renda das series alugadas é de: R$ " ++ show (calculaRendaSeries) ++ ",00"
+    rendaSeries :: IO String
+    rendaSeries = do
+        calS <- calculaRendaSeries
+        return $ "\n A renda das series alugadas é de: R$ " ++ show calS ++ ",00"
     
-    rendaJogos :: String
-    rendaJogos = "\n A renda dos jogos alugadas é de: R$ " ++ show (calculaRendaJogos) ++ ",00"
+    rendaJogos :: IO String
+    rendaJogos = do
+        calJ <- calculaRendaJogos
+        return $ "\n A renda dos jogos alugadas é de: R$ " ++ show calJ ++ ",00"
 
-    calculaRendaFilmes :: Integer
-    calculaRendaFilmes = floor renda :: Integer
+    calculaRendaFilmes :: IO Integer
+    calculaRendaFilmes = do 
+        filme <- Bd.getFilmeJSON "app/DataBase/Filme.json"
+        return $ floor (renda filme)
+        where 
+            renda filme = sum [fromIntegral (Models.Filme.qtdAlugueis f) * Models.Filme.precoPorDia f | f <- filme]
+
+    calculaRendaSeries :: IO Integer
+    calculaRendaSeries = do
+        series <- Bd.getSerieJSON "app/DataBase/Serie.json"
+        return $ floor (renda series)
         where
-            filmes = Bd.getFilmeJSON "app/DataBase/Filme.json"
-            renda = sum [fromIntegral (Models.Filme.qtdAlugueis f) * Models.Filme.precoPorDia f | f <- filmes]
+            renda series = sum [fromIntegral (Models.Serie.qtdAlugueis s) * Models.Serie.precoPorDia s | s <- series]
 
-    calculaRendaSeries :: Integer
-    calculaRendaSeries = floor renda :: Integer
+    calculaRendaJogos :: IO Integer
+    calculaRendaJogos = do
+        jogos <- Bd.getJogoJSON "app/DataBase/Jogo.json"
+        return $ floor (renda jogos)
         where
-            series = Bd.getSerieJSON "app/DataBase/Serie.json"
-            renda = sum [fromIntegral (Models.Serie.qtdAlugueis s) * Models.Serie.precoPorDia s | s <- series]
+            renda jogos = sum [fromIntegral (Models.Jogo.qtdAlugueis j) * Models.Jogo.precoPorDia j | j <- jogos]
 
-    calculaRendaJogos :: Integer
-    calculaRendaJogos = floor renda :: Integer
-        where
-            jogos = Bd.getJogoJSON "app/DataBase/Jogo.json"
-            renda = sum [fromIntegral (Models.Jogo.qtdAlugueis j) * Models.Jogo.precoPorDia j | j <- jogos]
+    rendaTotal :: IO String
+    rendaTotal = do
+        total <-calculaRendaTotal
+        return $ "\n A renda total dos alugueis é de: R$ " ++ show total ++ ",00"
 
-    rendaTotal :: String
-    rendaTotal = "\n A renda total dos alugueis é de: R$ " ++ show (calculaRendaTotal) ++ ",00"
-
-    calculaRendaTotal :: Integer
-    calculaRendaTotal = (calculaRendaFilmes + calculaRendaJogos + calculaRendaSeries)
+    calculaRendaTotal :: IO Integer
+    calculaRendaTotal = do
+        calF <- calculaRendaFilmes
+        calJ <- calculaRendaJogos
+        calS <- calculaRendaSeries
+        return (calF + calJ + calS)
 
     totalClientes :: IO String
     totalClientes = do
@@ -118,8 +137,12 @@ module Functions.GerenteFunctions (
       let quantidadeClientes = length clienteList
       return ("\nQuantidade de clientes ativos: " ++ show quantidadeClientes)
 
-    totalFuncionarios :: String
-    totalFuncionarios = "Quantidade de funcionarios: " ++ show (length (getFuncionarioJSON "app/DataBase/Funcionario.json"))
+    totalFuncionarios :: IO String
+    totalFuncionarios = do
+        getFun <- getFuncionarioJSON "app/DataBase/Funcionario.json"
+        return $ "Quantidade de funcionarios: " ++ show (length getFun)
 
-    totalJogosDisponiveis :: String
-    totalJogosDisponiveis = "Jogos disponiveis para alugar: " ++ show (length (getFuncionarioJSON "app/DataBase/Jogo.json"))
+    totalJogosDisponiveis :: IO String
+    totalJogosDisponiveis = do
+        getJogos <- getJogoJSON "app/DataBase/Jogo.json"
+        return $ "Jogos disponiveis para alugar: " ++ show (length getJogos)

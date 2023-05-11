@@ -30,12 +30,14 @@ module Functions.GerenteFunctions (
     listarFun :: String
     listarFun = organizaListagem (Bd.getFuncionarioJSON "app/DataBase/Funcionario.json")
 
-    estatisticas :: String
+    estatisticas :: IO String
     estatisticas = do
-        let historico = getHistorico (Bd.getClienteJSON "app/DataBase/Cliente.json")
-        let maiorComprador = getMaiorComprador (Bd.getClienteJSON "app/DataBase/Cliente.json")
+        clienteList <- Bd.getClienteJSON "app/DataBase/Cliente.json"
+        let historico = getHistorico clienteList
+        let maiorComprador = getMaiorComprador clienteList
         let maisVendido = getMaisVendido historico
-        "Estatistícas de Venda:\n---------------\n" ++ maiorComprador ++ "\n---------------\n" ++maisVendido
+        return ("Estatísticas de Venda:\n---------------\n" ++ maiorComprador ++ "\n---------------\n" ++ maisVendido)
+
     
     getMaisVendido :: [Compra] -> String
     getMaisVendido historico = do
@@ -110,8 +112,11 @@ module Functions.GerenteFunctions (
     calculaRendaTotal :: Integer
     calculaRendaTotal = (calculaRendaFilmes + calculaRendaJogos + calculaRendaSeries)
 
-    totalClientes :: String
-    totalClientes = "\nQuantidade de clientes ativos: " ++ show (length (getClienteJSON "app/DataBase/Cliente.json"))
+    totalClientes :: IO String
+    totalClientes = do
+      clienteList <- Bd.getClienteJSON "app/DataBase/Cliente.json"
+      let quantidadeClientes = length clienteList
+      return ("\nQuantidade de clientes ativos: " ++ show quantidadeClientes)
 
     totalFuncionarios :: String
     totalFuncionarios = "Quantidade de funcionarios: " ++ show (length (getFuncionarioJSON "app/DataBase/Funcionario.json"))

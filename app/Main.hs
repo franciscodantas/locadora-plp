@@ -7,6 +7,17 @@ import DataBase.GerenciadorBD as BD
 import Functions.ClienteFunctions as FuncC
 import Functions.FuncionarioFunctions as FuncF
 import Functions.GerenteFunctions as FuncG
+    ( cadastraFunc,
+      exibirFuncionario,
+      listarFun,
+      estatisticas,
+      rendaFilmes,
+      rendaSeries,
+      rendaJogos,
+      rendaTotal,
+      totalClientes,
+      totalFuncionarios,
+      totalJogosDisponiveis )
 
 import Models.Filme
 import Models.Serie
@@ -230,14 +241,14 @@ menuCliente op
   | op == 12 = do
       putStrLn "Seu id: "
       idCliente <- getLine
-      let resultado = FuncC.listarProdutos idCliente
+      resultado <- FuncC.listarProdutos idCliente
       putStrLn resultado
       cliente
   | op == 13 = do
       putStrLn "Seu id: "
       idCliente <- getLine
       escolha <- subMenuRecs
-      let recs = FuncC.recomendacoes escolha idCliente
+      recs <- FuncC.recomendacoes escolha idCliente
       putStrLn recs
       cliente
   | op == 14 = main
@@ -294,7 +305,8 @@ menuFuncionario op
       funcionario
     | op == 5 = do
       putStrLn "Clientes cadastrados:"
-      putStrLn FuncF.listarClientes
+      resultado <- FuncF.listarClientes
+      putStrLn resultado
       funcionario
     | op == 6 = do
       putStrLn "Id do cliente:"
@@ -309,7 +321,8 @@ menuFuncionario op
     | op == 7 = do
       putStrLn "Id do cliente:"
       id <- getLine
-      putStrLn (FuncF.exibirHistorico id)
+      resultado <- (FuncF.exibirHistorico id)
+      putStrLn resultado
       funcionario
     | op == 8 = do
       putStrLn "Id da serie:"
@@ -433,15 +446,19 @@ menuGerente op
       putStrLn FuncG.listarFun
       gerente
     | op == 4 = do
-      putStrLn FuncG.estatisticas
-      putStrLn FuncG.rendaFilmes
-      putStrLn FuncG.rendaSeries
-      putStrLn FuncG.rendaJogos
-      putStrLn FuncG.rendaTotal
-      putStrLn FuncG.totalClientes
-      putStrLn FuncG.totalFuncionarios
-      putStrLn FuncG.totalJogosDisponiveis
-      gerente
+        estatisticasString <- FuncG.estatisticas --
+        totalClientesString <- FuncG.totalClientes --      
+
+        putStrLn estatisticasString
+        putStrLn FuncG.rendaFilmes
+        putStrLn FuncG.rendaSeries
+        putStrLn FuncG.rendaJogos
+        putStrLn FuncG.rendaTotal
+        putStrLn totalClientesString
+        putStrLn FuncG.totalFuncionarios
+        putStrLn FuncG.totalJogosDisponiveis
+
+        gerente
     | op == 5 = main
     | otherwise = do
         putStr "Entrada inválida...\n"

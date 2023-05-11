@@ -17,8 +17,11 @@ module Functions.FuncionarioFunctions where
     listarJogos = organizaListagem (BD.getJogoJSON "app/DataBase/Jogo.json")
 
     {- Lista os clientes do sistema -}
-    listarClientes:: String
-    listarClientes = organizaListagem (BD.getClienteJSON "app/DataBase/Cliente.json")
+    listarClientes :: IO String
+    listarClientes = do
+      clientes <- BD.getClienteJSON "app/DataBase/Cliente.json"
+      return $ organizaListagem clientes
+
 
     {- cadastra um cliente no sistema -}
     cadastrarCliente :: String -> String -> String -> String -> IO String
@@ -27,26 +30,32 @@ module Functions.FuncionarioFunctions where
         | not (validaFuncionario idFun senha) = return "Cadastro falhou!"
         | otherwise = do
             BD.saveClienteJSON idCliente nome
-            return (show (BD.getClienteByID idCliente (getClienteJSON "app/DataBase/Cliente.json")))
+            clientes <- getClienteJSON "app/DataBase/Cliente.json"
+            let cliente = getClienteByID idCliente clientes
+            return (show cliente)
+
     
     {- Faz a remoção do cliente no sistema -}
     excluirCliente :: String -> String -> String -> IO String
     excluirCliente "" _ _ = return "Id inválido"
     excluirCliente id idFun senha=  do
         if validaFuncionario idFun senha then do
-            let original = getClienteJSON "app/DataBase/Cliente.json"
-            let removida = removeClienteByID id (original)
+            original <- getClienteJSON "app/DataBase/Cliente.json"
+            let removida = removeClienteByID id original
             if removida == original then return "Não foi possivel realizar ação" else do
                 saveAlteracoesCliente removida
                 return "Remoção feita com sucesso"
         else return "Não foi possivel realizar ação"
 
+
     {- Lista o historico de um determinado cliente -}
-    exibirHistorico :: String -> String
-    exibirHistorico "" = "Id inválido!"
+    exibirHistorico :: String -> IO String
+    exibirHistorico "" = return "Id inválido!"
     exibirHistorico id = do
-        let cliente = BD.getClienteByID id (getClienteJSON "app/DataBase/Cliente.json")
-        "Historico do cliente: " ++ organizaListagem (Models.Cliente.historico cliente)
+        clientes <- getClienteJSON "app/DataBase/Cliente.json"
+        let cliente = BD.getClienteByID id clientes
+        return $ "Historico do cliente: " ++ organizaListagem (Models.Cliente.historico cliente)
+
 
     {- cadastra uma serie no sistema -}
     cadastrarSerie :: String ->  String -> String -> String ->  String -> String -> String -> IO String

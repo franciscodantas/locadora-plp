@@ -55,17 +55,19 @@ instance ToJSON Gerente
 
 {- ==== MÉTODOS PARA BANCO  DE FILMES ==== -}
 -- Pega todos os filmes --
-getFilmeJSON :: String -> [Filme]
+getFilmeJSON :: FilePath -> IO [Filme]
 getFilmeJSON path = do
-  let file = unsafePerformIO (B.readFile path)
-  let decodedFile = decode file :: Maybe [Filme]
-  Data.Maybe.fromMaybe [] decodedFile
+  contents <- B.readFile path
+  case eitherDecode' contents of
+    Left err -> error err
+    Right filmes -> return filmes
 
 -- Salva um novo filme no arquivos de filmes --
 saveFilmeJSON :: String -> String -> String -> String -> Float -> IO ()
 saveFilmeJSON identificador nome descricao categoria preco = do
   let p = Filme identificador nome descricao categoria 0 preco
-  let newFilmeList = getFilmeJSON "app/DataBase/Filme.json" ++ [p]
+  filmeList <- getFilmeJSON "app/DataBase/Filme.json" 
+  let newFilmeList = filmeList ++ [p]
 
   saveAlteracoesFilme newFilmeList
 
@@ -93,7 +95,7 @@ removeFilmeByID identifierS (x : xs)
 -- Edita a quantidade de alugueis de filmes
 editFilmeQtdJSON :: String -> Int -> IO ()
 editFilmeQtdJSON identifier qtd = do
-  let filmeList = getFilmeJSON "app/DataBase/Filme.json"
+  filmeList <- getFilmeJSON "app/DataBase/Filme.json"
   let f = getFilmeByID identifier filmeList
   let p = Filme identifier (Models.Filme.nome f) (Models.Filme.descricao f) (Models.Filme.categoria f) qtd (Models.Filme.precoPorDia f)
   let newFilmeList = removeFilmeByID identifier filmeList ++ [p]
@@ -217,20 +219,22 @@ saveAlteracoesSerie serieList = do
 
 {- ==== MÉTODOS PARA BANCO  DE CLIENTES ==== -}
 -- Pega todos os Clientes --
-getClienteJSON :: String -> [Cliente]
+getClienteJSON :: FilePath -> IO [Cliente]
 getClienteJSON path = do
-  let file = unsafePerformIO (B.readFile path)
-  let decodedFile = decode file :: Maybe [Cliente]
-  Data.Maybe.fromMaybe [] decodedFile
+  contents <- B.readFile path
+  case eitherDecode' contents of
+    Left err -> error err
+    Right clientes -> return clientes
 
--- Salva um novo Cliente no arquivos de Clientes --
 saveClienteJSON :: String -> String -> IO ()
 saveClienteJSON identificador nome = do
   let produtosList = [] :: [Produto]
   let compraList = [] :: [Compra]
 
   let p = Cliente identificador nome produtosList compraList
-  let newClienteList = getClienteJSON "app/DataBase/Cliente.json" ++ [p]
+
+  existingClientes <- getClienteJSON "app/DataBase/Cliente.json"
+  let newClienteList = existingClientes ++ [p]
 
   saveAlteracoesCliente newClienteList
 
@@ -255,11 +259,12 @@ removeClienteByID identifierS (x : xs)
 -- Eita o carrinho de um cliente adicionando um novo produto
 editClienteCarrinhoJSON :: String -> Produto -> IO ()
 editClienteCarrinhoJSON identifier produto = do
-  let clienteList = getClienteJSON "app/DataBase/Cliente.json"
-  let f = getClienteByID identifier clienteList
+  existingClientes <- getClienteJSON "app/DataBase/Cliente.json"
+
+  let f = getClienteByID identifier existingClientes
   let new_carrinho = Models.Cliente.carrinho f ++ [produto]
   let p = Cliente identifier (Models.Cliente.nome f) new_carrinho (Models.Cliente.historico f)
-  let newClienteList = removeClienteByID identifier clienteList ++ [p]
+  let newClienteList = removeClienteByID identifier existingClientes ++ [p]
 
   saveAlteracoesCliente newClienteList
 
@@ -273,50 +278,47 @@ removeProduto identifierS (x : xs)
 -- Remove um produto do carrinho de um cliente
 removeClienteProdutoJSON :: String -> String -> IO ()
 removeClienteProdutoJSON identifier idProduto = do
-  let clienteList = getClienteJSON "app/DataBase/Cliente.json"
-  let f = getClienteByID identifier clienteList
+  existingClientes <- getClienteJSON "app/DataBase/Cliente.json"
+  let f = getClienteByID identifier existingClientes
   let new_carrinho = removeProduto idProduto (Models.Cliente.carrinho f)
   let p = Cliente identifier (Models.Cliente.nome f) new_carrinho (Models.Cliente.historico f)
-  let newClienteList = removeClienteByID identifier clienteList ++ [p]
+  let newClienteList = removeClienteByID identifier existingClientes ++ [p]
 
   saveAlteracoesCliente newClienteList
 
 -- Edita o histórico de um cliente adicionando uma compra
 editClienteHistoricoJSON :: String -> Compra -> IO ()
 editClienteHistoricoJSON identifier compra = do
-  let clienteList = getClienteJSON "app/DataBase/Cliente.json"
-  let f = getClienteByID identifier clienteList
+  existingClientes <- getClienteJSON "app/DataBase/Cliente.json"
+  let f = getClienteByID identifier existingClientes
   let new_historico = Models.Cliente.historico f ++ [compra]
   let p = Cliente identifier (Models.Cliente.nome f) (Models.Cliente.carrinho f) new_historico
-  let newClienteList = removeClienteByID identifier clienteList ++ [p]
+
+  let newClienteList = removeClienteByID identifier existingClientes ++ [p]
 
   saveAlteracoesCliente newClienteList
 
 -- Pega os produtos do carrinho
-getCarrinhoProdutos :: String -> [Produto]
+getCarrinhoProdutos :: String -> IO [Produto]
 getCarrinhoProdutos idCliente = do
-  let clienteList = getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = getClienteByID idCliente clienteList
+  existingClientes <- getClienteJSON "app/DataBase/Cliente.json"
+  let cliente = getClienteByID idCliente existingClientes
 
-  Models.Cliente.carrinho cliente
+  return $ Models.Cliente.carrinho cliente
 
 -- Retorna uma string com os produtos
-produtoToString :: [Produto] -> String
+produtoToString :: [Produto] -> IO String
 produtoToString produtos = helper produtos 1
   where
-    helper [] _ = ""
+    helper [] _ = return ""
     helper (x : xs) i = do
-      let filmeList = getFilmeJSON "app/DataBase/Filme.json"
-      let f = getFilmeByID (Models.Produto.idProduto x) filmeList
-
+      filmeList <- getFilmeJSON "app/DataBase/Filme.json"
       let serieList = getSerieJSON "app/DataBase/Serie.json"
-      let s = getSerieByID (Models.Produto.idProduto x) serieList
-
       let jogoList = getJogoJSON "app/DataBase/Jogo.json"
+      let f = getFilmeByID (Models.Produto.idProduto x) filmeList
+      let s = getSerieByID (Models.Produto.idProduto x) serieList
       let j = getJogoByID (Models.Produto.idProduto x) jogoList
-
       let saida = show i ++ " - "
-
       if ((Models.Filme.identificador f) == "-1" && (Models.Serie.identificador s) == "-1")
         then do
           let info =
@@ -329,7 +331,7 @@ produtoToString produtos = helper produtos 1
                   ++ "Preço por dia: "
                   ++ show (Models.Jogo.precoPorDia j)
                   ++ "\n"
-          saida ++ info ++ helper xs (i + 1)
+          (saida ++) <$> (info ++) <$> helper xs (i + 1)
         else
           if ((Models.Filme.identificador f) == "-1" && (Models.Jogo.identificador j) == "-1")
             then do
@@ -343,7 +345,7 @@ produtoToString produtos = helper produtos 1
                       ++ "Preço por dia: "
                       ++ show (Models.Serie.precoPorDia s)
                       ++ "\n"
-              saida ++ info ++ helper xs (i + 1)
+              (saida ++) <$> (info ++) <$> helper xs (i + 1)
             else do
               let info =
                     "\nNome: "
@@ -355,15 +357,15 @@ produtoToString produtos = helper produtos 1
                       ++ "Preço por dia: "
                       ++ show (Models.Filme.precoPorDia f)
                       ++ "\n"
-              saida ++ info ++ helper xs (i + 1)
+              (saida ++) <$> (info ++) <$> helper xs (i + 1)
+
 
 -- Pega carrinho
-getCarrinho :: String -> String
+getCarrinho :: String -> IO String
 getCarrinho idCliente = do
-  let clienteList = getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = getClienteByID idCliente clienteList
-
-  produtoToString (Models.Cliente.carrinho cliente)
+  produtos <- getCarrinhoProdutos idCliente
+  produtoStr <- produtoToString produtos
+  return produtoStr
 
 -- Salva uma lista de clientes alterados
 saveAlteracoesCliente :: [Cliente] -> IO ()

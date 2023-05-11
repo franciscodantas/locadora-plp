@@ -321,7 +321,7 @@ menuFuncionario op
     | op == 7 = do
       putStrLn "Id do cliente:"
       id <- getLine
-      resultado <- (FuncF.exibirHistorico id)
+      resultado <- FuncF.exibirHistorico id
       putStrLn resultado
       funcionario
     | op == 8 = do

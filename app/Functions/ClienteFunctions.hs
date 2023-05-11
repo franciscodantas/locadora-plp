@@ -257,12 +257,12 @@ removerProduto idCliente nomeProduto = do
   let jogo = BD.getJogoByNome nomeProduto jogoList
   let idJogo = Models.Jogo.identificador jogo
 
-  if (Models.Filme.identificador filme) == "-1" && (Models.Serie.identificador serie) == "-1"
+  if Models.Filme.identificador filme == "-1" && Models.Serie.identificador serie == "-1"
     then do
       BD.removeClienteProdutoJSON idCliente idJogo
       return "Produto removido com sucesso!"
     else
-      if (Models.Filme.identificador filme) == "-1" && (Models.Jogo.identificador jogo) == "-1"
+      if Models.Filme.identificador filme == "-1" && Models.Jogo.identificador jogo == "-1"
         then do
           BD.removeClienteProdutoJSON idCliente idSerie
           return "Produto removido com sucesso!"
@@ -278,35 +278,40 @@ recomendacoes op idCliente = do
 
   case op of
     "1" -> do
-      let cat = getCategoriasFilmes (getFilmList hist []) []
+      lF <- getFilmList hist (return [])
+      let cat = getCategoriasFilmes lF []
       if any null cat || null  cat then do
         let cat = getMaisVendido (getHistorico clientList)
-            recs = getFilmList cat []
+        recs <- getFilmList cat (return [])
         return $ "Filmes recomendados:\n" ++ organizaListagem (filter (\x -> Models.Filme.identificador x /= "-1") recs)
       else do
         filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
-        let filmesNaoAlugados = filter (\x -> notElem (Models.Filme.identificador x) hist) filmeList
-            recs = filter (\x -> elem (Models.Filme.categoria x) cat) filmesNaoAlugados
+        let filmesNaoAlugados = filter (\x -> Models.Filme.identificador x `notElem` hist) filmeList
+            recs = filter (\x -> Models.Filme.categoria x `elem` cat) filmesNaoAlugados
         return $ "Filmes recomendados:\n" ++ organizaListagem recs
     "2" -> do
-      let cat = getCategoriasSeries (getSerList hist []) []
+      lS <- getSerList hist (return [])
+      let cat = getCategoriasSeries lS []
       if any null cat || null  cat then do
         let cat = getMaisVendido (getHistorico clientList)
-            recs = getSerList cat []
+        recs <- getSerList cat (return [])
         return $ "Séries recomendadas:\n" ++ organizaListagem (filter (\x -> Models.Serie.identificador x /= "-1") recs)
       else do
-        let seriesNaoAlugadas = filter (\x -> notElem (Models.Serie.identificador x) hist) (BD.getSerieJSON "app/DataBase/Serie.json")
-            recs = filter (\x -> elem (Models.Serie.categoria x) cat) seriesNaoAlugadas
+        series <- BD.getSerieJSON "app/DataBase/Serie.json"
+        let seriesNaoAlugadas = filter (\x -> Models.Serie.identificador x `notElem` hist) series
+            recs = filter (\x -> Models.Serie.categoria x `elem` cat) seriesNaoAlugadas
         return $ "Séries recomendadas:\n" ++ organizaListagem recs
     "3" -> do
-      let cat = getCategoriasJogos (getJogoList hist []) []
+      lJ <- getJogoList hist (return [])
+      let cat = getCategoriasJogos lJ []
       if any null cat || null  cat then do
         let cat = getMaisVendido (getHistorico clientList)
-            recs = getJogoList cat []
+        recs <- getJogoList cat (return [])
         return $ "Jogos recomendados:\n" ++ organizaListagem (filter (\x -> Models.Jogo.identificador x /= "-1") recs)
       else do
-        let jogosNaoAlugados = filter (\x -> notElem (Models.Jogo.identificador x) hist) (BD.getJogoJSON "app/DataBase/Jogo.json")
-            recs = filter (\x -> elem (Models.Jogo.categoria x) cat) jogosNaoAlugados
+        jogos <- BD.getJogoJSON "app/DataBase/Jogo.json"
+        let jogosNaoAlugados = filter (\x -> Models.Jogo.identificador x `notElem` hist) jogos
+            recs = filter (\x -> Models.Jogo.categoria x `elem` cat) jogosNaoAlugados
         return "Jogos recomendados:\n"
 
 
@@ -338,7 +343,7 @@ getCategoriasFilmes:: [Filme] -> [String] -> [String]
 getCategoriasFilmes [] categorias = categorias
 getCategoriasFilmes (x:xs) categorias = do
   let c = Models.Filme.categoria x
-  if elem c categorias
+  if c `elem` categorias
     then
       getCategoriasFilmes xs categorias
     else do
@@ -347,20 +352,20 @@ getCategoriasFilmes (x:xs) categorias = do
 
 {- Retorna uma lista de séries com base em uma lista de IDs -}
 
-getSerList :: [String] -> [Serie] -> IO [Serie]
-getSerList [] series = return series
+getSerList :: [String] -> IO [Serie] -> IO [Serie]
+getSerList [] series = series
 getSerList (x:xs) series = do
   serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
-  let f = BD.getSerieByID x serieList
-  newList <- fmap ((:) <$> liftIO f <*> return series)
-  getSerList xs newList
+  serie <- BD.getSerieByID x =<< series
+  newFilmes <- getSerList xs series
+  return ( serie : newFilmes)
 
 {- Retorna uma lista de categorias baseado em uma lista de séries -}
 getCategoriasSeries:: [Serie] -> [String] -> [String]
 getCategoriasSeries [] categorias = categorias
 getCategoriasSeries (x:xs) categorias = do
   let c = Models.Serie.categoria x
-  if elem c categorias
+  if c `elem` categorias
     then
       getCategoriasSeries xs categorias
     else do
@@ -368,19 +373,19 @@ getCategoriasSeries (x:xs) categorias = do
       getCategoriasSeries xs newLista
 
 {- Retorna uma lista de jogos com base em uma lista de IDs -}
-getJogoList:: [String] -> [Jogo] -> [Jogo]
+getJogoList:: [String] -> IO [Jogo] -> IO [Jogo]
 getJogoList [] jogos = jogos
 getJogoList (x:xs) jogos = do
-  let f = BD.getJogoByID x (BD.getJogoJSON "app/DataBase/Jogo.json")
-  let newList = append f jogos
-  getJogoList xs newList
+  jogo <- BD.getJogoByID x =<< jogos
+  newJogos <- getJogoList xs jogos
+  return (jogo : newJogos)
 
 {- Retorna uma lista de categorias baseado em uma lista de jogos -}
 getCategoriasJogos:: [Jogo] -> [String] -> [String]
 getCategoriasJogos [] categorias = categorias
 getCategoriasJogos (x:xs) categorias = do
   let c = Models.Jogo.categoria x
-  if elem c categorias
+  if c `elem` categorias
     then
       getCategoriasJogos xs categorias
     else do
@@ -396,7 +401,7 @@ getHistoricoID (x:xs) lista = do
 
 {- Adiciona um elemento novo a uma lista de elementos -}
 append:: t -> [t] -> [t]
-append a xs = foldr (:) [a] xs
+append a = foldr (:) [a]
 
 getMaisVendido :: [Compra] -> [String]
 getMaisVendido historico = repetidos (contagem historico)
@@ -413,4 +418,4 @@ contagem historico = do
   ordenado
 
 getHistorico :: [Cliente] -> [Compra]
-getHistorico xs = foldr ((++) . Models.Cliente.getCompras) [] xs
+getHistorico = foldr ((++) . Models.Cliente.getCompras) []

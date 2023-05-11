@@ -7,7 +7,7 @@ import Data.Time.Format (defaultTimeLocale, formatTime)
 import DataBase.GerenciadorBD as BD
 import System.Random (mkStdGen, newStdGen, randomRs)
 import Data.List (sortBy)
-import Control.Monad.Trans.Class (liftIO)
+import Control.Monad.IO.Class (liftIO)
 import Models.Cliente
 import Models.Compra
 import Models.Filme

@@ -98,8 +98,9 @@ subMenuRecs = do
 menuCliente :: Int -> IO ()
 menuCliente op
   | op == 1 = do
-      putStrLn FuncC.listarFilmes
-      cliente
+    lF <- FuncC.listarFilmes
+    putStrLn lF
+    cliente
   | op == 2 = do
       putStrLn "Seu id: "
       idCliente <- getLine
@@ -125,8 +126,9 @@ menuCliente op
               putStrLn "Opção inválida!"
               cliente
   | op == 3 = do
-      putStrLn FuncC.listarSeries
-      cliente
+    lS <- FuncC.listarSeries
+    putStrLn lS
+    cliente
   | op == 4 = do
       putStrLn "Seu id: "
       idCliente <- getLine
@@ -152,8 +154,9 @@ menuCliente op
               putStrLn "Opção inválida!"
               cliente
   | op == 5 = do
-      putStrLn FuncC.listarJogos
-      cliente
+    lJ <- FuncC.listarJogos
+    putStrLn lJ
+    cliente
   | op == 6 = do
       putStrLn "Seu id: "
       idCliente <- getLine
@@ -184,7 +187,7 @@ menuCliente op
         then do
           putStrLn "Categoria:\n"
           cat <- getLine
-          let filmes = FuncC.pesquisaFilmes cat
+          filmes <- FuncC.pesquisaFilmes cat
           putStrLn filmes
           cliente
         else
@@ -192,7 +195,7 @@ menuCliente op
             then do
               putStrLn "Categoria:\n"
               cat <- getLine
-              let series = FuncC.pesquisaSeries cat
+              series <- FuncC.pesquisaSeries cat
               putStrLn series
               cliente
             else
@@ -200,7 +203,7 @@ menuCliente op
                 then do
                   putStrLn "Categoria:\n"
                   cat <- getLine
-                  let jogos = FuncC.pesquisaJogos cat
+                  jogos <- FuncC.pesquisaJogos cat
                   putStrLn jogos
                   cliente
                 else do
@@ -281,15 +284,18 @@ menuFuncionario:: Int -> IO()
 menuFuncionario op
     | op == 1 = do
       putStrLn "Filmes cadastrados:"
-      putStrLn FuncF.listarFilmes
+      lF <- FuncF.listarFilmes
+      putStrLn lF
       funcionario
     | op == 2 = do
       putStrLn "Series cadastradas:"
-      putStrLn FuncF.listarSeries
+      lS <- FuncF.listarSeries
+      putStrLn lS
       funcionario
     | op == 3 = do
       putStrLn "Jogos cadastrados:"
-      putStrLn FuncF.listarJogos
+      lJ <- FuncF.listarJogos
+      putStrLn lJ
       funcionario
     | op == 4 = do
       putStrLn "Nome do Cliente:"
@@ -440,23 +446,31 @@ menuGerente op
     | op == 2 = do
       putStrLn "Identidade do Funcionario:"
       id <- getLine
-      putStrLn (FuncG.exibirFuncionario id)
+      exibi <- FuncG.exibirFuncionario id
+      putStrLn exibi
       gerente
     | op == 3 = do 
-      putStrLn FuncG.listarFun
+      lista <- FuncG.listarFun
+      putStrLn lista
       gerente
     | op == 4 = do
         estatisticasString <- FuncG.estatisticas --
-        totalClientesString <- FuncG.totalClientes --      
+        totalClientesString <- FuncG.totalClientes -- 
+        rendaF <- FuncG.rendaFilmes
+        rendaS <- FuncG.rendaSeries
+        rendaJ <- FuncG.rendaJogos
+        rendaT <- FuncG.rendaTotal
+        totalF <- FuncG.totalFuncionarios
+        totalJ <- FuncG.totalJogosDisponiveis
 
         putStrLn estatisticasString
-        putStrLn FuncG.rendaFilmes
-        putStrLn FuncG.rendaSeries
-        putStrLn FuncG.rendaJogos
-        putStrLn FuncG.rendaTotal
+        putStrLn rendaF
+        putStrLn rendaS
+        putStrLn rendaJ
+        putStrLn rendaT
         putStrLn totalClientesString
-        putStrLn FuncG.totalFuncionarios
-        putStrLn FuncG.totalJogosDisponiveis
+        putStrLn totalF
+        putStrLn totalJ
 
         gerente
     | op == 5 = main

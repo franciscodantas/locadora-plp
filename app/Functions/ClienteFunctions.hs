@@ -273,16 +273,17 @@ removerProduto idCliente nomeProduto = do
 recomendacoes :: String -> String -> IO String
 recomendacoes op idCliente = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  cliente <- BD.getClienteByID idCliente clientList
+  let cliente = BD.getClienteByID idCliente clientList
   let hist = getHistoricoID (Models.Cliente.historico cliente) []
 
   case op of
     "1" -> do
-      lF <- getFilmList hist (return [])
+      filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
+      let lF = getFilmList hist filmeList
       let cat = getCategoriasFilmes lF []
-      if any null cat || null  cat || null lF then do
-        let mais = getMaisVendido (getHistorico clientList)
-        recs <- getFilmList mais (return [])
+      if any null cat || null  cat then do
+        let cat = getMaisVendido (getHistorico clientList)
+        let recs = getFilmList cat filmeList
         return $ "Filmes recomendados:\n" ++ organizaListagem (filter (\x -> Models.Filme.identificador x /= "-1") recs)
       else do
         filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
@@ -290,12 +291,12 @@ recomendacoes op idCliente = do
             recs = filter (\x -> Models.Filme.categoria x `elem` cat) filmesNaoAlugados
         return $ "Filmes recomendados:\n" ++ organizaListagem recs
     "2" -> do
-      
-      lS <- getSerList hist (return [])
+      serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
+      let lS = getSerList hist serieList
       let cat = getCategoriasSeries lS []
-      if any null cat || null  cat || null lS then do
-        let mais = getMaisVendido (getHistorico clientList)
-        recs <- getSerList mais (return [])
+      if any null cat || null  cat then do
+        let cat = getMaisVendido (getHistorico clientList)
+        let recs = getSerList cat serieList
         return $ "Séries recomendadas:\n" ++ organizaListagem (filter (\x -> Models.Serie.identificador x /= "-1") recs)
       else do
         series <- BD.getSerieJSON "app/DataBase/Serie.json"
@@ -303,12 +304,12 @@ recomendacoes op idCliente = do
             recs = filter (\x -> Models.Serie.categoria x `elem` cat) seriesNaoAlugadas
         return $ "Séries recomendadas:\n" ++ organizaListagem recs
     "3" -> do
-      
-      lJ <- getJogoList hist (return [])
+      jogoList <- BD.getJogoJSON "app/DataBase/Jogo.json"
+      let lJ = getJogoList hist jogoList
       let cat = getCategoriasJogos lJ []
-      if any null cat || null  cat || null lJ then do
-        let mais = getMaisVendido (getHistorico clientList)
-        recs <- getJogoList mais (return [])
+      if any null cat || null  cat then do
+        let cat = getMaisVendido (getHistorico clientList)
+        let recs = getJogoList cat jogoList
         return $ "Jogos recomendados:\n" ++ organizaListagem (filter (\x -> Models.Jogo.identificador x /= "-1") recs)
       else do
         jogos <- BD.getJogoJSON "app/DataBase/Jogo.json"
@@ -333,12 +334,12 @@ filtraJogos cat [] = []
 filtraJogos cat lista = filter (\x -> Models.Jogo.categoria x == cat) lista
 
 {- Retorna uma lista de filmes com base em uma lista de IDs -}
-getFilmList :: [String] -> IO [Filme] -> IO [Filme]
+getFilmList :: [String] -> [Filme] -> [Filme]
 getFilmList [] filmes = filmes
 getFilmList (x:xs) filmes = do
-  filme <- BD.getFilmeByID x =<< filmes
-  newFilmes <- getFilmList xs filmes
-  return (filme : newFilmes)
+  let filme = BD.getFilmeByID x filmes
+  let newFilmes = getFilmList xs filmes
+  (filme : newFilmes)
 
 {- Retorna uma lista de categorias baseado em uma lista de filmes -}
 getCategoriasFilmes:: [Filme] -> [String] -> [String]
@@ -353,14 +354,12 @@ getCategoriasFilmes (x:xs) categorias = do
       getCategoriasFilmes xs newLista
 
 {- Retorna uma lista de séries com base em uma lista de IDs -}
-
-getSerList :: [String] -> IO [Serie] -> IO [Serie]
+getSerList :: [String] -> [Serie] -> [Serie]
 getSerList [] series = series
 getSerList (x:xs) series = do
-  serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
-  serie <- BD.getSerieByID x =<< series
-  newFilmes <- getSerList xs series
-  return ( serie : newFilmes)
+  let serie = BD.getSerieByID x series
+  let newSeries = getSerList xs series
+  (serie : newSeries)
 
 {- Retorna uma lista de categorias baseado em uma lista de séries -}
 getCategoriasSeries:: [Serie] -> [String] -> [String]
@@ -375,12 +374,19 @@ getCategoriasSeries (x:xs) categorias = do
       getCategoriasSeries xs newLista
 
 {- Retorna uma lista de jogos com base em uma lista de IDs -}
-getJogoList:: [String] -> IO [Jogo] -> IO [Jogo]
+-- getJogoList:: [String] -> IO [Jogo] -> IO [Jogo]
+-- getJogoList [] jogos = jogos
+-- getJogoList (x:xs) jogos = do
+--   jogo <- BD.getJogoByID x =<< jogos
+--   newJogos <- getJogoList xs jogos
+--   return (jogo : newJogos)
+
+getJogoList :: [String] -> [Jogo] -> [Jogo]
 getJogoList [] jogos = jogos
 getJogoList (x:xs) jogos = do
-  jogo <- BD.getJogoByID x =<< jogos
-  newJogos <- getJogoList xs jogos
-  return (jogo : newJogos)
+  let jogo = BD.getJogoByID x jogos
+  let newJogos = getJogoList xs jogos
+  (jogo : newJogos)
 
 {- Retorna uma lista de categorias baseado em uma lista de jogos -}
 getCategoriasJogos:: [Jogo] -> [String] -> [String]

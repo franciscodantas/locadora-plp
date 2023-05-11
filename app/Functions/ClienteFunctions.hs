@@ -66,7 +66,7 @@ organizaListagem xs = go xs 1
 alugaFilmeDias :: String -> String -> Int -> IO String
 alugaFilmeDias idCliente nomeProduto qtdDias = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
@@ -87,7 +87,7 @@ alugaFilmeDias idCliente nomeProduto qtdDias = do
 alugaFilmeSemanas :: String -> String -> Int -> IO String
 alugaFilmeSemanas idCliente nomeProduto qtdSemanas = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
@@ -107,7 +107,7 @@ alugaFilmeSemanas idCliente nomeProduto qtdSemanas = do
 alugaSerieDias :: String -> String -> Int -> IO String
 alugaSerieDias idCliente nomeProduto qtdDias = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
@@ -127,7 +127,7 @@ alugaSerieDias idCliente nomeProduto qtdDias = do
 alugaSerieSemanas :: String -> String -> Int -> IO String
 alugaSerieSemanas idCliente nomeProduto qtdSemanas = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
@@ -147,7 +147,7 @@ alugaSerieSemanas idCliente nomeProduto qtdSemanas = do
 alugaJogoDias :: String -> String -> Int -> IO String
 alugaJogoDias idCliente nomeProduto qtdDias = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   jogos <- BD.getJogoJSON "app/DataBase/Jogo.json"
@@ -167,7 +167,7 @@ alugaJogoDias idCliente nomeProduto qtdDias = do
 alugaJogoSemanas :: String -> String -> Int -> IO String
 alugaJogoSemanas idCliente nomeProduto qtdSemanas = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   jogos <- BD.getJogoJSON "app/DataBase/Jogo.json"

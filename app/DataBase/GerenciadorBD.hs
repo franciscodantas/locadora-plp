@@ -240,14 +240,13 @@ saveClienteJSON identificador nome = do
   saveAlteracoesCliente newClienteList
 
 -- Pega um cliente por id
-getClienteByID :: String -> [Cliente] -> Cliente
+getClienteByID :: String -> [Cliente] -> IO Cliente
 getClienteByID _ [] = do
   let produtosList = [] :: [Produto]
   let compraList = [] :: [Compra]
-
-  Cliente "-1" "" produtosList compraList
+  return $ Cliente "-1" "" produtosList compraList
 getClienteByID identifierS (x : xs)
-  | Models.Cliente.identificador x == identifierS = x
+  | Models.Cliente.identificador x == identifierS = return x
   | otherwise = getClienteByID identifierS xs
 
 -- Remove um cliente por id
@@ -262,7 +261,7 @@ editClienteCarrinhoJSON :: String -> Produto -> IO ()
 editClienteCarrinhoJSON identifier produto = do
   existingClientes <- getClienteJSON "app/DataBase/Cliente.json"
 
-  let f = getClienteByID identifier existingClientes
+  f <- getClienteByID identifier existingClientes
   let new_carrinho = Models.Cliente.carrinho f ++ [produto]
   let p = Cliente identifier (Models.Cliente.nome f) new_carrinho (Models.Cliente.historico f)
   let newClienteList = removeClienteByID identifier existingClientes ++ [p]
@@ -280,7 +279,7 @@ removeProduto identifierS (x : xs)
 removeClienteProdutoJSON :: String -> String -> IO ()
 removeClienteProdutoJSON identifier idProduto = do
   existingClientes <- getClienteJSON "app/DataBase/Cliente.json"
-  let f = getClienteByID identifier existingClientes
+  f <- getClienteByID identifier existingClientes
   let new_carrinho = removeProduto idProduto (Models.Cliente.carrinho f)
   let p = Cliente identifier (Models.Cliente.nome f) new_carrinho (Models.Cliente.historico f)
   let newClienteList = removeClienteByID identifier existingClientes ++ [p]
@@ -291,7 +290,7 @@ removeClienteProdutoJSON identifier idProduto = do
 editClienteHistoricoJSON :: String -> Compra -> IO ()
 editClienteHistoricoJSON identifier compra = do
   existingClientes <- getClienteJSON "app/DataBase/Cliente.json"
-  let f = getClienteByID identifier existingClientes
+  f <- getClienteByID identifier existingClientes
   let new_historico = Models.Cliente.historico f ++ [compra]
   let p = Cliente identifier (Models.Cliente.nome f) (Models.Cliente.carrinho f) new_historico
 
@@ -303,7 +302,7 @@ editClienteHistoricoJSON identifier compra = do
 getCarrinhoProdutos :: String -> IO [Produto]
 getCarrinhoProdutos idCliente = do
   existingClientes <- getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = getClienteByID idCliente existingClientes
+  cliente <- getClienteByID idCliente existingClientes
 
   return $ Models.Cliente.carrinho cliente
 

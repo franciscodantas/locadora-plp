@@ -38,7 +38,7 @@ module Functions.FuncionarioFunctions where
             if valida then do
                 BD.saveClienteJSON idCliente nome
                 clientes <- getClienteJSON "app/DataBase/Cliente.json"
-                let cliente = getClienteByID idCliente clientes
+                cliente <- getClienteByID idCliente clientes
                 return (show cliente)
             else return "Cadastro falhou!"
 
@@ -62,7 +62,7 @@ module Functions.FuncionarioFunctions where
     exibirHistorico "" = return "Id inválido!"
     exibirHistorico id = do
         clientes <- getClienteJSON "app/DataBase/Cliente.json"
-        let cliente = BD.getClienteByID id clientes
+        cliente <- BD.getClienteByID id clientes
         return $ "Historico do cliente: " ++ organizaListagem (Models.Cliente.historico cliente)
 
 

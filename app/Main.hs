@@ -69,7 +69,8 @@ cliente = do
   putStr "11 - Remover do carrinho\n" --v
   putStr "12 - Ver carrinho\n" --v
   putStr "13 - Recomendações\n" --v
-  putStr "14 - menu principal\n" --v
+  putStr "14 - Listar histórico cliente\n"
+  putStr "15 - menu principal\n" --v
   putStr "----> " --v
   op <- readLn :: IO Int --v
   -- limparTela
@@ -254,7 +255,13 @@ menuCliente op
       recs <- FuncC.recomendacoes escolha idCliente
       putStrLn recs
       cliente
-  | op == 14 = main --v
+  | op == 14 = do --v
+      putStrLn "Id do cliente:"
+      id <- getLine
+      resultado <- FuncF.exibirHistorico id
+      putStrLn resultado
+      cliente
+  | op == 15 = main --v
   | otherwise = do --v
       putStr "Entrada inválida...\n" --v
       cliente --v

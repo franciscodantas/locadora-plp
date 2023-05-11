@@ -128,7 +128,7 @@ module Functions.FuncionarioFunctions where
         representação em string -}
     organizaListagem :: Show t => [t] -> String
     organizaListagem [] = ""
-    organizaListagem (x:xs) = show x ++ "\n" ++ organizaListagem xs
+    organizaListagem (x:xs) = "\n" ++ show x ++ "\n" ++ organizaListagem xs
 
      {- Faz a validação do funcionário, usando seu id e uma senha padrão
         para representar uma camada de segurança do sitesma -}

@@ -18,7 +18,8 @@ Para esse projeto foi usado o Cabal, por isso será necessária sua instalação
 
 ### Instruções para execução
 
-1. Faça o `clean` do projeto para garantir a corretude do sistema:
+1. Certifique-se de ter clonado a `branch main`.
+2. Faça o `clean` do projeto para garantir a corretude do sistema:
 
    ```sh
    cabal clean

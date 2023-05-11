@@ -27,7 +27,7 @@ module Functions.GerenteFunctions (
     exibirFuncionario id = do
         getFun <- Bd.getFuncionarioJSON "app/DataBase/Funcionario.json"
         let funcionario = show(Bd.getFuncionarioByID id getFun)
-        if funcionario == "Nome:  - (-1)" then return "Funcionario não existe" else return (show(funcionario))
+        if funcionario == "Nome:  - (-1)" then return "Funcionario não existe" else return funcionario
 
     listarFun :: IO String
     listarFun = do

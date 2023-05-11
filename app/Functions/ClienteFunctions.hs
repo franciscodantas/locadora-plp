@@ -66,7 +66,7 @@ organizaListagem xs = go xs 1
 alugaFilmeDias :: String -> String -> Int -> IO String
 alugaFilmeDias idCliente nomeProduto qtdDias = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
@@ -87,7 +87,7 @@ alugaFilmeDias idCliente nomeProduto qtdDias = do
 alugaFilmeSemanas :: String -> String -> Int -> IO String
 alugaFilmeSemanas idCliente nomeProduto qtdSemanas = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
@@ -107,7 +107,7 @@ alugaFilmeSemanas idCliente nomeProduto qtdSemanas = do
 alugaSerieDias :: String -> String -> Int -> IO String
 alugaSerieDias idCliente nomeProduto qtdDias = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
@@ -127,7 +127,7 @@ alugaSerieDias idCliente nomeProduto qtdDias = do
 alugaSerieSemanas :: String -> String -> Int -> IO String
 alugaSerieSemanas idCliente nomeProduto qtdSemanas = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   serieList <- BD.getSerieJSON "app/DataBase/Serie.json"
@@ -147,7 +147,7 @@ alugaSerieSemanas idCliente nomeProduto qtdSemanas = do
 alugaJogoDias :: String -> String -> Int -> IO String
 alugaJogoDias idCliente nomeProduto qtdDias = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   jogos <- BD.getJogoJSON "app/DataBase/Jogo.json"
@@ -167,7 +167,7 @@ alugaJogoDias idCliente nomeProduto qtdDias = do
 alugaJogoSemanas :: String -> String -> Int -> IO String
 alugaJogoSemanas idCliente nomeProduto qtdSemanas = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let nomeCliente = Models.Cliente.nome cliente
 
   jogos <- BD.getJogoJSON "app/DataBase/Jogo.json"
@@ -273,16 +273,16 @@ removerProduto idCliente nomeProduto = do
 recomendacoes :: String -> String -> IO String
 recomendacoes op idCliente = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
-      hist = getHistoricoID (Models.Cliente.historico cliente) []
+  cliente <- BD.getClienteByID idCliente clientList
+  let hist = getHistoricoID (Models.Cliente.historico cliente) []
 
   case op of
     "1" -> do
       lF <- getFilmList hist (return [])
       let cat = getCategoriasFilmes lF []
-      if any null cat || null  cat then do
-        let cat = getMaisVendido (getHistorico clientList)
-        recs <- getFilmList cat (return [])
+      if any null cat || null  cat || null lF then do
+        let mais = getMaisVendido (getHistorico clientList)
+        recs <- getFilmList mais (return [])
         return $ "Filmes recomendados:\n" ++ organizaListagem (filter (\x -> Models.Filme.identificador x /= "-1") recs)
       else do
         filmeList <- BD.getFilmeJSON "app/DataBase/Filme.json"
@@ -290,11 +290,12 @@ recomendacoes op idCliente = do
             recs = filter (\x -> Models.Filme.categoria x `elem` cat) filmesNaoAlugados
         return $ "Filmes recomendados:\n" ++ organizaListagem recs
     "2" -> do
+      
       lS <- getSerList hist (return [])
       let cat = getCategoriasSeries lS []
-      if any null cat || null  cat then do
-        let cat = getMaisVendido (getHistorico clientList)
-        recs <- getSerList cat (return [])
+      if any null cat || null  cat || null lS then do
+        let mais = getMaisVendido (getHistorico clientList)
+        recs <- getSerList mais (return [])
         return $ "Séries recomendadas:\n" ++ organizaListagem (filter (\x -> Models.Serie.identificador x /= "-1") recs)
       else do
         series <- BD.getSerieJSON "app/DataBase/Serie.json"
@@ -302,11 +303,12 @@ recomendacoes op idCliente = do
             recs = filter (\x -> Models.Serie.categoria x `elem` cat) seriesNaoAlugadas
         return $ "Séries recomendadas:\n" ++ organizaListagem recs
     "3" -> do
+      
       lJ <- getJogoList hist (return [])
       let cat = getCategoriasJogos lJ []
-      if any null cat || null  cat then do
-        let cat = getMaisVendido (getHistorico clientList)
-        recs <- getJogoList cat (return [])
+      if any null cat || null  cat || null lJ then do
+        let mais = getMaisVendido (getHistorico clientList)
+        recs <- getJogoList mais (return [])
         return $ "Jogos recomendados:\n" ++ organizaListagem (filter (\x -> Models.Jogo.identificador x /= "-1") recs)
       else do
         jogos <- BD.getJogoJSON "app/DataBase/Jogo.json"
@@ -418,4 +420,4 @@ contagem historico = do
   ordenado
 
 getHistorico :: [Cliente] -> [Compra]
-getHistorico = foldr ((++) . Models.Cliente.getCompras) []
+getHistorico = concatMap Models.Cliente.getCompras

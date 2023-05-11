@@ -72,10 +72,10 @@ saveFilmeJSON identificador nome descricao categoria preco = do
   saveAlteracoesFilme newFilmeList
 
 -- Pega um filme por id
-getFilmeByID :: String -> [Filme] -> IO Filme
-getFilmeByID _ [] = return $ Filme "-1" "" "" "" 0 0.0
+getFilmeByID :: String -> [Filme] -> Filme
+getFilmeByID _ [] = Filme "-1" "" "" "" 0 0.0
 getFilmeByID identifierS (x : xs)
-  | Models.Filme.identificador x == identifierS = return x
+  | ((Models.Filme.identificador x) == identifierS) = x
   | otherwise = getFilmeByID identifierS xs
 
 -- Pega um filme por nome
@@ -96,7 +96,7 @@ removeFilmeByID identifierS (x : xs)
 editFilmeQtdJSON :: String -> Int -> IO ()
 editFilmeQtdJSON identifier qtd = do
   filmeList <- getFilmeJSON "app/DataBase/Filme.json"
-  f <- getFilmeByID identifier filmeList
+  let f = getFilmeByID identifier filmeList
   let p = Filme identifier (Models.Filme.nome f) (Models.Filme.descricao f) (Models.Filme.categoria f) qtd (Models.Filme.precoPorDia f)
   let newFilmeList = removeFilmeByID identifier filmeList ++ [p]
   saveAlteracoesFilme newFilmeList
@@ -127,10 +127,10 @@ saveJogoJSON identificador nome descricao categoria preco = do
   saveAlteracoesJogo newJogoList
 
 -- Pega um jogo por id
-getJogoByID :: String -> [Jogo] -> IO Jogo
-getJogoByID _ [] = return $ Jogo "-1" "" "" "" 0 0.0
+getJogoByID :: String -> [Jogo] -> Jogo
+getJogoByID _ [] = Jogo "-1" "" "" "" 0 0.0
 getJogoByID identifierS (x : xs)
-  | Models.Jogo.identificador x == identifierS = return x
+  | Models.Jogo.identificador x == identifierS = x
   | otherwise = getJogoByID identifierS xs
 
 -- Pega um jogo por nome
@@ -151,7 +151,7 @@ removeJogoByID identifierS (x : xs)
 editJogoQtdJSON :: String -> Int -> IO ()
 editJogoQtdJSON identifier qtd = do
   jogoList <- getJogoJSON "app/DataBase/Jogo.json"
-  f <- getJogoByID identifier jogoList
+  let f = getJogoByID identifier jogoList
   let p = Jogo identifier (Models.Jogo.nome f) (Models.Jogo.descricao f) (Models.Jogo.categoria f) qtd (Models.Jogo.precoPorDia f)
   let newJogoList = removeJogoByID identifier jogoList ++ [p]
   saveAlteracoesJogo newJogoList
@@ -182,10 +182,10 @@ saveSerieJSON identificador nome descricao categoria preco = do
   saveAlteracoesSerie newSerieList
 
 -- Pega um série por id
-getSerieByID :: String -> [Serie] -> IO Serie
-getSerieByID _ [] = return $ Serie "-1" "" "" "" 0 0.0
+getSerieByID :: String -> [Serie] -> Serie
+getSerieByID _ [] = Serie "-1" "" "" "" 0 0.0
 getSerieByID identifierS (x : xs)
-  | Models.Serie.identificador x == identifierS = return $ x
+  | Models.Serie.identificador x == identifierS = x
   | otherwise = getSerieByID identifierS xs
 
 -- Pega um série por nome
@@ -206,7 +206,7 @@ removeSerieByID identifierS (x : xs)
 editSerieQtdJSON :: String -> Int -> IO ()
 editSerieQtdJSON identifier qtd = do
   serieList <- getSerieJSON "app/DataBase/Serie.json"
-  f <- getSerieByID identifier serieList
+  let f = getSerieByID identifier serieList
   let p = Serie identifier (Models.Serie.nome f) (Models.Serie.descricao f) (Models.Serie.categoria f) qtd (Models.Serie.precoPorDia f)
   let newSerieList = removeSerieByID identifier serieList ++ [p]
   saveAlteracoesSerie newSerieList
@@ -316,9 +316,9 @@ produtoToString produtos = helper produtos 1
       filmeList <- getFilmeJSON "app/DataBase/Filme.json"
       serieList <- getSerieJSON "app/DataBase/Serie.json"
       jogoList <- getJogoJSON "app/DataBase/Jogo.json"
-      f <- getFilmeByID (Models.Produto.idProduto x) filmeList
-      s <- getSerieByID (Models.Produto.idProduto x) serieList
-      j <- getJogoByID (Models.Produto.idProduto x) jogoList
+      let f = getFilmeByID (Models.Produto.idProduto x) filmeList
+      let s = getSerieByID (Models.Produto.idProduto x) serieList
+      let j = getJogoByID (Models.Produto.idProduto x) jogoList
       let saida = show i ++ " - "
       if ((Models.Filme.identificador f) == "-1" && (Models.Serie.identificador s) == "-1")
         then do

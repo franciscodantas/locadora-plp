@@ -273,7 +273,7 @@ removerProduto idCliente nomeProduto = do
 recomendacoes :: String -> String -> IO String
 recomendacoes op idCliente = do
   clientList <- BD.getClienteJSON "app/DataBase/Cliente.json"
-  let cliente = BD.getClienteByID idCliente clientList
+  cliente <- BD.getClienteByID idCliente clientList
   let hist = getHistoricoID (Models.Cliente.historico cliente) []
 
   case op of

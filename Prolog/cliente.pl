@@ -21,3 +21,65 @@ cliente :-
   read(Opcao),
   selecionadoCliente(Opcao).
 
+
+selecionadoCliente(1) :-
+  %Listar filmes
+  cliente.
+
+selecionadoCliente(2) :-
+  %Escolher filme
+  cliente.
+
+selecionadoCliente(3) :-
+  %Listar series
+  cliente.
+
+selecionadoCliente(4) :-
+  %Escolher serie
+  cliente.
+
+selecionadoCliente(5) :-
+  %Listar jogos
+  cliente.
+
+selecionadoCliente(6) :-
+  %Escolher jogo
+  cliente.
+
+selecionadoCliente(7) :-
+  %Produto por categoria
+  cliente.
+
+selecionadoCliente(8) :-
+  %Adicionar Filme ao carrinho
+  cliente.
+
+selecionadoCliente(9) :-
+  %Adicionar Jogo ao carrinho
+  cliente.
+
+selecionadoCliente(10) :-
+  %Adicionar Série ao carrinho
+  cliente.
+
+selecionadoCliente(11) :-
+  %Remover de carrinho
+  cliente.
+
+selecionadoCliente(12) :-
+  %Ver carrinho
+  cliente.
+
+selecionadoCliente(13) :-
+  %Recomendações
+  cliente.
+
+selecionadoCliente(14) :-
+  %Listar histórico cliente
+  cliente.
+
+selecionadoCliente(15) :-
+  %menu principal
+  cliente.
+
+selecionadoCliente(_) :- write('Opcao invalida'), cliente.

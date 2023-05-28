@@ -10,4 +10,26 @@ gerente :-
   write('--->'),
   read(Opcao),
   selecionadoGerente(Opcao).
+
+selecionadoGerente(1) :-
+  %Cadastrar funcionário
+  gerente.
   
+selecionadoGerente(2) :-
+  %Exibir funcionário
+  gerente.
+
+selecionadoGerente(3) :-
+  %Listar funcionários
+  gerente.
+
+selecionadoGerente(4) :-
+  %Estatisticas de vendas
+  gerente.
+
+selecionadoGerente(5) :-
+  %menu principal
+  gerente.
+
+selecionadoGerente(_) :- write('Opcao invalida'),
+  gerente.

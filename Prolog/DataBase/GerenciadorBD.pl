@@ -34,4 +34,10 @@ add_filme(ID, Nome, Descricao, Categoria, Preco) :-
     save_object('Filme.json', Filme).
 get_filme_by_id(Id, Filme) :- get_object_by_id('Filme.json', Id, Filme).
 
+%%% REGRAS PARA SÉRIES %%%
+get_series(Data) :- load_json_file('Serie.json', Data).
+add_serie(ID, Nome, Descricao, Categoria, Preco) :- 
+    Serie = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, preco=Preco, qtdAlugueis=0]),
+    save_object('Serie.json', Serie).
+get_serie_by_id(Id, Serie) :- get_object_by_id('Serie.json', Id, Serie).
 

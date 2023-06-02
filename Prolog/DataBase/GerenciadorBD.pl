@@ -18,11 +18,13 @@ save_object(File, Element) :-
 
 extract_info_produtos([json([id=Id, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=PrecoPorDia, qtdAlugueis=QtdAlugueis])|_], Id, Nome, Descricao, Categoria, PrecoPorDia, QtdAlugueis).
 
+seach_id([], _, -1) :- !.
 seach_id([Head_Object|_], Id, Head_Object) :- 
     extract_info_produtos([Head_Object|_], Object_Id, _, _, _, _, _),
     Object_Id = Id, !.
 seach_id([_|Tail], Id, Object) :- seach_id(Tail, Id, Object).
 
+seach_nome([], _, -1) :- !.
 seach_nome([Head_Object|_], Nome, Head_Object) :- 
     extract_info_produtos([Head_Object|_], _, Object_Nome, _, _, _, _),
     Object_Nome = Nome, !.

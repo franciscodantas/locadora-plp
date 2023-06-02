@@ -58,4 +58,4 @@ add_jogo(ID, Nome, Descricao, Categoria, Preco) :-
     Jogo = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, preco=Preco, qtdAlugueis=0]),
     save_object('Jogo.json', Jogo).
 get_jogo_by_id(Id, Jogo) :- get_object_by_id('Jogo.json', Id, Jogo).
-
+get_jogo_by_nome(Nome, Jogo) :- get_object_by_nome('Jogo.json', Nome, Jogo).

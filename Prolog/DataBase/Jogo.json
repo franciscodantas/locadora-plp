@@ -1,0 +1,50 @@
+[
+    {
+        "id": "1232345678-f",
+        "nome": "Hogwarts Legacy",
+        "descricao": "Hogwarts Legacy é um RPG de ação imersivo de mundo aberto. Agora você pode assumir o controle da ação e estar no centro de sua própria aventura no mundo bruxo",
+        "categoria": "Ação",
+        "precoPorDia": 200,
+        "qtdAlugueis": 0
+    },
+    {
+        "id": "12334678-f",
+        "nome": "Monster Hunter: World",
+        "descricao": "Conheça o Novo Mundo! Em Monster Hunter: World, o jogo mais recente da série, você pode curtir a experiência máxima de caçada, usando tudo à sua disposição para caçar monstros em um novo mundo repleto de surpresas e emoções",
+        "categoria": "RPG",
+        "precoPorDia": 100,
+        "qtdAlugueis": 0
+    },
+    {
+        "id": "12349678-f",
+        "nome": "Marvel's Spider-Man Remastered",
+        "descricao": "Em Marvel's Spider-Man Remasterizado, os mundos de Peter Parker e Spider-Man entram em conflito em uma história original cheia de ação. Jogue como um Peter Parker experiente que combate as maiores ameaças do crime e vilões icônicos na Nova York da Marvel.",
+        "categoria": "Aventura",
+        "precoPorDia": 250,
+        "qtdAlugueis": 0
+    },
+    {
+        "id": "1234924678-f",
+        "nome": "Stardew Valley",
+        "descricao": "Você herdou a antiga fazenda do seu avô, em Stardew Valley. Com ferramentas de segunda-mão e algumas moedas, você parte para dar início a sua nova vida. Será que você vai aprender a viver da terra, a transformar esse matagal em um próspero lar?",
+        "categoria": "Simulador",
+        "precoPorDia": 24.99,
+        "qtdAlugueis": 0
+    },
+    {
+        "id": "12345678-f",
+        "nome": "Resident Evil 6",
+        "descricao": "Misturando ação e survival horror, Resident Evil 6 promete ser a experiência de terror dramático de 2013",
+        "categoria": "Terror",
+        "precoPorDia": 19.99,
+        "qtdAlugueis": 3
+    },
+    {
+        "id": "123333-j",
+        "nome": "Call of Duty 2",
+        "descricao": "Cod",
+        "categoria": "Tiro",
+        "precoPorDia": 50,
+        "qtdAlugueis": 0
+    }
+]

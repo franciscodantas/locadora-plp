@@ -41,3 +41,9 @@ add_serie(ID, Nome, Descricao, Categoria, Preco) :-
     save_object('Serie.json', Serie).
 get_serie_by_id(Id, Serie) :- get_object_by_id('Serie.json', Id, Serie).
 
+%%% REGRAS PARA JOGOS %%%
+get_jogos(Data) :- load_json_file('Jogo.json', Data).
+add_jogo(ID, Nome, Descricao, Categoria, Preco) :- 
+    Jogo = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, preco=Preco, qtdAlugueis=0]),
+    save_object('Jogo.json', Jogo).
+get_jogo_by_id(Id, Jogo) :- get_object_by_id('Jogo.json', Id, Jogo).

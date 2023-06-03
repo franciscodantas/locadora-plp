@@ -85,4 +85,5 @@ add_cliente(ID, Nome) :-
     Cliente = json([id=ID, nome=Nome, carrinho=[], hitorico=[]]),
     save_object('Cliente.json', Cliente).
 get_cliente_by_id(Id, Cliente) :- get_object_by_id('Cliente.json', Id, Cliente, 'clientes').
+remove_cliente_by_id(Id) :- remove_object_by_id('Cliente.json', Id, 'clientes').
 

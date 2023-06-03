@@ -19,12 +19,13 @@ save_object(File, Element) :-
 extract_info_produtos(json([id=Id, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=PrecoPorDia, qtdAlugueis=QtdAlugueis]), Id, Nome, Descricao, Categoria, PrecoPorDia, QtdAlugueis).
 extract_info_clientes(json([id=Id, nome=Nome, carrinho=Carrinho, historico=Historico]), Id, Nome, Carrinho, Historico).
 
-extract_info_object('produtos', Head_Object, Object_Id) :- extract_info_produtos(Head_Object, Object_Id, _, _, _, _, _).
-extract_info_object('clientes', Head_Object, Object_Id) :- extract_info_clientes(Head_Object, Object_Id, _, _, _).
+extract_id_object('produtos', Head_Object, Object_Id) :- extract_info_produtos(Head_Object, Object_Id, _, _, _, _, _).
+extract_id_object('clientes', Head_Object, Object_Id) :- extract_info_clientes(Head_Object, Object_Id, _, _, _).
 
 seach_id([], _, -1, _) :- !. % Caso não o objeto buscado não exista, -1 é retornado
 seach_id([Head_Object|Tail], Id, Object, Type) :- 
-    extract_info_object(Type, Head_Object, Object_Id),
+    write('Object_Id'),
+    extract_id_object(Type, Head_Object, Object_Id),
     (Object_Id = Id -> Object = Head_Object; seach_id(Tail, Id, Object, Type)).
 
 seach_nome([], _, -1) :- !. % Caso não o objeto buscado não exista, -1 é retornado

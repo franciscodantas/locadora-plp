@@ -39,7 +39,7 @@ get_object_by_nome(File, Nome, Object) :-
     seach_nome(Data, Nome, Object).
 
 %%% REGRAS PARA FILMES %%%
-get_filmes(Data) :- load_json_file('Filme.json', Data).
+get_filmes(Data) :- load_json_file('DataBase/Filme.json', Data).
 add_filme(ID, Nome, Descricao, Categoria, Preco) :- 
     Filme = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, preco=Preco, qtdAlugueis=0]),
     save_object('Filme.json', Filme).

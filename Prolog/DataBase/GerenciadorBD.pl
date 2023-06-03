@@ -24,7 +24,6 @@ extract_id_object('clientes', Head_Object, Object_Id) :- extract_info_clientes(H
 
 seach_id([], _, -1, _) :- !. % Caso não o objeto buscado não exista, -1 é retornado
 seach_id([Head_Object|Tail], Id, Object, Type) :- 
-    write('Object_Id'),
     extract_id_object(Type, Head_Object, Object_Id),
     (Object_Id = Id -> Object = Head_Object; seach_id(Tail, Id, Object, Type)).
 

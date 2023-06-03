@@ -76,3 +76,8 @@ remove_jogo_by_id(Id) :- remove_object_by_id('Jogo.json', Id).
 
 %%% REGRAS PARA CLIENTES %%%
 get_cientes(Data) :- load_json_file('Cliente.json', Data).
+add_cliente(ID, Nome) :- 
+    Cliente = json([id=ID, nome=Nome, carrinho=[], hitorico=[]]),
+    save_object('Cliente.json', Cliente).
+
+

@@ -16,16 +16,16 @@ save_object(File, Element) :-
     New_Data = [Element | Data],
     save_json_file(File, New_Data).
 
-extract_info_produtos([json([id=Id, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=PrecoPorDia, qtdAlugueis=QtdAlugueis])|_], Id, Nome, Descricao, Categoria, PrecoPorDia, QtdAlugueis).
+extract_info_produtos(json([id=Id, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=PrecoPorDia, qtdAlugueis=QtdAlugueis]), Id, Nome, Descricao, Categoria, PrecoPorDia, QtdAlugueis).
 
 seach_id([], _, -1) :- !. % Caso não o objeto buscado não exista, -1 é retornado
 seach_id([Head_Object|Tail], Id, Object) :- 
-    extract_info_produtos([Head_Object|_], Object_Id, _, _, _, _, _),
+    extract_info_produtos(Head_Object, Object_Id, _, _, _, _, _),
     (Object_Id = Id -> Object = Head_Object; seach_id(Tail, Id, Object)).
 
 seach_nome([], _, -1) :- !. % Caso não o objeto buscado não exista, -1 é retornado
 seach_nome([Head_Object|Tail], Nome, Object) :- 
-    extract_info_produtos([Head_Object|_], _, Object_Nome, _, _, _, _),
+    extract_info_produtos(Head_Object, _, Object_Nome, _, _, _, _),
     (Object_Nome = Nome -> Object = Head_Object; seach_nome(Tail, Nome, Object)).
 
 get_object_by_id(File, Id, Object) :- 

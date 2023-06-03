@@ -73,3 +73,6 @@ add_jogo(ID, Nome, Descricao, Categoria, Preco) :-
 get_jogo_by_id(Id, Jogo) :- get_object_by_id('Jogo.json', Id, Jogo).
 get_jogo_by_nome(Nome, Jogo) :- get_object_by_nome('Jogo.json', Nome, Jogo).
 remove_jogo_by_id(Id) :- remove_object_by_id('Jogo.json', Id).
+
+%%% REGRAS PARA CLIENTES %%%
+get_cientes(Data) :- load_json_file('Cliente.json', Data).

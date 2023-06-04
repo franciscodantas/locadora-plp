@@ -17,6 +17,10 @@ listaJogos(Resposta) :-
     get_jogos(Data),
     organizaListagemProdutos(Data, Resposta).
 
+adicionaCliente(ID,Nome,_,_, Resposta) :-
+    add_cliente(ID,Nome),
+    Resposta = 'Cadastro realizado!'.
+
 % Organiza a listagem de produtos
 organizaListagemProdutos([], '').
 organizaListagemProdutos([H|T], Resposta) :-

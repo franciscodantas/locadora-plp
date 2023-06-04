@@ -1,4 +1,4 @@
-:- (initialization main).
+:- initialization (main).
 :- include('cliente.pl').
 :- include('funcionario.pl').
 :- include('gerente.pl').
@@ -164,7 +164,13 @@ selecionadoFuncionario(3) :-
 
 selecionadoFuncionario(4) :-
   %Cadastrar cliente
-  funcionario.
+  write('Digite o nome do cliente: '),
+  read(Nome),
+  write('Digite o CPF do cliente: '),
+  read(ID),
+  adicionaCliente(ID, Nome, _, _, Resposta),
+  write(Resposta),
+  funcionario.  
 
 selecionadoFuncionario(5) :-
   %Listar clientes

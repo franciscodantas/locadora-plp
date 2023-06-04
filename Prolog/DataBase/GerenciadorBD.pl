@@ -55,34 +55,34 @@ remove_object_by_id(File, Id, Type) :-
 get_filmes(Data) :- load_json_file('DataBase/Filme.json', Data).
 add_filme(ID, Nome, Descricao, Categoria, Preco) :- 
     Filme = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, preco=Preco, qtdAlugueis=0]),
-    save_object('Filme.json', Filme).
-get_filme_by_id(Id, Filme) :- get_object_by_id('Filme.json', Id, Filme, 'produtos').
-get_filme_by_nome(Nome, Filme) :- get_object_by_nome('Filme.json', Nome, Filme).
-remove_filme_by_id(Id) :- remove_object_by_id('Filme.json', Id, 'produtos').
+    save_object('DataBase/Filme.json', Filme).
+get_filme_by_id(Id, Filme) :- get_object_by_id('DataBase/Filme.json', Id, Filme, 'produtos').
+get_filme_by_nome(Nome, Filme) :- get_object_by_nome('DataBase/Filme.json', Nome, Filme).
+remove_filme_by_id(Id) :- remove_object_by_id('DataBase/Filme.json', Id, 'produtos').
 
 %%% REGRAS PARA SÉRIES %%%
-get_series(Data) :- load_json_file('Serie.json', Data).
+get_series(Data) :- load_json_file('DataBase/Serie.json', Data).
 add_serie(ID, Nome, Descricao, Categoria, Preco) :- 
     Serie = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, preco=Preco, qtdAlugueis=0]),
-    save_object('Serie.json', Serie).
-get_serie_by_id(Id, Serie) :- get_object_by_id('Serie.json', Id, Serie, 'produtos').
-get_serie_by_nome(Nome, Serie) :- get_object_by_nome('Serie.json', Nome, Serie).
-remove_serie_by_id(Id) :- remove_object_by_id('Serie.json', Id, 'produtos').
+    save_object('DataBase/Serie.json', Serie).
+get_serie_by_id(Id, Serie) :- get_object_by_id('DataBase/Serie.json', Id, Serie, 'produtos').
+get_serie_by_nome(Nome, Serie) :- get_object_by_nome('DataBase/Serie.json', Nome, Serie).
+remove_serie_by_id(Id) :- remove_object_by_id('DataBase/Serie.json', Id, 'produtos').
 
 %%% REGRAS PARA JOGOS %%%
-get_jogos(Data) :- load_json_file('Jogo.json', Data).
+get_jogos(Data) :- load_json_file('DataBase/Jogo.json', Data).
 add_jogo(ID, Nome, Descricao, Categoria, Preco) :- 
     Jogo = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, preco=Preco, qtdAlugueis=0]),
-    save_object('Jogo.json', Jogo).
-get_jogo_by_id(Id, Jogo) :- get_object_by_id('Jogo.json', Id, Jogo, 'produtos').
-get_jogo_by_nome(Nome, Jogo) :- get_object_by_nome('Jogo.json', Nome, Jogo).
-remove_jogo_by_id(Id) :- remove_object_by_id('Jogo.json', Id, 'produtos').
+    save_object('DataBase/Jogo.json', Jogo).
+get_jogo_by_id(Id, Jogo) :- get_object_by_id('DataBase/Jogo.json', Id, Jogo, 'produtos').
+get_jogo_by_nome(Nome, Jogo) :- get_object_by_nome('DataBase/Jogo.json', Nome, Jogo).
+remove_jogo_by_id(Id) :- remove_object_by_id('DataBase/Jogo.json', Id, 'produtos').
 
 %%% REGRAS PARA CLIENTES %%%
-get_cientes(Data) :- load_json_file('Cliente.json', Data).
+get_cientes(Data) :- load_json_file('DataBase/Cliente.json', Data).
 add_cliente(ID, Nome) :- 
     Cliente = json([id=ID, nome=Nome, carrinho=[], hitorico=[]]),
-    save_object('Cliente.json', Cliente).
-get_cliente_by_id(Id, Cliente) :- get_object_by_id('Cliente.json', Id, Cliente, 'clientes').
-remove_cliente_by_id(Id) :- remove_object_by_id('Cliente.json', Id, 'clientes').
+    save_object('DataBase/Cliente.json', Cliente).
+get_cliente_by_id(Id, Cliente) :- get_object_by_id('DataBase/Cliente.json', Id, Cliente, 'clientes').
+remove_cliente_by_id(Id) :- remove_object_by_id('DataBase/Cliente.json', Id, 'clientes').
 

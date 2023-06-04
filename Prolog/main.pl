@@ -2,16 +2,19 @@
 :- include('cliente.pl').
 :- include('funcionario.pl').
 :- include('gerente.pl').
+:- encoding(utf8).
+:- set_prolog_flag(encoding, utf8).
 
 main :- 
-  writeln('"\n======== Locadora - Sistema ========\n"'),
+  writeln('\n======== Locadora - Sistema ========\n'),
   write('Selecione uma opção:\n'),
   write('1 - Cliente\n'),
   write('2 - Funcionario\n'),
   write('3 - Gerencia\n'),
   write('4 - Sair\n'),
-  write('----> '),
+  write('---->'),
   read(Opcao),
+  write('\n'),
   selecionado(Opcao).
 
 selecionado(1) :-
@@ -51,8 +54,9 @@ cliente :-
   write('13 - Recomendações\n'),
   write('14 - Listar histórico cliente\n'),
   write('15 - menu principal\n'),
-  write('--->')
+  write('--->'),
   read(Opcao),
+  write('\n'),
   selecionadoCliente(Opcao).
 
 
@@ -137,18 +141,25 @@ funcionario :-
   write('14 - menu principal\n'),
   write('--->'),
   read(Opcao),
+  write('\n'),
   selecionadoFuncionario(Opcao).
 
 selecionadoFuncionario(1) :-
   %Listar filmes disponiveis
+  listaFilmes(Resposta),
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(2) :-
   %Listar series disponiveis
+  listaSeries(Resposta),
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(3) :-
   %Listar jogos disponiveis
+  listaJogos(Resposta),
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(4) :-
@@ -208,6 +219,7 @@ gerente :-
   write('5- menu principal\n'),
   write('--->'),
   read(Opcao),
+  write('\n'),
   selecionadoGerente(Opcao).
 
 selecionadoGerente(1) :-

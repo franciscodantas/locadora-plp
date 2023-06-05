@@ -17,12 +17,22 @@ listaJogos(Resposta) :-
     get_jogos(Data),
     organizaListagemProdutos(Data, Resposta).
 
+listaClientes(Resposta) :- 
+    get_cientes(Data),
+    organizaListagemCliente(Data, Resposta).
+
 adicionaCliente(ID,Nome,_,_, Resposta) :-
     add_cliente(ID,Nome),
     Resposta = 'Cadastro realizado!'.
 
 % Organiza a listagem de produtos
-organizaListagemProdutos([], '').
+organizaListagemProdutos([], 'Nada cadastrado!').
+organizaListagemProdutos([H], Resposta) :-
+    extract_info_produtos(H, _, Nome, Descricao, _, _, _),
+    string_concat(Nome, '\n', NomeComQuebraDeLinha),
+    string_concat(Descricao, '\n', DescricaoComQuebraDeLinha),
+    string_concat(NomeComQuebraDeLinha, DescricaoComQuebraDeLinha, Produtos),
+    string_concat(Produtos, '\n', Resposta).
 organizaListagemProdutos([H|T], Resposta) :-
     organizaListagemProdutos(T, Resposta1),
     extract_info_produtos(H, _, Nome, Descricao, _, _, _),
@@ -31,4 +41,19 @@ organizaListagemProdutos([H|T], Resposta) :-
     string_concat(NomeComQuebraDeLinha, DescricaoComQuebraDeLinha, Produtos),
     string_concat(Produtos, '\n', ProdutosConcatenados),
     string_concat(ProdutosConcatenados, Resposta1, Resposta).
+
+organizaListagemCliente([], 'Nenhum cliente cadastrado').
+organizaListagemCliente([H], Resposta) :-
+    extract_info_clientes(H, Id, Nome, _, _),
+    string_concat(Nome, ' - ', NomeLinha),
+    string_concat(NomeLinha, Id, Produtos),
+    string_concat(Produtos, '\n', Resposta).
+organizaListagemCliente([H|T], Resposta) :-
+    organizaListagemCliente(T, Resposta1),
+    extract_info_clientes(H, Id, Nome, _, _),
+    string_concat(Nome, ' - ', NomeLinha),
+    string_concat(NomeLinha, Id, Produtos),
+    string_concat(Produtos, '\n', ProdutosConcatenados),
+    string_concat(ProdutosConcatenados, Resposta1, Resposta).
+
 

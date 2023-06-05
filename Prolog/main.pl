@@ -168,12 +168,18 @@ selecionadoFuncionario(4) :-
   read(Nome),
   write('Digite o CPF do cliente: '),
   read(ID),
-  adicionaCliente(ID, Nome, _, _, Resposta),
+  write('Digite o seu Id: '),
+  read(IdFuncionario),
+  write('Digite a senha: '),
+  read(Senha),
+  adicionaCliente(ID, Nome, IdFuncionario, Senha, Resposta),
   write(Resposta),
   funcionario.  
 
 selecionadoFuncionario(5) :-
   %Listar clientes
+  listaClientes(Resposta),
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(6) :-

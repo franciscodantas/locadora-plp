@@ -95,3 +95,6 @@ add_funcionario(ID, Nome) :-
     save_object('DataBase/Funcionario.json', Funcionario).
 get_funcionario_by_id(Id, Funcionario) :- get_object_by_id('DataBase/Funcionario.json', Id, Funcionario, 'funcionarios').
 remove_funcionario_by_id(Id) :- remove_object_by_id('DataBase/Funcionario.json', Id, 'funcionarios').
+
+%%% REGRAS PARA GENRENTE %%%
+get_gerentes(Data) :- load_json_file('DataBase/Gerente.json', Data).

@@ -18,7 +18,7 @@ save_object(File, Element) :-
 
 extract_info_produtos(json([id=Id, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=PrecoPorDia, qtdAlugueis=QtdAlugueis]), Id, Nome, Descricao, Categoria, PrecoPorDia, QtdAlugueis).
 extract_info_clientes(json([id=Id, nome=Nome, carrinho=Carrinho, historico=Historico]), Id, Nome, Carrinho, Historico).
-extract_info_funcionarios_clientes(json([id=Id, nome=Nome]), Id, Nome).
+extract_info_funcionarios_clientes(json([identificador=Id, nome=Nome]), Id, Nome).
 
 extract_id_object('produtos', Head_Object, Object_Id) :- extract_info_produtos(Head_Object, Object_Id, _, _, _, _, _).
 extract_id_object('clientes', Head_Object, Object_Id) :- extract_info_clientes(Head_Object, Object_Id, _, _, _).

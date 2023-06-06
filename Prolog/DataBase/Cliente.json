@@ -1,99 +1,66 @@
 [
-    {
-      "id": "7554321-c",
-      "nome": "José",
-      "carrinho": [],
-      "historico": []
-    },
-    {
-      "id": "12345678-c",
-      "nome": "Paula",
-      "carrinho": [],
-      "historico": []
-    },
-    {
-      "id": "1212345",
-      "nome": "Josivaldo",
-      "carrinho": [],
-      "historico": []
-    },
-    {
-      "id": "1234455",
-      "nome": "Maria",
-      "carrinho": [],
-      "historico": []
-    },
-    {
-      "id": "12346545",
-      "nome": "Clara",
-      "carrinho": [],
-      "historico": []
-    },
-    {
-      "id": "123454443",
-      "nome": "Beatriz",
-      "carrinho": [
-        {
-          "id": "1972949",
-          "idProduto": "1232578-f"
-        }
-      ],
-      "historico": []
-    },
-    {
-      "id": "12343325",
-      "nome": "Naldo",
-      "carrinho": [
-        {
-          "id": "1972949",
-          "idProduto": "123245678-f"
-        }
-      ],
-      "historico": [
-        {
-          "dataCompra": "01/05/2023",
-          "id": "1972957",
-          "idCliente": "12343325",
-          "idProduto": "12334678-f",
-          "nomeCliente": "Naldo",
-          "nomeProduto": "Monster Hunter: World"
-        },
-        {
-          "dataCompra": "09/05/23",
-          "id": "tbpjliugh-c",
-          "idCliente": "12343325",
-          "idProduto": "13245678-f",
-          "nomeCliente": "Naldo",
-          "nomeProduto": "The Last of Us"
-        }
-      ]
-    },
-    {
-      "id": "12398745",
-      "nome": "Roberto",
-      "carrinho": [
-        {
-          "id": "tbpjliugh-p",
-          "idProduto": "1235678-f"
-        }
-      ],
-      "historico": [
-        {
-          "dataCompra": "30/04/2023",
-          "id": "1972949",
-          "idCliente": "12398745",
-          "idProduto": "1232578-f",
-          "nomeCliente": "Roberto",
-          "nomeProduto": "Pantera Negra: Wakanda para Sempre"
-        },
-        {
-          "dataCompra": "01/05/2023",
-          "id": "1972950",
-          "idCliente": "12398745",
-          "idProduto": "12334678-f",
-          "nomeCliente": "Roberto",
-          "nomeProduto": "Monster Hunter: World"
-        }
-      ]
-    }
-  ]
+  {"id":"1212112", "nome":"aninha", "carrinho": [], "historico": []},
+  {"id":"1212112", "nome":"aninha", "carrinho": [], "historico": []},
+  {"id":"7554321-c", "nome":"José", "carrinho": [], "historico": []},
+  {"id":"12345678-c", "nome":"Paula", "carrinho": [], "historico": []},
+  {
+    "id":"1212345",
+    "nome":"Josivaldo",
+    "carrinho": [],
+    "historico": []
+  },
+  {"id":"1234455", "nome":"Maria", "carrinho": [], "historico": []},
+  {"id":"12346545", "nome":"Clara", "carrinho": [], "historico": []},
+  {
+    "id":"123454443",
+    "nome":"Beatriz",
+    "carrinho": [ {"id":"1972949", "idProduto":"1232578-f"} ],
+    "historico": []
+  },
+  {
+    "id":"12343325",
+    "nome":"Naldo",
+    "carrinho": [ {"id":"1972949", "idProduto":"123245678-f"} ],
+    "historico": [
+      {
+	"dataCompra":"01/05/2023",
+	"id":"1972957",
+	"idCliente":"12343325",
+	"idProduto":"12334678-f",
+	"nomeCliente":"Naldo",
+	"nomeProduto":"Monster Hunter: World"
+      },
+      {
+	"dataCompra":"09/05/23",
+	"id":"tbpjliugh-c",
+	"idCliente":"12343325",
+	"idProduto":"13245678-f",
+	"nomeCliente":"Naldo",
+	"nomeProduto":"The Last of Us"
+      }
+    ]
+  },
+  {
+    "id":"12398745",
+    "nome":"Roberto",
+    "carrinho": [ {"id":"tbpjliugh-p", "idProduto":"1235678-f"} ],
+    "historico": [
+      {
+	"dataCompra":"30/04/2023",
+	"id":"1972949",
+	"idCliente":"12398745",
+	"idProduto":"1232578-f",
+	"nomeCliente":"Roberto",
+	"nomeProduto":"Pantera Negra: Wakanda para Sempre"
+      },
+      {
+	"dataCompra":"01/05/2023",
+	"id":"1972950",
+	"idCliente":"12398745",
+	"idProduto":"12334678-f",
+	"nomeCliente":"Roberto",
+	"nomeProduto":"Monster Hunter: World"
+      }
+    ]
+  }
+]

@@ -21,41 +21,96 @@ listaClientes(Resposta) :-
     get_cientes(Data),
     organizaListagemCliente(Data, Resposta).
 
-adicionaCliente(ID,Nome,_,_, Resposta) :-
+adicionaCliente(ID,Nome,IdFuncionario, Senha, Resposta) :-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario validado!',
     add_cliente(ID,Nome),
     Resposta = 'Cadastro realizado!'.
 
+adicionaCliente(ID,Nome,IdFuncionario, Senha, Resposta) :-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario invalido!',
+    Resposta = 'Cadastro não realizado!'.
+
 adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta) :-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario validado!',
     add_serie(ID, Nome, Descricao, Categoria, Preco),
     Resposta = 'Serie adicionada!'.
 
+adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta) :-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario invalido!',
+    Resposta = 'Serie não adicionada!'.
+
 removerSeries(ID, IdFuncionario, Senha, Resposta):-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario validado!',
     atom_string(IDAtom, ID),
     remove_serie_by_id(IDAtom),
     Resposta = 'Serie removida!'.
 
+removerSeries(ID, IdFuncionario, Senha, Resposta):-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario invalido!',
+    Resposta = 'Serie não removida!'.
+
 adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario validado!',
     add_filme(ID, Nome, Descricao, Categoria, Preco),
     Resposta = 'Filme adicionado!'.
 
+adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario invalido!',
+    Resposta = 'Filme não adicionado!'.
+
 removerFilmes(ID, IdFuncionario, Senha, Resposta):-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario validado!',
     atom_string(IDAtom, ID),
     remove_filme_by_id(IDAtom),
     Resposta = 'Filme removido!'.
 
+removerFilmes(ID, IdFuncionario, Senha, Resposta):-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario invalido!',
+    Resposta = 'Filme não removido!'.
+
 adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):- 
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario validado!',
     add_jogo(ID, Nome, Descricao, Categoria, Preco),
     Resposta = 'Jogo adicionado!'.
 
+adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):- 
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario invalido!',
+    Resposta = 'Jogo não adicionado!'.
+
 removerJogos(ID, IdFuncionario, Senha, Resposta):-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario validado!',
     atom_string(IDAtom, ID),
     remove_jogo_by_id(IDAtom),
     Resposta = 'Jogo removido!'.
+removerJogos(ID, IdFuncionario, Senha, Resposta):-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario invalido!',
+    Resposta = 'Jogo não removido!'.
 
-removerCliente(ID, _, _, Resposta) :-
+removerCliente(ID, IdFuncionario, Senha, Resposta) :-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario validado!',
     atom_string(IDAtom, ID),
     remove_cliente_by_id(IDAtom),
     Resposta = 'Cliente removido!'.
+
+removerCliente(ID, IdFuncionario, Senha, Resposta) :-
+    validaFuncionario(IdFuncionario, Senha, Resposta1),
+    Resposta1 = 'Funcionario invalido!',
+    Resposta = 'Cliente não removido!'.
 
 exibirHistoricoCliente(ID, Resposta) :-
     atom_string(IDAtom, ID),
@@ -92,4 +147,10 @@ organizaListagemCliente([H|T], Resposta) :-
     string_concat(Produtos, '\n', ProdutosConcatenados),
     string_concat(ProdutosConcatenados, Resposta1, Resposta).
 
-
+validaFuncionario(IdFuncionario, Senha, Resposta) :-
+    atom_string(IdFuncionarioAtom, IdFuncionario),
+    atom_string(SenhaAtom, Senha),
+    get_funcionario_by_id(IdFuncionarioAtom, Funcionario),
+    ((SenhaAtom = '123', Funcionario \= -1) ->
+        Resposta = 'Funcionario validado!';
+        Resposta = 'Funcionario invalido!').

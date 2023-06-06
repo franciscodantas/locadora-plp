@@ -91,6 +91,9 @@ remove_cliente_by_id(Id) :- remove_object_by_id('DataBase/Cliente.json', Id, 'cl
 get_cliente_carrinho(Id, Carrinho) :-
     get_cliente_by_id(Id, Cliente),
     extract_info_clientes(Cliente, _, _, Carrinho, _).
+get_cliente_historico(Id, Historico) :-
+    get_cliente_by_id(Id, Cliente),
+    extract_info_clientes(Cliente, _, _, _, Historico).
 
 %%% REGRAS PARA FUNCIONÁRIOS %%%
 get_funcionarios(Data) :- load_json_file('DataBase/Funcionario.json', Data).

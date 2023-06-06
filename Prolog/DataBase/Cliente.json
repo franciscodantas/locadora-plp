@@ -25,15 +25,15 @@
       {
         "id":"1972957",
         "dataCompra":"01/05/2023",
-        "idProduto":"12334678-f",
-        "tipo": "filme",
+        "idProduto":"12334678-j",
+        "tipo": "jogo",
         "idCliente":"12343325"
       },
       {
         "id":"tbpjliugh-c",
         "dataCompra":"09/05/23",
-        "idProduto":"13245678-f",
-        "tipo": "filme",
+        "idProduto":"13245678-s",
+        "tipo": "serie",
         "idCliente":"12343325"
       }
     ]
@@ -53,8 +53,8 @@
       {
         "id":"1972950",
         "dataCompra":"01/05/2023",
-        "idProduto":"12334678-f",
-        "tipo": "filme",
+        "idProduto":"123245678-f",
+        "tipo": "serie",
         "idCliente":"12398745"
       }
     ]

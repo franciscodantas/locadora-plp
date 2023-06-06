@@ -18,9 +18,11 @@ save_object(File, Element) :-
 
 extract_info_produtos(json([id=Id, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=PrecoPorDia, qtdAlugueis=QtdAlugueis]), Id, Nome, Descricao, Categoria, PrecoPorDia, QtdAlugueis).
 extract_info_clientes(json([id=Id, nome=Nome, carrinho=Carrinho, historico=Historico]), Id, Nome, Carrinho, Historico).
+extract_info_funcionarios(json([id=Id, nome=Nome]), Id, Nome).
 
 extract_id_object('produtos', Head_Object, Object_Id) :- extract_info_produtos(Head_Object, Object_Id, _, _, _, _, _).
 extract_id_object('clientes', Head_Object, Object_Id) :- extract_info_clientes(Head_Object, Object_Id, _, _, _).
+extract_id_object('funcionarios', Head_Object, Object_Id) :- extract_info_funcionarios(Head_Object, Object_Id, _).
 
 seach_id([], _, -1, _) :- !. % Caso não o objeto buscado não exista, -1 é retornado
 seach_id([Head_Object|Tail], Id, Object, Type) :- 
@@ -86,3 +88,10 @@ add_cliente(ID, Nome) :-
 get_cliente_by_id(Id, Cliente) :- get_object_by_id('DataBase/Cliente.json', Id, Cliente, 'clientes').
 remove_cliente_by_id(Id) :- remove_object_by_id('DataBase/Cliente.json', Id, 'clientes').
 
+%%% REGRAS PARA FUNCIONÁRIOS %%%
+get_funcionarios(Data) :- load_json_file('DataBase/Funcionario.json', Data).
+add_funcionario(ID, Nome) :- 
+    Funcionario = json([id=ID, nome=Nome]),
+    save_object('DataBase/Funcionario.json', Funcionario).
+get_funcionario_by_id(Id, Funcionario) :- get_object_by_id('DataBase/Funcionario.json', Id, Funcionario, 'funcionarios').
+remove_funcionario_by_id(Id) :- remove_object_by_id('DataBase/Funcionario.json', Id, 'funcionarios').

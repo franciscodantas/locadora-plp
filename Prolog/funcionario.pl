@@ -27,7 +27,7 @@ adicionaCliente(ID,Nome,IdFuncionario, Senha, Resposta) :-
     add_cliente(ID,Nome),
     Resposta = 'Cadastro realizado!'.
 
-adicionaCliente(ID,Nome,IdFuncionario, Senha, Resposta) :-
+adicionaCliente(_, _, IdFuncionario, Senha, Resposta) :-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario invalido!',
     Resposta = 'Cadastro não realizado!'.
@@ -38,7 +38,7 @@ adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Res
     add_serie(ID, Nome, Descricao, Categoria, Preco),
     Resposta = 'Serie adicionada!'.
 
-adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta) :-
+adicionarSeries(_, _, _, _, _, IdFuncionario, Senha, Resposta) :-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario invalido!',
     Resposta = 'Serie não adicionada!'.
@@ -50,7 +50,7 @@ removerSeries(ID, IdFuncionario, Senha, Resposta):-
     remove_serie_by_id(IDAtom),
     Resposta = 'Serie removida!'.
 
-removerSeries(ID, IdFuncionario, Senha, Resposta):-
+removerSeries(_, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario invalido!',
     Resposta = 'Serie não removida!'.
@@ -61,7 +61,7 @@ adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Res
     add_filme(ID, Nome, Descricao, Categoria, Preco),
     Resposta = 'Filme adicionado!'.
 
-adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):-
+adicionarFilmes(_, _, _, _, _, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario invalido!',
     Resposta = 'Filme não adicionado!'.
@@ -73,7 +73,7 @@ removerFilmes(ID, IdFuncionario, Senha, Resposta):-
     remove_filme_by_id(IDAtom),
     Resposta = 'Filme removido!'.
 
-removerFilmes(ID, IdFuncionario, Senha, Resposta):-
+removerFilmes(_, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario invalido!',
     Resposta = 'Filme não removido!'.
@@ -84,7 +84,7 @@ adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resp
     add_jogo(ID, Nome, Descricao, Categoria, Preco),
     Resposta = 'Jogo adicionado!'.
 
-adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):- 
+adicionarJogos(_, _, _, _, _, IdFuncionario, Senha, Resposta):- 
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario invalido!',
     Resposta = 'Jogo não adicionado!'.
@@ -95,7 +95,7 @@ removerJogos(ID, IdFuncionario, Senha, Resposta):-
     atom_string(IDAtom, ID),
     remove_jogo_by_id(IDAtom),
     Resposta = 'Jogo removido!'.
-removerJogos(ID, IdFuncionario, Senha, Resposta):-
+removerJogos(_, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario invalido!',
     Resposta = 'Jogo não removido!'.
@@ -107,7 +107,7 @@ removerCliente(ID, IdFuncionario, Senha, Resposta) :-
     remove_cliente_by_id(IDAtom),
     Resposta = 'Cliente removido!'.
 
-removerCliente(ID, IdFuncionario, Senha, Resposta) :-
+removerCliente(_, IdFuncionario, Senha, Resposta) :-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario invalido!',
     Resposta = 'Cliente não removido!'.
@@ -116,16 +116,20 @@ exibirHistoricoCliente(ID, Resposta) :-
     atom_string(IDAtom, ID),
     get_cliente_by_id(IDAtom, Cliente),
     extract_info_clientes(Cliente, _, Nome, _, Historico),
-    organizaLista(Historico, Resposta1),
+    organizaListagemHistorico(Historico, Resposta1),
     string_concat('Historico de compras de ', Nome, NomeLinha),
-    string_concat(NomeLinha, ':\n', NomeLinhaComQuebraDeLinha),
+    string_concat(NomeLinha, '\n\n', NomeLinhaComQuebraDeLinha),
     string_concat(NomeLinhaComQuebraDeLinha, Resposta1, Resposta).
 
-organizaLista([], '').
-organizaLista([H|T], Resposta) :- 
-    organizaLista(T, Resposta1),
-    string_concat(H, '\n', HComQuebraDeLinha),
-    string_concat(HComQuebraDeLinha, Resposta1, Resposta).
+organizaListagemHistorico([], '').
+organizaListagemHistorico([H|T], Resposta) :- 
+    organizaListagemHistorico(T, Resposta1),
+    extract_info_historico(H, _, _, IdProduto, Tipo, _),
+    get_info(IdProduto, Tipo, Nome, Descricao),
+    string_concat(Nome, ' - ', NomeLinha),
+    string_concat(NomeLinha, Descricao, NomeLinhaComQuebraDeLinha),
+    string_concat(NomeLinhaComQuebraDeLinha, '\n\n', NomeLinhaComQuebraDeLinhaComQuebraDeLinha),
+    string_concat(NomeLinhaComQuebraDeLinhaComQuebraDeLinha, Resposta1, Resposta).
 
 % Organiza a listagem de produtos
 organizaListagemProdutos([], '').

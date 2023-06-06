@@ -98,3 +98,6 @@ remove_funcionario_by_id(Id) :- remove_object_by_id('DataBase/Funcionario.json',
 
 %%% REGRAS PARA GENRENTE %%%
 get_gerentes(Data) :- load_json_file('DataBase/Gerente.json', Data).
+add_gerentes(ID, Nome) :- 
+    Gerente = json([id=ID, nome=Nome]),
+    save_object('DataBase/Gerente.json', Gerente).

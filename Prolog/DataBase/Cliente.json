@@ -14,52 +14,48 @@
   {
     "id":"123454443",
     "nome":"Beatriz",
-    "carrinho": [ {"id":"1972949", "idProduto":"1232578-f"} ],
+    "carrinho": [ {"id":"1972949", "idProduto":"1232578-f", "tipo": "filme"} ],
     "historico": []
   },
   {
     "id":"12343325",
     "nome":"Naldo",
-    "carrinho": [ {"id":"1972949", "idProduto":"123245678-f"} ],
+    "carrinho": [ {"id":"1972949", "idProduto":"123245678-f", "tipo": "filme"} ],
     "historico": [
       {
-	"dataCompra":"01/05/2023",
-	"id":"1972957",
-	"idCliente":"12343325",
-	"idProduto":"12334678-f",
-	"nomeCliente":"Naldo",
-	"nomeProduto":"Monster Hunter: World"
+        "id":"1972957",
+        "dataCompra":"01/05/2023",
+        "idProduto":"12334678-f",
+        "tipo": "filme",
+        "idCliente":"12343325"
       },
       {
-	"dataCompra":"09/05/23",
-	"id":"tbpjliugh-c",
-	"idCliente":"12343325",
-	"idProduto":"13245678-f",
-	"nomeCliente":"Naldo",
-	"nomeProduto":"The Last of Us"
+        "id":"tbpjliugh-c",
+        "dataCompra":"09/05/23",
+        "idProduto":"13245678-f",
+        "tipo": "filme",
+        "idCliente":"12343325"
       }
     ]
   },
   {
     "id":"12398745",
     "nome":"Roberto",
-    "carrinho": [ {"id":"tbpjliugh-p", "idProduto":"1235678-f"} ],
+    "carrinho": [ {"id":"tbpjliugh-p", "idProduto":"1235678-f", "tipo": "filme"} ],
     "historico": [
       {
-	"dataCompra":"30/04/2023",
-	"id":"1972949",
-	"idCliente":"12398745",
-	"idProduto":"1232578-f",
-	"nomeCliente":"Roberto",
-	"nomeProduto":"Pantera Negra: Wakanda para Sempre"
+        "id":"1972949",
+        "dataCompra":"30/04/2023",
+        "idProduto":"1232578-f",
+        "tipo": "filme",
+        "idCliente":"12398745"
       },
       {
-	"dataCompra":"01/05/2023",
-	"id":"1972950",
-	"idCliente":"12398745",
-	"idProduto":"12334678-f",
-	"nomeCliente":"Roberto",
-	"nomeProduto":"Monster Hunter: World"
+        "id":"1972950",
+        "dataCompra":"01/05/2023",
+        "idProduto":"12334678-f",
+        "tipo": "filme",
+        "idCliente":"12398745"
       }
     ]
   }

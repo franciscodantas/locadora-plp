@@ -164,14 +164,12 @@ selecionadoFuncionario(3) :-
 
 selecionadoFuncionario(4) :-
   %Cadastrar cliente
-  write('Digite o nome do cliente: '),
-  read(Nome),
-  write('Digite o CPF do cliente: '),
-  read(ID),
-  write('Digite o seu Id: '),
-  read(IdFuncionario),
-  write('Digite a senha: '),
-  read(Senha),
+  write('Cadastro de cliente\n'),
+  prompt('', _),
+  prompt('Digite o nome do cliente: ', Nome),
+  prompt('Digite o CPF do cliente: ', ID),
+  prompt('Digite o seu Id: ', IdFuncionario),
+  prompt('Digite a senha: ', Senha),
   adicionaCliente(ID, Nome, IdFuncionario, Senha, Resposta),
   write(Resposta),
   funcionario.  
@@ -184,34 +182,92 @@ selecionadoFuncionario(5) :-
 
 selecionadoFuncionario(6) :-
   %Encerrar cadastro de cliente
+  prompt('', _),
+  prompt('Digite o CPF do cliente: ', ID),
+  prompt('Digite o seu Id: ', IdFuncionario),
+  prompt('Digite a senha: ', Senha),
+  removerCliente(ID, IdFuncionario, Senha, Resposta),  
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(7) :-
   %Exibir historico cliente
+  prompt('', _),
+  prompt('Digite o CPF do cliente: ', ID),
+  exibirHistoricoCliente(ID, Resposta),
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(8) :-
   %Cadastrar série
+  prompt('', _),
+  prompt('Digite o nome da série: ', Nome),
+  prompt('Digite o ID da série: ', ID),
+  prompt('Digite o ID do funcionário: ', IdFuncionario),
+  prompt('Digite a senha: ', Senha),
+  prompt('Digite a categoria: ', Categoria),
+  prompt('Digite a descrição: ', Descricao),
+  prompt('Digite o preço: ', Preco),
+  adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(9) :-
   %Excluir série
+  prompt('', _),
+  prompt('Digite o ID da série: ', ID),
+  prompt('Digite o ID do funcionário: ', IdFuncionario),
+  prompt('Digite a senha: ', Senha),
+  removerSeries(ID, IdFuncionario, Senha, Resposta),
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(10) :-
   %Cadastrar filme
+  prompt('', _),
+  prompt('Digite o nome do filme: ', Nome),
+  prompt('Digite o ID do filme: ', ID),
+  prompt('Digite o ID do funcionário: ', IdFuncionario),
+  prompt('Digite a senha: ', Senha),
+  prompt('Digite a categoria: ', Categoria),
+  prompt('Digite a descrição: ', Descricao),
+  prompt('Digite o preço: ', Preco),
+  adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(11) :-
   %Excluir filme
+  prompt('', _),
+  prompt('Digite o ID do filme: ', ID),
+  prompt('Digite o ID do funcionário: ', IdFuncionario),
+  prompt('Digite a senha: ', Senha),
+  removerFilmes(ID, IdFuncionario, Senha, Resposta),
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(12) :-
   %Cadastrar jogo
+  prompt('', _),
+  prompt('Digite o nome do jogo: ', Nome),
+  prompt('Digite o ID do jogo: ', ID),
+  prompt('Digite o ID do funcionário: ', IdFuncionario),
+  prompt('Digite a senha: ', Senha),
+  prompt('Digite a categoria: ', Categoria),
+  prompt('Digite a descrição: ', Descricao),
+  prompt('Digite o preço: ', Preco),
+  adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(13) :-
   %Exlcuir jogo
+  prompt('', _),
+  prompt('Digite o ID do jogo: ', ID),
+  prompt('Digite o ID do funcionário: ', IdFuncionario),
+  prompt('Digite a senha: ', Senha),
+  removerJogos(ID, IdFuncionario, Senha, Resposta),
+  write(Resposta),
   funcionario.
 
 selecionadoFuncionario(14) :-
@@ -256,3 +312,14 @@ selecionadoGerente(5) :-
 
 selecionadoGerente(_) :- write('Opcao invalida'),
   gerente.
+
+prompt(Message, String) :-
+  write(Message),
+  flush_output,
+  read_line_to_codes(user_input, Codes),
+  string_codes(String, Codes).
+
+limpar_entrada :-
+  flush_output,
+  current_input(Stream),
+  set_input(Stream).

@@ -1,30 +1,10 @@
 [
-    {
-        "identificador": "128723345",
-        "nome": "Roberta"
-    },
-    {
-        "identificador": "12345344",
-        "nome": "Maraísa"
-    },
-    {
-        "identificador": "12312345",
-        "nome": "Vanuza"
-    },
-    {
-        "identificador": "123455345",
-        "nome": "Astolfo"
-    },
-    {
-        "identificador": "12344665",
-        "nome": "Jezabel"
-    },
-    {
-        "identificador": "12386645",
-        "nome": "Marcos"
-    },
-    {
-        "identificador": "12341835",
-        "nome": "Tereza"
-    }
+  {"id":"178369-g", "nome":"Pimentinha"},
+  {"id":"128723345", "nome":"Roberta"},
+  {"id":"12345344", "nome":"Maraísa"},
+  {"id":"12312345", "nome":"Vanuza"},
+  {"id":"123455345", "nome":"Astolfo"},
+  {"id":"12344665", "nome":"Jezabel"},
+  {"id":"12386645", "nome":"Marcos"},
+  {"id":"12341835", "nome":"Tereza"}
 ]

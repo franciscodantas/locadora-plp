@@ -25,6 +25,53 @@ adicionaCliente(ID,Nome,_,_, Resposta) :-
     add_cliente(ID,Nome),
     Resposta = 'Cadastro realizado!'.
 
+adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta) :-
+    add_serie(ID, Nome, Descricao, Categoria, Preco),
+    Resposta = 'Serie adicionada!'.
+
+removerSeries(ID, IdFuncionario, Senha, Resposta):-
+    atom_string(IDAtom, ID),
+    remove_serie_by_id(IDAtom),
+    Resposta = 'Serie removida!'.
+
+adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):-
+    add_filme(ID, Nome, Descricao, Categoria, Preco),
+    Resposta = 'Filme adicionado!'.
+
+removerFilmes(ID, IdFuncionario, Senha, Resposta):-
+    atom_string(IDAtom, ID),
+    remove_filme_by_id(IDAtom),
+    Resposta = 'Filme removido!'.
+
+adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):- 
+    add_jogo(ID, Nome, Descricao, Categoria, Preco),
+    Resposta = 'Jogo adicionado!'.
+
+removerJogos(ID, IdFuncionario, Senha, Resposta):-
+    atom_string(IDAtom, ID),
+    remove_jogo_by_id(IDAtom),
+    Resposta = 'Jogo removido!'.
+
+removerCliente(ID, _, _, Resposta) :-
+    atom_string(IDAtom, ID),
+    remove_cliente_by_id(IDAtom),
+    Resposta = 'Cliente removido!'.
+
+exibirHistoricoCliente(ID, Resposta) :-
+    atom_string(IDAtom, ID),
+    get_cliente_by_id(IDAtom, Cliente),
+    extract_info_clientes(Cliente, _, Nome, _, Historico),
+    organizaLista(Historico, Resposta1),
+    string_concat('Historico de compras de ', Nome, NomeLinha),
+    string_concat(NomeLinha, ':\n', NomeLinhaComQuebraDeLinha),
+    string_concat(NomeLinhaComQuebraDeLinha, Resposta1, Resposta).
+
+organizaLista([], '').
+organizaLista([H|T], Resposta) :- 
+    organizaLista(T, Resposta1),
+    string_concat(H, '\n', HComQuebraDeLinha),
+    string_concat(HComQuebraDeLinha, Resposta1, Resposta).
+
 % Organiza a listagem de produtos
 organizaListagemProdutos([], '').
 organizaListagemProdutos([H|T], Resposta) :-

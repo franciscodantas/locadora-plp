@@ -83,14 +83,22 @@ remove_jogo_by_id(Id) :- remove_object_by_id('DataBase/Jogo.json', Id, 'produtos
 
 %%% REGRAS PARA CLIENTES %%%
 get_cientes(Data) :- load_json_file('DataBase/Cliente.json', Data).
-add_cliente(ID, Nome) :- 
-    Cliente = json([id=ID, nome=Nome, carrinho=[], historico=[]]),
+add_cliente(Id, Nome) :- add_cliente(Id, Nome, [], []).
+add_cliente(ID, Nome, Carrinho, Historico) :- 
+    Cliente = json([id=ID, nome=Nome, carrinho=Carrinho, historico=Historico]),
     save_object('DataBase/Cliente.json', Cliente).
 get_cliente_by_id(Id, Cliente) :- get_object_by_id('DataBase/Cliente.json', Id, Cliente, 'clientes').
 remove_cliente_by_id(Id) :- remove_object_by_id('DataBase/Cliente.json', Id, 'clientes').
 get_cliente_carrinho(Id, Carrinho) :-
     get_cliente_by_id(Id, Cliente),
     extract_info_clientes(Cliente, _, _, Carrinho, _).
+adiciona_produto_carrinho(Id, IdElemento, IdProduto, Tipo) :-
+    get_cliente_by_id(Id, Cliente),
+    extract_info_clientes(Cliente, _, Nome, Carrinho, Historico),
+    Elemento = json([id=IdElemento, idProduto=IdProduto, tipo=Tipo]),
+    NewCarrinho = [Elemento | Carrinho],
+    remove_cliente_by_id(Id),
+    add_cliente(Id, Nome, NewCarrinho, Historico).
 get_cliente_historico(Id, Historico) :-
     get_cliente_by_id(Id, Cliente),
     extract_info_clientes(Cliente, _, _, _, Historico).

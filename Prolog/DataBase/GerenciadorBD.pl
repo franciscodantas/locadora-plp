@@ -88,6 +88,9 @@ add_cliente(ID, Nome) :-
     save_object('DataBase/Cliente.json', Cliente).
 get_cliente_by_id(Id, Cliente) :- get_object_by_id('DataBase/Cliente.json', Id, Cliente, 'clientes').
 remove_cliente_by_id(Id) :- remove_object_by_id('DataBase/Cliente.json', Id, 'clientes').
+get_cliente_carrinho(Id, Carrinho) :-
+    get_cliente_by_id(Id, Cliente),
+    extract_info_clientes(Cliente, _, _, Carrinho, _).
 
 %%% REGRAS PARA FUNCIONÁRIOS %%%
 get_funcionarios(Data) :- load_json_file('DataBase/Funcionario.json', Data).

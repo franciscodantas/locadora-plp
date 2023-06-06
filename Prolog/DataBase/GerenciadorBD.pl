@@ -88,5 +88,8 @@ remove_cliente_by_id(Id) :- remove_object_by_id('DataBase/Cliente.json', Id, 'cl
 
 %%% REGRAS PARA FUNCIONÁRIOS %%%
 get_funcionarios(Data) :- load_json_file('DataBase/Funcionario.json', Data).
+add_funcionario(ID, Nome) :- 
+    Funcionario = json([id=ID, nome=Nome]),
+    save_object('DataBase/Funcionario.json', Funcionario).
 
 

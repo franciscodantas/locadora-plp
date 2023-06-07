@@ -20,11 +20,13 @@ extract_info_produtos(json([id=Id, nome=Nome, descricao=Descricao, categoria=Cat
 extract_info_clientes(json([id=Id, nome=Nome, carrinho=Carrinho, historico=Historico]), Id, Nome, Carrinho, Historico).
 extract_info_funcionarios_gerentes(json([identificador=Id, nome=Nome]), Id, Nome).
 extract_info_historico(json([id=Id, dataCompra=DataCompra, idProduto=IdProduto, tipo=Tipo, idCliente=IdCliente]), Id, DataCompra, IdProduto, Tipo, IdCliente).
+extract_info_carrinho(json([id=Id, idProduto=IdProduto, tipo=Tipo]), Id, IdProduto, Tipo).
 
 extract_id_object('produtos', Head_Object, Object_Id) :- extract_info_produtos(Head_Object, Object_Id, _, _, _, _, _).
 extract_id_object('clientes', Head_Object, Object_Id) :- extract_info_clientes(Head_Object, Object_Id, _, _, _).
 extract_id_object('funcionarios', Head_Object, Object_Id) :- extract_info_funcionarios_gerentes(Head_Object, Object_Id, _).
 extract_id_object('gerentes', Head_Object, Object_Id) :- extract_info_funcionarios_gerentes(Head_Object, Object_Id, _).
+extract_id_object('elemento_carrinho', Head_Object, Object_Id) :- extract_info_carrinho(Head_Object, Object_Id, _, _).
 
 seach_id([], _, -1, _) :- !. % Caso não o objeto buscado não exista, -1 é retornado
 seach_id([Head_Object|Tail], Id, Object, Type) :- 
@@ -110,6 +112,13 @@ adiciona_produto_carrinho(Id, IdElemento, IdProduto, Tipo) :-
     extract_info_clientes(Cliente, _, Nome, Carrinho, Historico),
     Elemento = json([id=IdElemento, idProduto=IdProduto, tipo=Tipo]),
     NewCarrinho = [Elemento | Carrinho],
+    remove_cliente_by_id(Id),
+    add_cliente(Id, Nome, NewCarrinho, Historico).
+remove_produto_carrinho(Id, IdElemento) :-
+    get_cliente_by_id(Id, Cliente),
+    extract_info_clientes(Cliente, _, Nome, Carrinho, Historico),
+    seach_id(Carrinho, IdElemento, Elemento, 'elemento_carrinho'),
+    remove_object(Carrinho, Elemento, NewCarrinho),
     remove_cliente_by_id(Id),
     add_cliente(Id, Nome, NewCarrinho, Historico).
 get_cliente_historico(Id, Historico) :-

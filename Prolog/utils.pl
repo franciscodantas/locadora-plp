@@ -58,3 +58,9 @@ get_info(Id, 'jogo',  Nome, Descricao) :-
 get_info(Id, 'serie', Nome, Descricao) :- 
     get_serie_by_id(Id, Object),
     extract_info_produtos(Object, _, Nome, Descricao, _, _, _),!.
+
+prompt(Message, String) :-
+    write(Message),
+    flush_output,
+    read_line_to_codes(user_input, Codes),
+    string_codes(String, Codes).

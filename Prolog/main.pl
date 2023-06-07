@@ -299,14 +299,27 @@ gerente :-
 
 selecionadoGerente(1) :-
   %Cadastrar funcionário
+  prompt('', _),
+  prompt('Digite o nome do funcionário: ', Nome),
+  prompt('Digite o ID do funcionário: ', Id),
+  prompt('Digite a senha: ', Senha),
+  prompt('Digite o seu Id: ', IdGerente),
+  cadastrarFuncionario(Id,Nome, IdGerente, Senha, Resposta),
+  write(Resposta),
   gerente.
   
 selecionadoGerente(2) :-
   %Exibir funcionário
+  prompt('', _),
+  prompt('Digite o ID do funcionário: ', ID),
+  exibirFuncionario(ID, Resposta),
+  write(Resposta),
   gerente.
 
 selecionadoGerente(3) :-
   %Listar funcionários
+  listaFuncionarios(Resposta),
+  write(Resposta),
   gerente.
 
 selecionadoGerente(4) :-
@@ -319,9 +332,3 @@ selecionadoGerente(5) :-
 
 selecionadoGerente(_) :- write('Opcao invalida'),
   gerente.
-
-prompt(Message, String) :-
-  write(Message),
-  flush_output,
-  read_line_to_codes(user_input, Codes),
-  string_codes(String, Codes).

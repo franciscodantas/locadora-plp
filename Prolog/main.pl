@@ -2,6 +2,7 @@
 :- include('cliente.pl').
 :- include('funcionario.pl').
 :- include('gerente.pl').
+:- include('utils.pl').
 :- encoding(utf8).
 :- set_prolog_flag(encoding, utf8).
 

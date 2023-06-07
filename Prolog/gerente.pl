@@ -42,8 +42,7 @@ organizaListagemFuncionarios([H|T], Resposta) :-
 
 validaGerente(IdGerente, Senha, Resposta) :-
     atom_string(IdGerenteAtom, IdGerente),
-    atom_string(SenhaAtom, Senha),
     get_gerente_by_id(IdGerenteAtom, Gerente),
-    ((SenhaAtom = '123', Gerente \= -1) ->
+    ((Senha = "123", Gerente \= -1) ->
         Resposta = 'Funcionario validado!';
         Resposta = 'Funcionario invalido!').

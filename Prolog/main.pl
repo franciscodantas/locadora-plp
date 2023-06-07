@@ -333,8 +333,3 @@ selecionadoGerente(5) :-
 selecionadoGerente(_) :- write('Opcao invalida'),
   gerente.
 
-prompt(Message, String) :-
-  write(Message),
-  flush_output,
-  read_line_to_codes(user_input, Codes),
-  string_codes(String, Codes).

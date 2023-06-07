@@ -115,6 +115,13 @@ adiciona_produto_carrinho(Id, IdElemento, IdProduto, Tipo) :-
 get_cliente_historico(Id, Historico) :-
     get_cliente_by_id(Id, Cliente),
     extract_info_clientes(Cliente, _, _, _, Historico).
+adiciona_produto_historico(Id, IdElemento, DataCompra, IdProduto, Tipo) :-
+    get_cliente_by_id(Id, Cliente),
+    extract_info_clientes(Cliente, _, Nome, Carrinho, Historico),
+    Elemento = json([id=IdElemento, dataCompra=DataCompra, idProduto=IdProduto, tipo=Tipo, idCliente=Id]),
+    NewHistorico = [Elemento | Historico],
+    remove_cliente_by_id(Id),
+    add_cliente(Id, Nome, Carrinho, NewHistorico).
 
 %%% REGRAS PARA FUNCIONÁRIOS %%%
 get_funcionarios(Data) :- load_json_file('DataBase/Funcionario.json', Data).

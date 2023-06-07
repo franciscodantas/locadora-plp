@@ -3,7 +3,7 @@
     "id":"1234567-f",
     "nome":"Power Rangers: Agora e Sempre",
     "descricao":"Tres decadas depois que o poderoso Zordon criou os Power Rangers, o grupo fica frente a frente com uma ameaça do passado. Em meio a uma crise global, os herois sao chamados mais uma vez para salvar o mundo. Este especial que celebra o trigesimo aniversario da franquia e inspirado no famoso lema \"Uma vez Ranger, sempre Ranger\", o que significa: os integrantes da família Ranger sao sempre recebidos de bracos abertos.",
-    "categoria":"Ação",
+    "categoria":"Acao",
     "precoPorDia":5.5,
     "qtdAlugueis":0
   },
@@ -27,7 +27,7 @@
     "id":"1232578-f",
     "nome":"Pantera Negra: Wakanda para Sempre",
     "descricao":"Rainha Ramonda, Shuri, M'Baku, Okoye e Dora Milaje, lutam para proteger sua nação das potências mundiais intervenientes após a morte do rei T'Challa. Enquanto os wakandanos se esforçam para abraçar seu próximo capítulo, os heróis devem se unir com a ajuda de War Dog Nakia e Everett Ross e forjar um novo caminho para o reino de Wakanda.",
-    "categoria":"Ação",
+    "categoria":"Acao",
     "precoPorDia":33.33,
     "qtdAlugueis":0
   },
@@ -43,7 +43,7 @@
     "id":"121111-f",
     "nome":"Homem Aranha 2",
     "descricao":"O miranha",
-    "categoria":"Ação",
+    "categoria":"Acao",
     "precoPorDia":25,
     "qtdAlugueis":0
   }

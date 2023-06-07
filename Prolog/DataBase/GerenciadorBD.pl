@@ -160,3 +160,5 @@ get_historico_geral(Data) :- load_json_file('DataBase/Historico.json', Data).
 add_historico_geral(ID, DataCompra, IdProduto, Tipo, IdCliente) :- 
     HistoricoGeral = json([id=ID, dataCompra=DataCompra, idProduto=IdProduto, tipo=Tipo, idCliente=IdCliente]),
     save_object('DataBase/Historico.json', HistoricoGeral).
+remove_historico_geral_by_id(Id) :- remove_object_by_id('DataBase/Historico.json', Id, 'elemento_historico').
+

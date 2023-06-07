@@ -47,6 +47,16 @@ get_object_by_nome(File, Nome, Object) :-
     load_json_file(File, Data),
     seach_nome(Data, Nome, Object).
 
+get_objects_by_categoria_loop([], _, Lista_Atual, Lista_Atual).
+get_objects_by_categoria_loop([Head_Object|Tail], Categoria, Lista_Atual, Lista_Final) :- 
+    extract_info_produtos(Head_Object, _, _, _, Object_Categoria, _, _),
+    (Object_Categoria = Categoria -> Nova_Lista = [Head_Object | Lista_Atual]; Nova_Lista = Lista_Atual),
+    get_objects_by_categoria_loop(Tail, Categoria, Nova_Lista, Lista_Final).
+
+get_objects_by_categoria(File, Categoria, Objects) :- 
+    load_json_file(File, Data),
+    get_objects_by_categoria_loop(Data, Categoria, [], Objects).
+
 remove_object([], _, []).
 remove_object([Header|Tail], Object, Final_Data) :-
     remove_object(Tail, Object, Data),

@@ -3,7 +3,7 @@
         "id": "1232345678-f",
         "nome": "Hogwarts Legacy",
         "descricao": "Hogwarts Legacy é um RPG de ação imersivo de mundo aberto. Agora você pode assumir o controle da ação e estar no centro de sua própria aventura no mundo bruxo",
-        "categoria": "Ação",
+        "categoria": "Acao",
         "precoPorDia": 200,
         "qtdAlugueis": 0
     },
@@ -38,13 +38,5 @@
         "categoria": "Terror",
         "precoPorDia": 19.99,
         "qtdAlugueis": 3
-    },
-    {
-        "id": "123333-j",
-        "nome": "Call of Duty 2",
-        "descricao": "Cod",
-        "categoria": "Tiro",
-        "precoPorDia": 50,
-        "qtdAlugueis": 0
     }
 ]

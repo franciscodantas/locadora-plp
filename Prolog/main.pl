@@ -62,6 +62,8 @@ cliente :-
 
 selecionadoCliente(1) :-
   %Listar filmes
+  listaFilmes(Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(2) :-
@@ -70,6 +72,8 @@ selecionadoCliente(2) :-
 
 selecionadoCliente(3) :-
   %Listar series
+  listaSeries(Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(4) :-
@@ -78,6 +82,8 @@ selecionadoCliente(4) :-
 
 selecionadoCliente(5) :-
   %Listar jogos
+  listaJogos(Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(6) :-

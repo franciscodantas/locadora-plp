@@ -27,10 +27,8 @@ adicionaCliente(ID,Nome,IdFuncionario, Senha, Resposta) :-
     add_cliente(ID,Nome),
     Resposta = 'Cadastro realizado!'.
 
-adicionaCliente(_, _, IdFuncionario, Senha, Resposta) :-
-    validaFuncionario(IdFuncionario, Senha, Resposta1),
-    Resposta1 = 'Funcionario invalido!',
-    Resposta = 'Cadastro não realizado!'.
+adicionaCliente(_, _, _, _, Resposta) :-
+        Resposta = 'Cadastro não realizado!'.
 
 adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta) :-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
@@ -38,9 +36,7 @@ adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Res
     add_serie(ID, Nome, Descricao, Categoria, Preco),
     Resposta = 'Serie adicionada!'.
 
-adicionarSeries(_, _, _, _, _, IdFuncionario, Senha, Resposta) :-
-    validaFuncionario(IdFuncionario, Senha, Resposta1),
-    Resposta1 = 'Funcionario invalido!',
+adicionarSeries(_, _, _, _, _, _, _, Resposta) :-
     Resposta = 'Serie não adicionada!'.
 
 removerSeries(ID, IdFuncionario, Senha, Resposta):-
@@ -50,9 +46,7 @@ removerSeries(ID, IdFuncionario, Senha, Resposta):-
     remove_serie_by_id(IDAtom),
     Resposta = 'Serie removida!'.
 
-removerSeries(_, IdFuncionario, Senha, Resposta):-
-    validaFuncionario(IdFuncionario, Senha, Resposta1),
-    Resposta1 = 'Funcionario invalido!',
+removerSeries(_, _, _, Resposta):-
     Resposta = 'Serie não removida!'.
 
 adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):-
@@ -61,9 +55,7 @@ adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Res
     add_filme(ID, Nome, Descricao, Categoria, Preco),
     Resposta = 'Filme adicionado!'.
 
-adicionarFilmes(_, _, _, _, _, IdFuncionario, Senha, Resposta):-
-    validaFuncionario(IdFuncionario, Senha, Resposta1),
-    Resposta1 = 'Funcionario invalido!',
+adicionarFilmes(_, _, _, _, _, _, _, Resposta):-
     Resposta = 'Filme não adicionado!'.
 
 removerFilmes(ID, IdFuncionario, Senha, Resposta):-

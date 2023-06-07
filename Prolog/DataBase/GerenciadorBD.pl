@@ -27,6 +27,7 @@ extract_id_object('clientes', Head_Object, Object_Id) :- extract_info_clientes(H
 extract_id_object('funcionarios', Head_Object, Object_Id) :- extract_info_funcionarios_gerentes(Head_Object, Object_Id, _).
 extract_id_object('gerentes', Head_Object, Object_Id) :- extract_info_funcionarios_gerentes(Head_Object, Object_Id, _).
 extract_id_object('elemento_carrinho', Head_Object, Object_Id) :- extract_info_carrinho(Head_Object, Object_Id, _, _).
+extract_id_object('elemento_historico', Head_Object, Object_Id) :- extract_info_historico(Head_Object, Object_Id, _, _, _, _).
 
 seach_id([], _, -1, _) :- !. % Caso não o objeto buscado não exista, -1 é retornado
 seach_id([Head_Object|Tail], Id, Object, Type) :- 
@@ -129,6 +130,13 @@ adiciona_produto_historico(Id, IdElemento, DataCompra, IdProduto, Tipo) :-
     extract_info_clientes(Cliente, _, Nome, Carrinho, Historico),
     Elemento = json([id=IdElemento, dataCompra=DataCompra, idProduto=IdProduto, tipo=Tipo, idCliente=Id]),
     NewHistorico = [Elemento | Historico],
+    remove_cliente_by_id(Id),
+    add_cliente(Id, Nome, Carrinho, NewHistorico).
+remove_produto_historico(Id, IdElemento) :-
+    get_cliente_by_id(Id, Cliente),
+    extract_info_clientes(Cliente, _, Nome, Carrinho, Historico),
+    seach_id(Historico, IdElemento, Elemento, 'elemento_historico'),
+    remove_object(Historico, Elemento, NewHistorico),
     remove_cliente_by_id(Id),
     add_cliente(Id, Nome, Carrinho, NewHistorico).
 

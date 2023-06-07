@@ -157,3 +157,6 @@ get_gerente_by_id(Id, Gerente) :- get_object_by_id('DataBase/Gerente.json', Id, 
 
 %%% REGRAS PARA HISTÓRICO GERAL %%%
 get_historico_geral(Data) :- load_json_file('DataBase/Historico.json', Data).
+add_historico_geral(ID, DataCompra, IdProduto, Tipo, IdCliente) :- 
+    HistoricoGeral = json([id=ID, dataCompra=DataCompra, idProduto=IdProduto, tipo=Tipo, idCliente=IdCliente]),
+    save_object('DataBase/Historico.json', HistoricoGeral).

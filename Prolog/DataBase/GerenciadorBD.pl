@@ -39,6 +39,10 @@ seach_nome([Head_Object|Tail], Nome, Object) :-
     extract_info_produtos(Head_Object, _, Object_Nome, _, _, _, _),
     (Object_Nome = Nome -> Object = Head_Object; seach_nome(Tail, Nome, Object)).
 
+get_object_by_id(File, Id, Object, Type) :- 
+    load_json_file(File, Data),
+    seach_id(Data, Id, Object, Type).
+
 get_object_by_nome(File, Nome, Object) :- 
     load_json_file(File, Data),
     seach_nome(Data, Nome, Object).

@@ -47,10 +47,6 @@ organizaListagemCliente([H|T], Resposta) :-
     string_concat(Produtos, '\n', ProdutosConcatenados),
     string_concat(ProdutosConcatenados, Resposta1, Resposta).
 
-get_object_by_id(File, Id, Object, Type) :- 
-    load_json_file(File, Data),
-    seach_id(Data, Id, Object, Type).
-    
 get_info(Id, 'filme',  Nome, Descricao) :- 
     get_filme_by_id(Id, Object),
     extract_info_produtos(Object, _, Nome, Descricao, _, _, _),!.

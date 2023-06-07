@@ -18,7 +18,7 @@ save_object(File, Element) :-
 
 extract_info_produtos(json([id=Id, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=PrecoPorDia, qtdAlugueis=QtdAlugueis]), Id, Nome, Descricao, Categoria, PrecoPorDia, QtdAlugueis).
 extract_info_clientes(json([id=Id, nome=Nome, carrinho=Carrinho, historico=Historico]), Id, Nome, Carrinho, Historico).
-extract_info_funcionarios_gerentes(json([identificador=Id, nome=Nome]), Id, Nome).
+extract_info_funcionarios_gerentes(json([id=Id, nome=Nome]), Id, Nome).
 extract_info_historico(json([id=Id, dataCompra=DataCompra, idProduto=IdProduto, tipo=Tipo, idCliente=IdCliente]), Id, DataCompra, IdProduto, Tipo, IdCliente).
 extract_info_carrinho(json([id=Id, idProduto=IdProduto, tipo=Tipo]), Id, IdProduto, Tipo).
 
@@ -154,6 +154,7 @@ add_gerentes(ID, Nome) :-
     Gerente = json([id=ID, nome=Nome]),
     save_object('DataBase/Gerente.json', Gerente).
 get_gerente_by_id(Id, Gerente) :- get_object_by_id('DataBase/Gerente.json', Id, Gerente, 'gerentes').
+remove_gerente_by_id(Id) :- remove_object_by_id('DataBase/Gerente.json', Id, 'gerentes').
 
 %%% REGRAS PARA HISTÓRICO GERAL %%%
 get_historico_geral(Data) :- load_json_file('DataBase/Historico.json', Data).

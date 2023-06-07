@@ -332,4 +332,3 @@ selecionadoGerente(5) :-
 
 selecionadoGerente(_) :- write('Opcao invalida'),
   gerente.
-

@@ -325,8 +325,3 @@ prompt(Message, String) :-
   flush_output,
   read_line_to_codes(user_input, Codes),
   string_codes(String, Codes).
-
-limpar_entrada :-
-  flush_output,
-  current_input(Stream),
-  set_input(Stream).

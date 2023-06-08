@@ -302,9 +302,10 @@ selecionadoGerente(1) :-
   prompt('', _),
   prompt('Digite o nome do funcionário: ', Nome),
   prompt('Digite o ID do funcionário: ', Id),
+  prompt('Digite a senha do Funcionário: ', SenhaFunc),
   prompt('Digite a senha: ', Senha),
   prompt('Digite o seu Id: ', IdGerente),
-  cadastrarFuncionario(Id,Nome, IdGerente, Senha, Resposta),
+  cadastrarFuncionario(Id,Nome,SenhaFunc, IdGerente, Senha, Resposta),
   write(Resposta),
   gerente.
   

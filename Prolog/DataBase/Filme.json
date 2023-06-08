@@ -38,13 +38,5 @@
     "categoria":"Aventura",
     "precoPorDia":34.99,
     "qtdAlugueis":10
-  },
-  {
-    "id":"121111-f",
-    "nome":"Homem Aranha 2",
-    "descricao":"O miranha",
-    "categoria":"Acao",
-    "precoPorDia":25,
-    "qtdAlugueis":0
   }
 ]

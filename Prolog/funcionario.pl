@@ -108,6 +108,10 @@ exibirHistoricoCliente(_, 'Cliente não encontrado!').
 validaFuncionario(IdFuncionario, Senha, Resposta) :-
     atom_string(IdFuncionarioAtom, IdFuncionario),
     get_funcionario_by_id(IdFuncionarioAtom, Funcionario),
-    ((Senha = "123", Funcionario \= -1) ->
-        Resposta = 'Funcionario validado!';
-        Resposta = 'Funcionario invalido!').
+    extract_info_funcionarios_gerentes(Funcionario, _, _, SenhaAtual),
+    atom_string(SenhaAtom, Senha),
+    SenhaAtom = SenhaAtual,
+    Funcionario \= -1,
+    Resposta = 'Funcionario validado!'.
+
+validaFuncionario(_, _, 'Funcionario não validado!').

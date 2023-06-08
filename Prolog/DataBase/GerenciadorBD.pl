@@ -18,14 +18,14 @@ save_object(File, Element) :-
 
 extract_info_produtos(json([id=Id, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=PrecoPorDia, qtdAlugueis=QtdAlugueis]), Id, Nome, Descricao, Categoria, PrecoPorDia, QtdAlugueis).
 extract_info_clientes(json([id=Id, nome=Nome, carrinho=Carrinho, historico=Historico]), Id, Nome, Carrinho, Historico).
-extract_info_funcionarios_gerentes(json([id=Id, nome=Nome]), Id, Nome).
+extract_info_funcionarios_gerentes(json([id=Id, nome=Nome, senha=Senha]), Id, Nome, Senha).
 extract_info_historico(json([id=Id, dataCompra=DataCompra, idProduto=IdProduto, tipo=Tipo, idCliente=IdCliente]), Id, DataCompra, IdProduto, Tipo, IdCliente).
 extract_info_carrinho(json([id=Id, idProduto=IdProduto, tipo=Tipo]), Id, IdProduto, Tipo).
 
 extract_id_object('produtos', Head_Object, Object_Id) :- extract_info_produtos(Head_Object, Object_Id, _, _, _, _, _).
 extract_id_object('clientes', Head_Object, Object_Id) :- extract_info_clientes(Head_Object, Object_Id, _, _, _).
-extract_id_object('funcionarios', Head_Object, Object_Id) :- extract_info_funcionarios_gerentes(Head_Object, Object_Id, _).
-extract_id_object('gerentes', Head_Object, Object_Id) :- extract_info_funcionarios_gerentes(Head_Object, Object_Id, _).
+extract_id_object('funcionarios', Head_Object, Object_Id) :- extract_info_funcionarios_gerentes(Head_Object, Object_Id, _,_).
+extract_id_object('gerentes', Head_Object, Object_Id) :- extract_info_funcionarios_gerentes(Head_Object, Object_Id, _, _).
 extract_id_object('elemento_carrinho', Head_Object, Object_Id) :- extract_info_carrinho(Head_Object, Object_Id, _, _).
 extract_id_object('elemento_historico', Head_Object, Object_Id) :- extract_info_historico(Head_Object, Object_Id, _, _, _, _).
 
@@ -140,8 +140,8 @@ remove_produto_historico(Id, IdElemento) :-
 
 %%% REGRAS PARA FUNCIONÁRIOS %%%
 get_funcionarios(Data) :- load_json_file('DataBase/Funcionario.json', Data).
-add_funcionario(ID, Nome) :- 
-    Funcionario = json([id=ID, nome=Nome]),
+add_funcionario(ID, Nome, Senha) :- 
+    Funcionario = json([id=ID, nome=Nome, senha=Senha]),
     save_object('DataBase/Funcionario.json', Funcionario).
 get_funcionario_by_id(Id, Funcionario) :- get_object_by_id('DataBase/Funcionario.json', Id, Funcionario, 'funcionarios').
 remove_funcionario_by_id(Id) :- remove_object_by_id('DataBase/Funcionario.json', Id, 'funcionarios').

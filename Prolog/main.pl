@@ -325,6 +325,26 @@ selecionadoGerente(3) :-
 
 selecionadoGerente(4) :-
   %Estatisticas de vendas
+  get_top_filmes_mais_alugados(Filmes_Mais_Alugados),
+  get_top_filmes_menos_alugados(Filmes_Menos_Alugados),
+  get_top_series_mais_alugadas(Series_Mais_Alugadas),
+  get_top_series_mais_alugadas(Series_Menos_Alugadas),
+  get_top_jogos_mais_alugados(Jogos_Mais_Alugados),
+  get_top_jogos_mais_alugados(Jogos_Menos_Alugados),
+
+  writeln('======== FILMES MAIS VENDIDOS ========'),
+  writeln(Filmes_Mais_Alugados),
+  writeln('======== FILMES MENOS VENDIDOS ========'),
+  writeln(Filmes_Menos_Alugados),
+  writeln('======== SÉRIES MAIS VENDIDAS ========'),
+  writeln(Series_Mais_Alugadas),
+  writeln('======== SÉRIES MENOS VENDIDAS ========'),
+  writeln(Series_Menos_Alugadas),
+  writeln('======== JOGOS MAIS VENDIDOS ========'),
+  writeln(Jogos_Mais_Alugados),
+  writeln('======== JOGOS MENOS VENDIDOS ========'),
+  writeln(Jogos_Menos_Alugados),
+
   gerente.
 
 selecionadoGerente(5) :-

@@ -73,9 +73,18 @@ get_filmes(Data) :- load_json_file('DataBase/Filme.json', Data).
 add_filme(ID, Nome, Descricao, Categoria, Preco) :- 
     Filme = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=Preco, qtdAlugueis=0]),
     save_object('DataBase/Filme.json', Filme).
+add_filme(ID, Nome, Descricao, Categoria, Preco, QtdAlugueis) :- 
+    Filme = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=Preco, qtdAlugueis=QtdAlugueis]),
+    save_object('DataBase/Filme.json', Filme).
 get_filme_by_id(Id, Filme) :- get_object_by_id('DataBase/Filme.json', Id, Filme, 'produtos').
 get_filme_by_nome(Nome, Filme) :- get_object_by_nome('DataBase/Filme.json', Nome, Filme).
 remove_filme_by_id(Id) :- remove_object_by_id('DataBase/Filme.json', Id, 'produtos').
+incrementa_qtd_alugueis_filmes(Id) :- 
+    get_filme_by_id(Id, Filme),
+    extract_info_produtos(Filme, _, Nome, Descricao, Categoria, PrecoPorDia, QtdAlugueis),
+    Nova_QtsAlugueis is QtdAlugueis + 1,
+    remove_filme_by_id(Id),
+    add_filme(Id, Nome, Descricao, Categoria, PrecoPorDia, Nova_QtsAlugueis).
 
 %%% REGRAS PARA SÉRIES %%%
 get_series(Data) :- load_json_file('DataBase/Serie.json', Data).

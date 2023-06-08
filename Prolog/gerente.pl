@@ -104,3 +104,8 @@ get_top_series_menos_alugadas(Series_Menos_Alugadas) :-
 get_top_jogos_mais_alugados(Jogos_Mais_Alugados) :- 
     get_jogos(Jogos),
     get_n_destaques(Jogos, 3, 'mais_alugado', [], Jogos_Mais_Alugados).
+
+/* Essa regra é responsável por pegar os 3 jogos menos alugados do sistema */
+get_top_jogos_menos_alugados(Jogos_Menos_Alugados) :- 
+    get_jogos(Jogos),
+    get_n_destaques(Jogos, 3, 'menos_alugado', [], Jogos_Menos_Alugados).

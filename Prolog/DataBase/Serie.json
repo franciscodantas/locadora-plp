@@ -1,34 +1,34 @@
 [
-    {
-        "id": "13245678-s",
-        "nome": "The Last of Us",
-        "descricao": "The Last of Us é uma série distópica da HBO baseada na franquia de jogos de videogame de mesmo nome criada por Neil Druckmann. O drama narra um futuro pandêmico que foi devastador para humanidade, deixando os seres humanos à beira da extinção. O vírus transforma pessoas em canibais e se espalha rapidamente com uma simples mordida.",
-        "categoria": "Drama",
-        "precoPorDia": 99.99,
-        "qtdAlugueis": 0
-    },
-    {
-        "id": "123245678-f",
-        "nome": "Wandinha",
-        "descricao": "A trama explora a adolescência de Wandinha estudando na Academia Nevermore, uma escola onde ela aprende a dominar suas habilidades paranormais. Ao longo da série, a personagem passará por um processo de amadurecimento com a ajuda de sua mãe, Morticia Addams",
-        "categoria": "Misterio",
-        "precoPorDia": 55.65,
-        "qtdAlugueis": 0
-    },
-    {
-        "id": "1234557678-f",
-        "nome": "O Chefinho: De Volta ao Berço",
-        "descricao": "O Chefinho: de Volta ao Berço acompanha novamente o bebê super inteligente Theodore enquanto ele se esforça para reconquistar seu cargo como presidente da Baby Corp. Para atingir seus objetivos, o jovem precisará provar suas habilidades como líder nato e mostrar toda sua competência",
-        "categoria": "Familia",
-        "precoPorDia": 3.3,
-        "qtdAlugueis": 0
-    },
-    {
-        "id": "123455678-f",
-        "nome": "The Witcher: A Origem",
-        "descricao": "Ambientada em um mundo élfico, 1.200 anos antes do que acontece em \"The Witcher\", a nova série \"The Witcher: A Origem\" conta a história da luta sangrenta que levou à criação do primeiro protótipo de bruxo e a um conflito que resultou na Conjunção das Esferas, momento no qual os mundos dos monstros, dos humanos e dos elfos passaram a ser um só.",
-        "categoria": "Acao",
-        "precoPorDia": 12.3,
-        "qtdAlugueis": 7
-    }
+  {
+    "id":"123455678-f",
+    "nome":"The Witcher: A Origem",
+    "descricao":"Ambientada em um mundo élfico, 1.200 anos antes do que acontece em \"The Witcher\", a nova série \"The Witcher: A Origem\" conta a história da luta sangrenta que levou à criação do primeiro protótipo de bruxo e a um conflito que resultou na Conjunção das Esferas, momento no qual os mundos dos monstros, dos humanos e dos elfos passaram a ser um só.",
+    "categoria":"Acao",
+    "precoPorDia":12.3,
+    "qtdAlugueis":12
+  },
+  {
+    "id":"1234557678-f",
+    "nome":"O Chefinho: De Volta ao Berço",
+    "descricao":"O Chefinho: de Volta ao Berço acompanha novamente o bebê super inteligente Theodore enquanto ele se esforça para reconquistar seu cargo como presidente da Baby Corp. Para atingir seus objetivos, o jovem precisará provar suas habilidades como líder nato e mostrar toda sua competência",
+    "categoria":"Familia",
+    "precoPorDia":3.3,
+    "qtdAlugueis":3
+  },
+  {
+    "id":"123245678-f",
+    "nome":"Wandinha",
+    "descricao":"A trama explora a adolescência de Wandinha estudando na Academia Nevermore, uma escola onde ela aprende a dominar suas habilidades paranormais. Ao longo da série, a personagem passará por um processo de amadurecimento com a ajuda de sua mãe, Morticia Addams",
+    "categoria":"Misterio",
+    "precoPorDia":55.65,
+    "qtdAlugueis":7
+  },
+  {
+    "id":"13245678-s",
+    "nome":"The Last of Us",
+    "descricao":"The Last of Us é uma série distópica da HBO baseada na franquia de jogos de videogame de mesmo nome criada por Neil Druckmann. O drama narra um futuro pandêmico que foi devastador para humanidade, deixando os seres humanos à beira da extinção. O vírus transforma pessoas em canibais e se espalha rapidamente com uma simples mordida.",
+    "categoria":"Drama",
+    "precoPorDia":99.99,
+    "qtdAlugueis":0
+  }
 ]

@@ -94,3 +94,8 @@ get_top_filmes_menos_alugados(Filmes_Menos_Alugados) :-
 get_top_series_mais_alugadas(Series_Mais_Alugadas) :- 
     get_series(Serie),
     get_n_destaques(Serie, 3, 'mais_alugado', [], Series_Mais_Alugadas).
+
+/* Essa regra é responsável por pegar os 3 séries menos alugados do sistema */
+get_top_series_menos_alugadas(Series_Menos_Alugadas) :- 
+    get_series(Serie),
+    get_n_destaques(Serie, 3, 'menos_alugado', [], Series_Menos_Alugadas).

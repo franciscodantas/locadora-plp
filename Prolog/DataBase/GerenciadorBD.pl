@@ -91,9 +91,18 @@ get_series(Data) :- load_json_file('DataBase/Serie.json', Data).
 add_serie(ID, Nome, Descricao, Categoria, Preco) :- 
     Serie = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=Preco, qtdAlugueis=0]),
     save_object('DataBase/Serie.json', Serie).
+add_serie(ID, Nome, Descricao, Categoria, Preco, QtdAlugueis) :- 
+    Serie = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=Preco, qtdAlugueis=QtdAlugueis]),
+    save_object('DataBase/Serie.json', Serie).
 get_serie_by_id(Id, Serie) :- get_object_by_id('DataBase/Serie.json', Id, Serie, 'produtos').
 get_serie_by_nome(Nome, Serie) :- get_object_by_nome('DataBase/Serie.json', Nome, Serie).
 remove_serie_by_id(Id) :- remove_object_by_id('DataBase/Serie.json', Id, 'produtos').
+incrementa_qtd_alugueis_series(Id) :- 
+    get_serie_by_id(Id, Serie),
+    extract_info_produtos(Serie, _, Nome, Descricao, Categoria, PrecoPorDia, QtdAlugueis),
+    Nova_QtsAlugueis is QtdAlugueis + 1,
+    remove_serie_by_id(Id),
+    add_serie(Id, Nome, Descricao, Categoria, PrecoPorDia, Nova_QtsAlugueis).
 
 %%% REGRAS PARA JOGOS %%%
 get_jogos(Data) :- load_json_file('DataBase/Jogo.json', Data).

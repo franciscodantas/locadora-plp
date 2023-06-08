@@ -49,6 +49,12 @@ validaGerente(IdGerente, Senha, Resposta) :-
     Gerente \= -1,
     Resposta = 'Gerente validado!', !.
 
+/* As regras get_produto_em_destaque e seleciona_aluguel_destaque são
+responsáveis por selecionar o produto em detaque positivo ou negativo
+em relação ao aluguel. O produto com maior número de alugueis
+pode ser obtido passando o átomo 'mais_alugado' para as regras.
+Já o produto com menor número de alugueis pode ser obtido 
+passando o átomo 'menos_alugado' para as regras */
 seleciona_aluguel_destaque('mais_alugado', QtdAlugueis1, QtdAlugueis2, Produto1, Produto2, Destaque) :- 
     (QtdAlugueis1 > QtdAlugueis2 -> Destaque = Produto1 ; Destaque = Produto2).
 seleciona_aluguel_destaque('menos_alugado', QtdAlugueis1, QtdAlugueis2, Produto1, Produto2, Destaque) :- 

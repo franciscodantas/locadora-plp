@@ -109,9 +109,18 @@ get_jogos(Data) :- load_json_file('DataBase/Jogo.json', Data).
 add_jogo(ID, Nome, Descricao, Categoria, Preco) :- 
     Jogo = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=Preco, qtdAlugueis=0]),
     save_object('DataBase/Jogo.json', Jogo).
+add_jogo(ID, Nome, Descricao, Categoria, Preco, QtdAlugueis) :- 
+    Jogo = json([id=ID, nome=Nome, descricao=Descricao, categoria=Categoria, precoPorDia=Preco, qtdAlugueis=QtdAlugueis]),
+    save_object('DataBase/Jogo.json', Jogo).
 get_jogo_by_id(Id, Jogo) :- get_object_by_id('DataBase/Jogo.json', Id, Jogo, 'produtos').
 get_jogo_by_nome(Nome, Jogo) :- get_object_by_nome('DataBase/Jogo.json', Nome, Jogo).
 remove_jogo_by_id(Id) :- remove_object_by_id('DataBase/Jogo.json', Id, 'produtos').
+incrementa_qtd_alugueis_jogos(Id) :- 
+    get_jogo_by_id(Id, Jogo),
+    extract_info_produtos(Jogo, _, Nome, Descricao, Categoria, PrecoPorDia, QtdAlugueis),
+    Nova_QtsAlugueis is QtdAlugueis + 1,
+    remove_jogo_by_id(Id),
+    add_jogo(Id, Nome, Descricao, Categoria, PrecoPorDia, Nova_QtsAlugueis).
 
 %%% REGRAS PARA CLIENTES %%%
 get_cientes(Data) :- load_json_file('DataBase/Cliente.json', Data).

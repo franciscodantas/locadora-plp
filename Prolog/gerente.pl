@@ -67,6 +67,9 @@ get_produto_em_destaque([Produto_Atual | Tail], Tipo_Destaque, Produto_Maior_Atu
     seleciona_aluguel_destaque(Tipo_Destaque, QtdAlugueis_Atual, QtdAlugueis_Maior, Produto_Atual, Produto_Maior_Atual, Novo_Maior),
     get_produto_em_destaque(Tail, Tipo_Destaque, Novo_Maior, Produto_Maior_Final).
 
+/* Essa regra é responsável por pegar 'n' produtos em destaque.
+O destaque pode ser os 'n' produtos mais alugados ou os 'n' produtos
+menos alugados */
 get_n_destaques(_, 0, _, Destaques_Atuais, Destaques_Atuais).
 get_n_destaques([], _, _, Destaques_Atuais, Destaques_Atuais).
 get_n_destaques(Produtos, N, Tipo_Destaque, Destaques_Atuais, Destaques_Finais) :- 

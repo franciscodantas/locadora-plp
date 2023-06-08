@@ -70,8 +70,8 @@ get_produto_em_destaque([Produto_Atual | Tail], Tipo_Destaque, Produto_Maior_Atu
 /* Essa regra é responsável por pegar 'n' produtos em destaque.
 O destaque pode ser os 'n' produtos mais alugados ou os 'n' produtos
 menos alugados */
-get_n_destaques(_, 0, _, Destaques_Atuais, Destaques_Atuais).
-get_n_destaques([], _, _, Destaques_Atuais, Destaques_Atuais).
+get_n_destaques(_, 0, _, Destaques_Atuais, Destaques_Atuais_Dec) :- reverse(Destaques_Atuais, Destaques_Atuais_Dec).
+get_n_destaques([], _, _, Destaques_Atuais, Destaques_Atuais_Dec) :- reverse(Destaques_Atuais, Destaques_Atuais_Dec).
 get_n_destaques(Produtos, N, Tipo_Destaque, Destaques_Atuais, Destaques_Finais) :- 
     [Primeiro_Produto | _] = Produtos,
     get_produto_em_destaque(Produtos, Tipo_Destaque, Primeiro_Produto, Destaque),

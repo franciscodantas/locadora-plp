@@ -90,22 +90,3 @@ get_top_filmes_menos_alugados(Filmes_Menos_Alugados) :-
     get_filmes(Filmes),
     get_n_destaques(Filmes, 3, 'menos_alugado', [], Filmes_Menos_Alugados).
 
-/* Essa regra é responsável por pegar os 3 séries mais alugados do sistema */
-get_top_series_mais_alugadas(Series_Mais_Alugadas) :- 
-    get_series(Serie),
-    get_n_destaques(Serie, 3, 'mais_alugado', [], Series_Mais_Alugadas).
-
-/* Essa regra é responsável por pegar os 3 séries menos alugados do sistema */
-get_top_series_menos_alugadas(Series_Menos_Alugadas) :- 
-    get_series(Serie),
-    get_n_destaques(Serie, 3, 'menos_alugado', [], Series_Menos_Alugadas).
-
-/* Essa regra é responsável por pegar os 3 jogos mais alugados do sistema */
-get_top_jogos_mais_alugados(Jogos_Mais_Alugados) :- 
-    get_jogos(Jogos),
-    get_n_destaques(Jogos, 3, 'mais_alugado', [], Jogos_Mais_Alugados).
-
-/* Essa regra é responsável por pegar os 3 jogos menos alugados do sistema */
-get_top_jogos_menos_alugados(Jogos_Menos_Alugados) :- 
-    get_jogos(Jogos),
-    get_n_destaques(Jogos, 3, 'menos_alugado', [], Jogos_Menos_Alugados).

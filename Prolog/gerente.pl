@@ -48,5 +48,3 @@ validaGerente(IdGerente, Senha, Resposta) :-
     SenhaAtom = SenhaAtual,
     Gerente \= -1,
     Resposta = 'Gerente validado!', !.
-
-validaGerente(_, _, 'Não é gerente!').

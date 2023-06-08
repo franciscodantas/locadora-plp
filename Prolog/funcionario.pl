@@ -113,5 +113,3 @@ validaFuncionario(IdFuncionario, Senha, Resposta) :-
     SenhaAtom = SenhaAtual,
     Funcionario \= -1,
     Resposta = 'Funcionario validado!'.
-
-validaFuncionario(_, _, 'Funcionario não validado!').

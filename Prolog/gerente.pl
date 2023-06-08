@@ -81,31 +81,37 @@ get_n_destaques(Produtos, N, Tipo_Destaque, Destaques_Atuais, Destaques_Finais) 
     get_n_destaques(Novos_Produtos, Novo_N, Tipo_Destaque, Novos_Destaques, Destaques_Finais).
 
 /* Essa regra é responsável por pegar os 3 filmes mais alugados do sistema */
-get_top_filmes_mais_alugados(Filmes_Mais_Alugados) :- 
+get_top_filmes_mais_alugados(Resposta) :- 
     get_filmes(Filmes),
-    get_n_destaques(Filmes, 3, 'mais_alugado', [], Filmes_Mais_Alugados).
+    get_n_destaques(Filmes, 3, 'mais_alugado', [], Filmes_Mais_Alugados),
+    organizaListagemProdutos(Filmes_Mais_Alugados, Resposta).
 
 /* Essa regra é responsável por pegar os 3 filmes menos alugados do sistema */
-get_top_filmes_menos_alugados(Filmes_Menos_Alugados) :- 
+get_top_filmes_menos_alugados(Resposta) :- 
     get_filmes(Filmes),
-    get_n_destaques(Filmes, 3, 'menos_alugado', [], Filmes_Menos_Alugados).
+    get_n_destaques(Filmes, 3, 'menos_alugado', [], Filmes_Menos_Alugados),
+    organizaListagemProdutos(Filmes_Menos_Alugados, Resposta).
 
 /* Essa regra é responsável por pegar os 3 séries mais alugados do sistema */
-get_top_series_mais_alugadas(Series_Mais_Alugadas) :- 
+get_top_series_mais_alugadas(Resposta) :- 
     get_series(Serie),
-    get_n_destaques(Serie, 3, 'mais_alugado', [], Series_Mais_Alugadas).
+    get_n_destaques(Serie, 3, 'mais_alugado', [], Series_Mais_Alugadas),
+    organizaListagemProdutos(Series_Mais_Alugadas, Resposta).
 
 /* Essa regra é responsável por pegar os 3 séries menos alugados do sistema */
-get_top_series_menos_alugadas(Series_Menos_Alugadas) :- 
+get_top_series_menos_alugadas(Resposta) :- 
     get_series(Serie),
-    get_n_destaques(Serie, 3, 'menos_alugado', [], Series_Menos_Alugadas).
+    get_n_destaques(Serie, 3, 'menos_alugado', [], Series_Menos_Alugadas),
+    organizaListagemProdutos(Series_Menos_Alugadas, Resposta).
 
 /* Essa regra é responsável por pegar os 3 jogos mais alugados do sistema */
-get_top_jogos_mais_alugados(Jogos_Mais_Alugados) :- 
+get_top_jogos_mais_alugados(Resposta) :- 
     get_jogos(Jogos),
-    get_n_destaques(Jogos, 3, 'mais_alugado', [], Jogos_Mais_Alugados).
+    get_n_destaques(Jogos, 3, 'mais_alugado', [], Jogos_Mais_Alugados),
+    organizaListagemProdutos(Jogos_Mais_Alugados, Resposta).
 
 /* Essa regra é responsável por pegar os 3 jogos menos alugados do sistema */
-get_top_jogos_menos_alugados(Jogos_Menos_Alugados) :- 
+get_top_jogos_menos_alugados(Resposta) :- 
     get_jogos(Jogos),
-    get_n_destaques(Jogos, 3, 'menos_alugado', [], Jogos_Menos_Alugados).
+    get_n_destaques(Jogos, 3, 'menos_alugado', [], Jogos_Menos_Alugados),
+    organizaListagemProdutos(Jogos_Menos_Alugados, Resposta).

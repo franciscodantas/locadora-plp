@@ -79,3 +79,33 @@ get_n_destaques(Produtos, N, Tipo_Destaque, Destaques_Atuais, Destaques_Finais) 
     remove_object(Produtos, Destaque, Novos_Produtos),
     Novo_N is N - 1,
     get_n_destaques(Novos_Produtos, Novo_N, Tipo_Destaque, Novos_Destaques, Destaques_Finais).
+
+/* Essa regra é responsável por pegar os 3 filmes mais alugados do sistema */
+get_top_filmes_mais_alugados(Filmes_Mais_Alugados) :- 
+    get_filmes(Filmes),
+    get_n_destaques(Filmes, 3, 'mais_alugado', [], Filmes_Mais_Alugados).
+
+/* Essa regra é responsável por pegar os 3 filmes menos alugados do sistema */
+get_top_filmes_menos_alugados(Filmes_Menos_Alugados) :- 
+    get_filmes(Filmes),
+    get_n_destaques(Filmes, 3, 'menos_alugado', [], Filmes_Menos_Alugados).
+
+/* Essa regra é responsável por pegar os 3 séries mais alugados do sistema */
+get_top_series_mais_alugadas(Series_Mais_Alugadas) :- 
+    get_series(Serie),
+    get_n_destaques(Serie, 3, 'mais_alugado', [], Series_Mais_Alugadas).
+
+/* Essa regra é responsável por pegar os 3 séries menos alugados do sistema */
+get_top_series_menos_alugadas(Series_Menos_Alugadas) :- 
+    get_series(Serie),
+    get_n_destaques(Serie, 3, 'menos_alugado', [], Series_Menos_Alugadas).
+
+/* Essa regra é responsável por pegar os 3 jogos mais alugados do sistema */
+get_top_jogos_mais_alugados(Jogos_Mais_Alugados) :- 
+    get_jogos(Jogos),
+    get_n_destaques(Jogos, 3, 'mais_alugado', [], Jogos_Mais_Alugados).
+
+/* Essa regra é responsável por pegar os 3 jogos menos alugados do sistema */
+get_top_jogos_menos_alugados(Jogos_Menos_Alugados) :- 
+    get_jogos(Jogos),
+    get_n_destaques(Jogos, 3, 'menos_alugado', [], Jogos_Menos_Alugados).

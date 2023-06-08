@@ -67,3 +67,12 @@ get_produto_em_destaque([Produto_Atual | Tail], Tipo_Destaque, Produto_Maior_Atu
     seleciona_aluguel_destaque(Tipo_Destaque, QtdAlugueis_Atual, QtdAlugueis_Maior, Produto_Atual, Produto_Maior_Atual, Novo_Maior),
     get_produto_em_destaque(Tail, Tipo_Destaque, Novo_Maior, Produto_Maior_Final).
 
+get_n_destaques(_, 0, _, Destaques_Atuais, Destaques_Atuais).
+get_n_destaques([], _, _, Destaques_Atuais, Destaques_Atuais).
+get_n_destaques(Produtos, N, Tipo_Destaque, Destaques_Atuais, Destaques_Finais) :- 
+    [Primeiro_Produto | _] = Produtos,
+    get_produto_em_destaque(Produtos, Tipo_Destaque, Primeiro_Produto, Destaque),
+    Novos_Destaques = [Destaque | Destaques_Atuais],
+    remove_object(Produtos, Destaque, Novos_Produtos),
+    Novo_N is N - 1,
+    get_n_destaques(Novos_Produtos, Novo_N, Tipo_Destaque, Novos_Destaques, Destaques_Finais).

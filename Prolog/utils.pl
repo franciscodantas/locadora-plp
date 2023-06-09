@@ -46,6 +46,12 @@ concatena_strings_aux([String | Resto], Acumulador, Resultado) :-
     atom_concat(Acumulador, String, NovoAcumulador),
     concatena_strings_aux(Resto, NovoAcumulador, Resultado).
 
+formata_valor(Valor, ValorFormatado) :-
+    format(atom(AtomValorFormatado), 'R$ ~2f', [Valor]),
+    atom_chars(AtomValorFormatado, ListaChars),
+    substitui_ponto_virgula(ListaChars, ListaCharsFormatada),
+    atom_chars(ValorFormatado, ListaCharsFormatada).
+
 organizaListagemCliente([], '').
 organizaListagemCliente([H|T], Resposta) :-
     organizaListagemCliente(T, Resposta1),

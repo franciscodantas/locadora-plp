@@ -4,7 +4,7 @@
 :- encoding(utf8).
 :- set_prolog_flag(encoding, utf8).
 
-
+% Adiciona um cliente com seu ID e nome, sendo verificado se o cliente já existe e se o funcionario existe
 adicionaCliente(ID,Nome,IdFuncionario, Senha, Resposta) :-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -14,8 +14,10 @@ adicionaCliente(ID,Nome,IdFuncionario, Senha, Resposta) :-
     add_cliente(ID,Nome),
     Resposta = 'Cadastro realizado!'.
 
+% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
 adicionaCliente(_, _, _, _, 'Cadastro não realizado!').
 
+% Adiciona uma Serie com seu ID, nome, categoria, descrição e preço, sendo verificado se a serie já existe e se o funcionario existe
 adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta) :-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -25,8 +27,10 @@ adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Res
     add_serie(ID, Nome, Descricao, Categoria, Preco),
     Resposta = 'Serie adicionada!'.
 
+% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
 adicionarSeries(_, _, _, _, _, _, _, 'Serie não adicionada!').
 
+% Remove uma serie com seu ID, sendo verificado se a serie existe e se o funcionario existe
 removerSeries(ID, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -36,8 +40,10 @@ removerSeries(ID, IdFuncionario, Senha, Resposta):-
     remove_serie_by_id(IDAtom),
     Resposta = 'Serie removida!'.
 
+% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
 removerSeries(_, _, _, 'Serie não removida!').
 
+% Adiciona um filme com seu ID, nome, categoria, descrição e preço, sendo verificado se o filme já existe e se o funcionario existe
 adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -47,8 +53,10 @@ adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Res
     add_filme(ID, Nome, Descricao, Categoria, Preco),
     Resposta = 'Filme adicionado!'.
 
+% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
 adicionarFilmes(_, _, _, _, _, _, _, 'Filme não adicionado!').
 
+% Remove um filme com seu ID, sendo verificado se o filme existe e se o funcionario existe
 removerFilmes(ID, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -58,8 +66,10 @@ removerFilmes(ID, IdFuncionario, Senha, Resposta):-
     remove_filme_by_id(IDAtom),
     Resposta = 'Filme removido!'.
 
+% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
 removerFilmes(_, _, _, 'Filme não removido!').
 
+% Adiciona um jogo com seu ID, nome, categoria, descrição e preço, sendo verificado se o jogo já existe e se o funcionario existe
 adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):- 
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -69,8 +79,10 @@ adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resp
     add_jogo(ID, Nome, Descricao, Categoria, Preco),
     Resposta = 'Jogo adicionado!'.
 
+% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
 adicionarJogos(_, _, _, _, _, _, _, 'Jogo não adicionado!').
 
+% Remove um jogo com seu ID, sendo verificado se o jogo existe e se o funcionario existe
 removerJogos(ID, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -80,8 +92,10 @@ removerJogos(ID, IdFuncionario, Senha, Resposta):-
     remove_jogo_by_id(IDAtom),
     Resposta = 'Jogo removido!'.
 
+% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
 removerJogos(_, _, _, 'Jogo não removido!').
 
+% Remove um cliente com seu ID, sendo verificado se o cliente existe e se o funcionario existe
 removerCliente(ID, IdFuncionario, Senha, Resposta) :-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -91,8 +105,10 @@ removerCliente(ID, IdFuncionario, Senha, Resposta) :-
     remove_cliente_by_id(IDAtom),
     Resposta = 'Cliente removido!'.
 
+% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
 removerCliente(_, _, _, 'Cliente não removido!').
 
+% exibi o historico de compras de um cliente com seu ID, sendo verificado se o cliente existe
 exibirHistoricoCliente(ID, Resposta) :-
     atom_string(IDAtom, ID),
     get_cliente_by_id(IDAtom, Cliente),
@@ -103,8 +119,10 @@ exibirHistoricoCliente(ID, Resposta) :-
     string_concat(NomeLinha, '\n\n', NomeLinhaComQuebraDeLinha),
     string_concat(NomeLinhaComQuebraDeLinha, Resposta1, Resposta).
 
+% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
 exibirHistoricoCliente(_, 'Cliente não encontrado!').
 
+% Valida um funcionario com seu ID e senha, sendo verificado se o funcionario existe e possue senha valida
 validaFuncionario(IdFuncionario, Senha, Resposta) :-
     atom_string(IdFuncionarioAtom, IdFuncionario),
     get_funcionario_by_id(IdFuncionarioAtom, Funcionario),

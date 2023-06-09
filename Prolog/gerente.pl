@@ -4,6 +4,7 @@
 :- encoding(utf8).
 :- set_prolog_flag(encoding, utf8).
 
+% Cadastra um novo funcionario
 cadastrarFuncionario(Id,Nome,SenhaFunc, IdGerente, Senha, Resposta):-
     validaGerente(IdGerente, Senha, Resposta1),
     Resposta1 = 'Gerente validado!',
@@ -13,8 +14,10 @@ cadastrarFuncionario(Id,Nome,SenhaFunc, IdGerente, Senha, Resposta):-
     add_funcionario(Id, Nome, SenhaFunc),
     Resposta = 'Funcionário cadastrado!'.
 
+% Caso algum erro ocorra, retorna uma mensagem de erro
 cadastrarFuncionario(_, _, _, _, _,'Cadastro não realizado!').
 
+% Exibe um funcionario
 exibirFuncionario(ID, Resposta):-
     atom_string(IdAtom, ID),
     get_funcionario_by_id(IdAtom, Funcionario),
@@ -25,12 +28,15 @@ exibirFuncionario(ID, Resposta):-
     string_concat(NomeTraco, ID, NomeTracoID),
     string_concat(NomeTracoID, '\n', Resposta).
 
+% Caso funcionario não exista, retorna uma mensagem de erro
 exibirFuncionario(_, 'Funcionário não existe!').
 
+% Exibe todos os funcionarios
 listaFuncionarios(Resposta) :-
     get_funcionarios(Funcionarios),
     organizaListagemFuncionarios(Funcionarios, Resposta).
 
+% Organiza a listagem de funcionarios
 organizaListagemFuncionarios([], '').
 organizaListagemFuncionarios([H|T], Resposta) :-
     organizaListagemFuncionarios(T, Resposta1),
@@ -40,6 +46,7 @@ organizaListagemFuncionarios([H|T], Resposta) :-
     string_concat(NomeTracoID, '\n', Resposta2),
     string_concat(Resposta2, Resposta1, Resposta).
 
+% Valida um gerente e sua senha
 validaGerente(IdGerente, Senha, Resposta) :-
     atom_string(IdGerenteAtom, IdGerente),
     get_gerente_by_id(IdGerenteAtom, Gerente),

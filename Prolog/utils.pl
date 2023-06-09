@@ -58,6 +58,15 @@ substitui_ponto_virgula(['.'|T], [','|T2]) :-
 substitui_ponto_virgula([H|T], [H|T2]) :-
     substitui_ponto_virgula(T, T2).
 
+% Organiza a listagem de produtos, apresentando nome, categoria e quantidade de aluguéis
+organizaListagemEstatistica([], '').
+organizaListagemEstatistica([H|T], Resposta) :-
+    organizaListagemEstatistica(T, Resposta1),
+    extract_info_produtos(H, _, Nome, _, Categoria, PrecoPorDia, QtdAlugueis),
+    formata_valor(PrecoPorDia, PrecoPorDiaFormatado),
+    concatena_strings(['\nNome: ', Nome, '\nCategoria: ', Categoria, '\nQuantidade de alugueis: ', QtdAlugueis, '\nPreco por dia: ', PrecoPorDiaFormatado, '\n'], ProdutosConcatenados),
+    string_concat(ProdutosConcatenados, Resposta1, Resposta).
+
 organizaListagemCliente([], '').
 organizaListagemCliente([H|T], Resposta) :-
     organizaListagemCliente(T, Resposta1),

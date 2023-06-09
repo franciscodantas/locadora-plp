@@ -116,6 +116,23 @@ get_top_jogos_menos_alugados(Resposta) :-
     get_n_destaques(Jogos, 3, 'menos_alugado', [], Jogos_Menos_Alugados),
     organizaListagemEstatistica(Jogos_Menos_Alugados, Resposta).
 
+formata_renda(Renda_Filmes, Renda_Series, Renda_Jogos, Renda_Total, Resposta) :- 
+    formata_valor(Renda_Filmes, Renda_Filmes_Formatada),
+    formata_valor(Renda_Series, Renda_Series_Formatada),
+    formata_valor(Renda_Jogos, Renda_Jogos_Formatada),
+    formata_valor(Renda_Total, Renda_Total_Formatada),
+    concatena_strings(['\nRenda de filmes: ', Renda_Filmes_Formatada, '\nRenda de series: ', Renda_Series_Formatada, '\nRenda de jogos: ', Renda_Jogos_Formatada, '\nRenda total: ', Renda_Total_Formatada], Resposta).
+
+calcular_renda_total(Resposta) :-
+    get_filmes(Filmes),
+    get_series(Series),
+    get_jogos(Jogos),
+    calcula_renda_produtos(Filmes, 0, Renda_Filmes),
+    calcula_renda_produtos(Series, 0, Renda_Series),
+    calcula_renda_produtos(Jogos, 0, Renda_Jogos),
+    Renda_Total is Renda_Filmes + Renda_Series + Renda_Jogos,
+    formata_renda(Renda_Filmes, Renda_Series, Renda_Jogos, Renda_Total, Resposta).
+
 calcula_renda_produtos([], RendaAcumulada, RendaAcumulada).
 calcula_renda_produtos([ProdutoAtual|ProdutosRestantes], RendaAcumulada, RendaTotal) :-
     extract_info_produtos(ProdutoAtual, _, _, _, _, Renda, _),

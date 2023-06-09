@@ -52,6 +52,12 @@ formata_valor(Valor, ValorFormatado) :-
     substitui_ponto_virgula(ListaChars, ListaCharsFormatada),
     atom_chars(ValorFormatado, ListaCharsFormatada).
 
+substitui_ponto_virgula([], []).
+substitui_ponto_virgula(['.'|T], [','|T2]) :-
+    substitui_ponto_virgula(T, T2).
+substitui_ponto_virgula([H|T], [H|T2]) :-
+    substitui_ponto_virgula(T, T2).
+
 organizaListagemCliente([], '').
 organizaListagemCliente([H|T], Resposta) :-
     organizaListagemCliente(T, Resposta1),

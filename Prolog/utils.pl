@@ -38,6 +38,14 @@ organizaListagemProdutos([H|T], Resposta) :-
     string_concat(Produtos, '\n', ProdutosConcatenados),
     string_concat(ProdutosConcatenados, Resposta1, Resposta).
 
+concatena_strings(ListaStrings, Resultado) :-
+    concatena_strings_aux(ListaStrings, '', Resultado).
+
+concatena_strings_aux([], Acumulador, Acumulador).
+concatena_strings_aux([String | Resto], Acumulador, Resultado) :-
+    atom_concat(Acumulador, String, NovoAcumulador),
+    concatena_strings_aux(Resto, NovoAcumulador, Resultado).
+
 organizaListagemCliente([], '').
 organizaListagemCliente([H|T], Resposta) :-
     organizaListagemCliente(T, Resposta1),

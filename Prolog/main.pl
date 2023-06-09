@@ -2,7 +2,7 @@
 :- include('cliente.pl').
 :- include('funcionario.pl').
 :- include('gerente.pl').
-:- include('utils.pl').
+:- consult('utils.pl').
 :- encoding(utf8).
 :- set_prolog_flag(encoding, utf8).
 
@@ -325,26 +325,16 @@ selecionadoGerente(3) :-
 
 selecionadoGerente(4) :-
   %Estatisticas de vendas
-  get_top_filmes_mais_alugados(Filmes_Mais_Alugados),
-  get_top_filmes_menos_alugados(Filmes_Menos_Alugados),
-  get_top_series_mais_alugadas(Series_Mais_Alugadas),
-  get_top_series_mais_alugadas(Series_Menos_Alugadas),
-  get_top_jogos_mais_alugados(Jogos_Mais_Alugados),
-  get_top_jogos_mais_alugados(Jogos_Menos_Alugados),
-
-  writeln('======== FILMES MAIS VENDIDOS ========'),
-  writeln(Filmes_Mais_Alugados),
-  writeln('======== FILMES MENOS VENDIDOS ========'),
-  writeln(Filmes_Menos_Alugados),
-  writeln('======== SÉRIES MAIS VENDIDAS ========'),
-  writeln(Series_Mais_Alugadas),
-  writeln('======== SÉRIES MENOS VENDIDAS ========'),
-  writeln(Series_Menos_Alugadas),
-  writeln('======== JOGOS MAIS VENDIDOS ========'),
-  writeln(Jogos_Mais_Alugados),
-  writeln('======== JOGOS MENOS VENDIDOS ========'),
-  writeln(Jogos_Menos_Alugados),
-
+  writeln('\n======== Locadora - Sistema - Gerente - Estatíticas ========\n'),
+  write('1- Estatistica de filmes\n'),
+  write('2- Estatistica de séries\n'),
+  write('3- Estatistica de jogos\n'),
+  write('4- Estatistica de renda\n'),
+  write('5- Menu principal\n'),
+  write('--->'),
+  read(Opcao),
+  write('\n'),
+  selecionadoSubopcaoGerente(Opcao),
   gerente.
 
 selecionadoGerente(5) :-
@@ -352,4 +342,46 @@ selecionadoGerente(5) :-
   main.
 
 selecionadoGerente(_) :- write('Opcao invalida'),
+  gerente.
+
+selecionadoSubopcaoGerente(1) :- 
+  get_top_filmes_mais_alugados(Filmes_Mais_Alugados),
+  get_top_filmes_menos_alugados(Filmes_Menos_Alugados),
+  writeln('======== FILMES MAIS ALUGADOS ========'),
+  writeln(Filmes_Mais_Alugados),
+  writeln('======== FILMES MENOS ALUGADOS ========'),
+  writeln(Filmes_Menos_Alugados),
+
+  gerente.
+
+selecionadoSubopcaoGerente(2) :- 
+  get_top_series_mais_alugadas(Series_Mais_Alugadas),
+  get_top_series_menos_alugadas(Series_Menos_Alugadas),
+  writeln('======== SÉRIES MAIS ALUGADAS ========'),
+  writeln(Series_Mais_Alugadas),
+  writeln('======== SÉRIES MENOS ALUGADAS ========'),
+  writeln(Series_Menos_Alugadas),
+
+  gerente.
+
+selecionadoSubopcaoGerente(3) :- 
+  get_top_jogos_mais_alugados(Jogos_Mais_Alugados),
+  get_top_jogos_menos_alugados(Jogos_Menos_Alugados),
+  writeln('======== JOGOS MAIS ALUGADOS ========'),
+  writeln(Jogos_Mais_Alugados),
+  writeln('======== JOGOS MENOS ALUGADOS ========'),
+  writeln(Jogos_Menos_Alugados),
+  
+  gerente.
+
+selecionadoSubopcaoGerente(4) :- 
+  writeln('======== ESTATÍSTICA DE RENDA ========'),
+  calcular_renda_total(Renda),
+  writeln(Renda),
+  gerente.
+
+selecionadoSubopcaoGerente(5) :- 
+  main.
+
+selecionadoSubopcaoGerente(6) :- write('Opcao invalida'),
   gerente.

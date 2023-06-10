@@ -18,7 +18,7 @@ generate_id(ID) :-
 % Inicializa o contador antes de usar a função
 :- initialization initialize_counter.
 
-%escolhe filme usando o idFilme e o idCliente e adiciona o filme selecionado ao carrinho correspondente ao cliente selecionado
+% Escolhe filme usando o idFilme e o idCliente e adiciona o filme selecionado ao carrinho correspondente ao cliente selecionado
 adicionaFilme(IdFilme, IdCliente, Resposta) :-
   atom_string(IDAtomf, IdFilme),
   get_filme_by_id(IDAtomf, Filme),
@@ -37,7 +37,7 @@ adicionaFilme(IdFilme, _, 'Cliente não existente') :-
 adicionaFilme(_, IdCliente, 'Filme não existente') :-
   atom_string(_, IdCliente).
 
-%escolhe serie usando o idSerie e o idCliente e adiciona a serie selecionada ao carrinho correspondente ao cliente selecionado
+% Escolhe serie usando o idSerie e o idCliente e adiciona a serie selecionada ao carrinho correspondente ao cliente selecionado
 adicionaSerie(IdSerie, IdCliente, Resposta) :-
   atom_string(IDAtoms, IdSerie),
   get_serie_by_id(IDAtoms, Serie),
@@ -56,7 +56,7 @@ adicionaSerie(IdSerie, _, 'Cliente não existente') :-
 adicionaSerie(_, IdCliente, 'Serie não existente') :-
   atom_string(_, IdCliente).
 
-%escolhe jogo usando o idJogo e o idCliente e adiciona o jogo selecionado ao carrinho correspondente ao cliente selecionado
+% Escolhe jogo usando o idJogo e o idCliente e adiciona o jogo selecionado ao carrinho correspondente ao cliente selecionado
 adicionaJogo(IdJogo, IdCliente, Resposta) :-
   atom_string(IDAtomj, IdJogo),
   get_jogo_by_id(IDAtomj, Jogo),
@@ -76,7 +76,7 @@ adicionaJogo(_, IdCliente, 'Jogo não existente') :-
   atom_string(_, IdCliente).  
 
 
-%Retorna o carrinho de um cliente especifico utilizando o IdCliente como referencia
+% Retorna o carrinho de um cliente especifico utilizando o IdCliente como referencia
 verCarrinho(IdCliente, Resposta) :-
   atom_string(IdAtom, IdCliente),
   get_cliente_by_id(IdAtom, Cliente),
@@ -85,3 +85,18 @@ verCarrinho(IdCliente, Resposta) :-
   Resposta = Carrinho.
 
 verCarrinho(_, "Cliente não existente").
+
+% Remove um produto referenciado pelo IdProduto de um carrinho de um cliente referenciado por IdCliente.
+removeProdutoCarrinho(IdProduto, IdCliente, Resposta) :-
+  atom_string(IdAtomc, IdCliente),
+  get_cliente_by_id(IdAtomc, Cliente),
+  Cliente \= -1,
+  atom_string(IdAtomp, IdProduto),
+  remove_produto_carrinho(IdAtomc, IdAtomp),
+  Resposta = 'Produto removido'.
+
+removeProdutoCarrinho(_, IdCliente, 'Produto não encontrado') :-
+  atom_string(_, IdCliente).
+
+removeProdutoCarrinho(IdProduto, _, 'Cliente não existente') :-
+  atom_string(_, IdProduto).

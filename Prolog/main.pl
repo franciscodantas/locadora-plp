@@ -129,8 +129,10 @@ selecionadoCliente(11) :-
   %Remover de carrinho
   write("Removendo do carrinho"),
   prompt("", _),
-  prompt("Cpf do cliente: "),
-  prompt(""),
+  prompt("Cpf do cliente: ", IdCliente),
+  prompt("Id do produto no carrinho: ", IdProduto),
+  removeProdutoCarrinho(IdProduto, IdCliente, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(12) :-

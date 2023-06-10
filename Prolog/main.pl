@@ -69,6 +69,13 @@ selecionadoCliente(1) :-
 
 selecionadoCliente(2) :-
   %Escolher filme
+  write('Aluguel de filme \n'),
+  prompt('', _),
+  prompt('Cpf do cliente: ', IdCliente),
+  prompt('Id do filme: ', IdFilme),
+  prompt('Data do Aluguel: ', DataCompra),
+  alugarFilme(IdCliente, DataCompra, IdFilme, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(3) :-
@@ -79,6 +86,13 @@ selecionadoCliente(3) :-
 
 selecionadoCliente(4) :-
   %Escolher serie
+  write('Aluguel de serie \n'),
+  prompt('', _),
+  prompt('Cpf do cliente: ', IdCliente),
+  prompt('Id da serie: ', IdSerie),
+  prompt('Data do Aluguel: ', DataCompra),
+  alugarSerie(IdCliente, DataCompra, IdSerie, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(5) :-
@@ -89,6 +103,13 @@ selecionadoCliente(5) :-
 
 selecionadoCliente(6) :-
   %Escolher jogo
+  write('Aluguel de jogo \n'),
+  prompt('', _),
+  prompt('Cpf do cliente: ', IdCliente),
+  prompt('Id do jogo: ', IdJogo),
+  prompt('Data do Aluguel: ', DataCompra),
+  alugarJogo(IdCliente, DataCompra, IdJogo, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(7) :-
@@ -117,11 +138,11 @@ selecionadoCliente(9) :-
 
 selecionadoCliente(10) :-
   %Adicionar Série ao carrinho
-  write("Escolha de serie \n"),
-  prompt("", _),
-  prompt("Id da serie: ", IdSerie),
-  prompt("Cpf do cliente: ", IdCliente),
-  adicionaSerie(IdSerie, IdCliente, Reposta),
+  write('Escolha de serie \n'),
+  prompt('', _),
+  prompt('Id da serie: ', IdSerie),
+  prompt('Cpf do cliente: ', IdCliente),
+  adicionaSerie(IdSerie, IdCliente, Resposta),
   write(Resposta),
   cliente.
 

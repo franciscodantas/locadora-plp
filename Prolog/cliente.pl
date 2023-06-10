@@ -100,3 +100,75 @@ removeProdutoCarrinho(_, IdCliente, 'Produto não encontrado') :-
 
 removeProdutoCarrinho(IdProduto, _, 'Cliente não existente') :-
   atom_string(_, IdProduto).
+
+% Adiciona o jogo referente ao IdProduto ao historico de um cliente referente ao IdCliente utilizando o DataCompra como parametro de tempo de aluguel.
+alugarJogo(IdCliente, DataCompra, IdProduto, Resposta) :-
+  atom_string(IdAtomc, IdCliente),
+  get_cliente_by_id(IdAtomc, Cliente),
+  Cliente \= -1,
+  atom_string(IdAtomj, IdProduto),
+  get_jogo_by_id(IdAtomj, Jogo),
+  Jogo \= -1,
+  atom_string(Data, DataCompra),
+  generate_id(IdElemento),
+  adiciona_produto_historico(IdAtomc, IdElemento, Data, IdAtomj, 'jogo'),
+  add_historico_geral(IdElemento, Data, IdAtomj, 'jogo', IdAtomc),
+  Resposta = 'Jogo alugado com sucesso'.
+
+alugarJogo(_, DataCompra, IdProduto, 'Cliente não existente') :-
+  atom_string(_, DataCompra),
+  atom_string(_, IdProduto).
+alugarJogo(IdCliente, _, IdProduto, 'Data invalida') :- 
+  atom_string(_, IdProduto),
+  atom_string(_, IdCliente).
+alugarJogo(IdCliente, DataCompra, _, 'Produto não encontrado') :- 
+  atom_string(_, DataCompra),
+  atom_string(_, IdCliente).
+
+% Adiciona o filme referente ao IdProduto ao historico de um cliente referente ao IdCliente utilizando o DataCompra como parametro de tempo de aluguel.
+alugarFilme(IdCliente, DataCompra, IdProduto, Resposta) :-
+  atom_string(IdAtomc, IdCliente),
+  get_cliente_by_id(IdAtomc, Cliente),
+  Cliente \= -1,
+  atom_string(IdAtomf, IdProduto),
+  get_filme_by_id(IdAtomf, Filme),
+  Filme \= -1,
+  atom_string(Data, DataCompra),
+  generate_id(IdElemento),
+  adiciona_produto_historico(IdAtomc, IdElemento, Data, IdAtomf, 'filme'),
+  add_historico_geral(IdElemento, Data, IdAtomf, 'filme', IdAtomc)
+  Resposta = 'Filme alugado com sucesso'.
+
+alugarFilme(_, DataCompra, IdProduto, 'Cliente não existente') :- 
+  atom_string(_, DataCompra),
+  atom_string(_, IdProduto).
+alugarFilme(IdCliente, _, IdProduto, 'Data invalida') :- 
+  atom_string(_, IdProduto),
+  atom_string(_, IdCliente).
+alugarFilme(IdCliente, DataCompra, _, 'Produto não encontrado'):-
+  atom_string(_, DataCompra),
+  atom_string(_, IdCliente).
+
+% Adiciona a serie referente ao IdProduto ao historico de um cliente referente ao IdCliente utilizando o DataCompra como parametro de tempo de aluguel.
+alugarSerie(IdCliente, DataCompra, IdProduto, Resposta) :-
+  atom_string(IdAtomc, IdCliente),
+  get_cliente_by_id(IdAtomc, Cliente),
+  Cliente \= -1,
+  atom_string(IdAtoms, IdProduto),
+  get_serie_by_id(IdAtoms, Serie),
+  Serie \= -1,
+  atom_string(Data, DataCompra),
+  generate_id(IdElemento),
+  adiciona_produto_historico(IdAtomc, IdElemento, Data, IdAtoms, 'serie'),
+  add_historico_geral(IdElemento, Data, IdAtoms, 'serie', IdAtomc)
+  Resposta = 'Serie alugada com sucesso'.
+
+alugarSerie(_, DataCompra, IdProduto, 'Cliente não existente') :-
+  atom_string(_, DataCompra),
+  atom_string(_, IdProduto).
+alugarSerie(IdCliente, _, IdProduto, 'Data invalida') :-
+  atom_string(_, IdProduto),
+  atom_string(_, IdCliente).
+alugarSerie(IdCliente, DataCompra, _, 'Produto não encontrado') :-
+  atom_string(_, DataCompra),
+  atom_string(_, IdCliente).

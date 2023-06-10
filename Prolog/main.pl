@@ -1,5 +1,5 @@
 :- initialization (main).
-:- include('cliente.pl').
+:- consult('cliente.pl').
 :- include('funcionario.pl').
 :- include('gerente.pl').
 :- consult('utils.pl').
@@ -97,22 +97,48 @@ selecionadoCliente(7) :-
 
 selecionadoCliente(8) :-
   %Adicionar Filme ao carrinho
+  write('Escolha de filme \n'),
+  prompt('', _),
+  prompt('Id do filme: ', IdFilme),
+  prompt('Cpf do cliente: ', IdCliente),
+  adicionaFilme(IdFilme, IdCliente, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(9) :-
   %Adicionar Jogo ao carrinho
+  write('Escolha de jogo \n'),
+  prompt('', _),
+  prompt('Id do jogo: ', IdJogo),
+  prompt("Cpf do cliente: ", IdCliente),
+  adicionaJogo(IdJogo, IdCliente, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(10) :-
   %Adicionar Série ao carrinho
+  write("Escolha de serie \n"),
+  prompt("", _),
+  prompt("Id da serie: ", IdSerie),
+  prompt("Cpf do cliente: ", IdCliente),
+  adicionaSerie(IdSerie, IdCliente, Reposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(11) :-
   %Remover de carrinho
+  write("Removendo do carrinho"),
+  prompt("", _),
+  prompt("Cpf do cliente: "),
+  prompt(""),
   cliente.
 
 selecionadoCliente(12) :-
   %Ver carrinho
+  prompt('', _),
+  prompt('Cpf do cliente: ', IdCliente),
+  verCarrinho(IdCliente, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(13) :-

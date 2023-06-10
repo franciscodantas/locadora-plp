@@ -136,7 +136,7 @@ alugarFilme(IdCliente, DataCompra, IdProduto, Resposta) :-
   atom_string(Data, DataCompra),
   generate_id(IdElemento),
   adiciona_produto_historico(IdAtomc, IdElemento, Data, IdAtomf, 'filme'),
-  add_historico_geral(IdElemento, Data, IdAtomf, 'filme', IdAtomc)
+  add_historico_geral(IdElemento, Data, IdAtomf, 'filme', IdAtomc),
   Resposta = 'Filme alugado com sucesso'.
 
 alugarFilme(_, DataCompra, IdProduto, 'Cliente não existente') :- 
@@ -160,7 +160,7 @@ alugarSerie(IdCliente, DataCompra, IdProduto, Resposta) :-
   atom_string(Data, DataCompra),
   generate_id(IdElemento),
   adiciona_produto_historico(IdAtomc, IdElemento, Data, IdAtoms, 'serie'),
-  add_historico_geral(IdElemento, Data, IdAtoms, 'serie', IdAtomc)
+  add_historico_geral(IdElemento, Data, IdAtoms, 'serie', IdAtomc),
   Resposta = 'Serie alugada com sucesso'.
 
 alugarSerie(_, DataCompra, IdProduto, 'Cliente não existente') :-

@@ -13,8 +13,8 @@ main :-
   write('2 - Funcionario\n'),
   write('3 - Gerencia\n'),
   write('4 - Sair\n'),
-  write('---->'),
-  read(Opcao),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionado(Opcao).
 
@@ -55,8 +55,8 @@ cliente :-
   write('13 - Recomendações\n'),
   write('14 - Listar histórico cliente\n'),
   write('15 - menu principal\n'),
-  write('--->'),
-  read(Opcao),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionadoCliente(Opcao).
 
@@ -199,8 +199,8 @@ funcionario :-
   write('12 - Cadastrar jogo\n'),
   write('13 - Exlcuir jogo\n'),
   write('14 - menu principal\n'),
-  write('--->'),
-  read(Opcao),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionadoFuncionario(Opcao).
 
@@ -345,8 +345,8 @@ gerente :-
   write('3- Listar funcionários\n'),
   write('4- Estatisticas de vendas\n'),
   write('5- menu principal\n'),
-  write('--->'),
-  read(Opcao),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionadoGerente(Opcao).
 
@@ -384,8 +384,8 @@ selecionadoGerente(4) :-
   write('3- Estatistica de jogos\n'),
   write('4- Estatistica de renda\n'),
   write('5- Menu principal\n'),
-  write('--->'),
-  read(Opcao),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionadoSubopcaoGerente(Opcao),
   gerente.

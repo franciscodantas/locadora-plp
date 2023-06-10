@@ -17,6 +17,16 @@ listaClientes(Resposta) :-
     get_cientes(Data),
     organizaListagemCliente(Data, Resposta).
 
+organizaListagemCarrinho([], '').
+organizaListagemCarrinho([H|T], Resposta) :- 
+    organizaListagemCarrinho(T, Resposta1),
+    extract_info_carrinho(H, _, IdProduto, Tipo),
+    get_info(IdProduto, Tipo, Nome, Descricao),
+    string_concat(Nome, ' - ', NomeLinha),
+    string_concat(NomeLinha, Descricao, NomeLinhaComQuebraDeLinha),
+    string_concat(NomeLinhaComQuebraDeLinha, '\n\n', NomeLinhaComQuebraDeLinhaComQuebraDeLinha),
+    string_concat(NomeLinhaComQuebraDeLinhaComQuebraDeLinha, Resposta1, Resposta).
+
 organizaListagemHistorico([], '').
 organizaListagemHistorico([H|T], Resposta) :- 
     organizaListagemHistorico(T, Resposta1),

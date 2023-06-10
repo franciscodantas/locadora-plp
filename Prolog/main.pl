@@ -149,6 +149,10 @@ selecionadoCliente(13) :-
 
 selecionadoCliente(14) :-
   %Listar histórico cliente
+  prompt('', _),
+  prompt('Digite o CPF do cliente: ', ID),
+  exibirHistoricoCliente(ID, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(15) :-

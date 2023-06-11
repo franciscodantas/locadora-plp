@@ -154,7 +154,6 @@ selecionadoCliente(14) :-
   write(Resposta),
   cliente.
   
-
 selecionadoCliente(15) :-
   prompt('Seu Id: ', Id),
   valida_cliente(Id),

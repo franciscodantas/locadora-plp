@@ -260,7 +260,6 @@ selecionadoFuncionario(3) :-
 
 selecionadoFuncionario(4) :-
   %Cadastrar cliente
-  prompt('', _),
   prompt('Digite o nome do cliente: ', Nome),
   prompt('Digite o CPF do cliente: ', ID),
   prompt('Digite o seu Id: ', IdFuncionario),
@@ -278,7 +277,6 @@ selecionadoFuncionario(5) :-
 
 selecionadoFuncionario(6) :-
     %Encerrar cadastro de cliente
-    prompt('', _),
     prompt('Digite o CPF do cliente: ', ID),
     prompt('Digite o seu Id: ', IdFuncionario),
     prompt('Digite a senha: ', Senha),
@@ -288,7 +286,6 @@ selecionadoFuncionario(6) :-
 
 selecionadoFuncionario(7) :-
     %Exibir historico cliente
-    prompt('', _),
     prompt('Digite o CPF do cliente: ', ID),
     exibirHistoricoCliente(ID, Resposta),
     write(Resposta),
@@ -296,7 +293,6 @@ selecionadoFuncionario(7) :-
 
 selecionadoFuncionario(8) :-
     %Cadastrar série
-    prompt('', _),
     prompt('Digite o nome da série: ', Nome),
     prompt('Digite o ID da série: ', ID),
     prompt('Digite o ID do funcionário: ', IdFuncionario),
@@ -310,7 +306,6 @@ selecionadoFuncionario(8) :-
 
 selecionadoFuncionario(9) :-
     %Excluir série
-    prompt('', _),
     prompt('Digite o ID da série: ', ID),
     prompt('Digite o ID do funcionário: ', IdFuncionario),
     prompt('Digite a senha: ', Senha),
@@ -320,7 +315,6 @@ selecionadoFuncionario(9) :-
 
 selecionadoFuncionario(10) :-
     %Cadastrar filme
-    prompt('', _),
     prompt('Digite o nome do filme: ', Nome),
     prompt('Digite o ID do filme: ', ID),
     prompt('Digite o ID do funcionário: ', IdFuncionario),
@@ -334,7 +328,6 @@ selecionadoFuncionario(10) :-
 
 selecionadoFuncionario(11) :-
     %Excluir filme
-    prompt('', _),
     prompt('Digite o ID do filme: ', ID),
     prompt('Digite o ID do funcionário: ', IdFuncionario),
     prompt('Digite a senha: ', Senha),
@@ -344,7 +337,6 @@ selecionadoFuncionario(11) :-
 
 selecionadoFuncionario(12) :-
     %Cadastrar jogo
-    prompt('', _),
     prompt('Digite o nome do jogo: ', Nome),
     prompt('Digite o ID do jogo: ', ID),
     prompt('Digite o ID do funcionário: ', IdFuncionario),
@@ -358,7 +350,6 @@ selecionadoFuncionario(12) :-
 
 selecionadoFuncionario(13) :-
     %Exlcuir jogo
-    prompt('', _),
     prompt('Digite o ID do jogo: ', ID),
     prompt('Digite o ID do funcionário: ', IdFuncionario),
     prompt('Digite a senha: ', Senha),
@@ -388,7 +379,6 @@ gerente :-
 
 selecionadoGerente(1) :-
     %Cadastrar funcionário
-    prompt('', _),
     prompt('Digite o nome do funcionário: ', Nome),
     prompt('Digite o ID do funcionário: ', Id),
     prompt('Digite a senha do Funcionário: ', SenhaFunc),
@@ -400,7 +390,6 @@ selecionadoGerente(1) :-
     
 selecionadoGerente(2) :-
     %Exibir funcionário
-    prompt('', _),
     prompt('Digite o ID do funcionário: ', ID),
     exibirFuncionario(ID, Resposta),
     write(Resposta),

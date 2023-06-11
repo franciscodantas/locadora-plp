@@ -408,7 +408,8 @@ selecionadoGerente(4) :-
   write('2- Estatistica de séries\n'),
   write('3- Estatistica de jogos\n'),
   write('4- Estatistica de renda\n'),
-  write('5- Menu principal\n'),
+  write('5- Estatistica de quantidades\n'),
+  write('6- Menu principal\n'),
   prompt('----> ', Input),
   atom_number(Input, Opcao),
   write('\n'),
@@ -459,7 +460,29 @@ selecionadoSubopcaoGerente(4) :-
     gerente.
 
 selecionadoSubopcaoGerente(5) :- 
+    totalFuncionarios(FuncionariosT),
+    totalFilmes(FilmesT),
+    totalUsuarios(ClienteT),
+    totalJogos(JogosT),
+    totalSeries(SeriesT),
+    totalClientesPedidosNaoFinalizado(ClientePNF),
+    writeln('======== ESTATÍSTICA DE QUANTIDADES ========'),
+    write('Total de funcionarios: '),
+    writeln(FuncionariosT),
+    write('Total de filmes: '),
+    writeln(FilmesT),
+    write('Total de clientes: '),
+    writeln(ClienteT),
+    write('Total de jogos: '),
+    writeln(JogosT),
+    write('Total de series: '),
+    writeln(SeriesT),
+    write('Pedidos não finalizados: '),
+    writeln(ClientePNF),
+    gerente.
+
+selecionadoSubopcaoGerente(6) :- 
     main.
 
-selecionadoSubopcaoGerente(6) :- write('Opcao invalida'),
+selecionadoSubopcaoGerente(7) :- write('Opcao invalida'),
     gerente.

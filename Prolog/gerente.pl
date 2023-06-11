@@ -113,3 +113,38 @@ calcula_renda_produtos([ProdutoAtual|ProdutosRestantes], RendaAcumulada, RendaTo
     NovaRendaAcumulada is RendaAcumulada + Renda,
     calcula_renda_produtos(ProdutosRestantes, NovaRendaAcumulada, RendaTotal).
 
+%-----
+totalFuncionarios(Quantidade) :-
+    get_funcionarios(Funcionarios),
+    length(Funcionarios, Quantidade).
+
+totalUsuarios(Quantidade) :-
+    get_cientes(Usuarios),
+    length(Usuarios, Quantidade).
+
+totalJogos(Quantidade) :-
+    get_jogos(Jogos),
+    length(Jogos, Quantidade).
+
+totalFilmes(Quantidade) :-
+    get_filmes(Filmes),
+    length(Filmes, Quantidade).
+
+totalSeries(Quantidade) :-
+    get_series(Series),
+    length(Series, Quantidade).
+
+%nao finalizados
+totalClientesPedidosNaoFinalizado(Quantidade) :-
+    get_cientes(Usuarios),
+    clientesPedidosNaoFinalizado(Usuarios, 0, Quantidade).
+
+clientesPedidosNaoFinalizado([], Count, Count).
+clientesPedidosNaoFinalizado([Cliente|Resto], Acumulado, Count) :-
+    extract_info_clientes(Cliente, _, _, Carrinho, _),
+    length(Carrinho, Length),
+    Length \= 0,
+    NovoAcumulado is Acumulado + 1,
+    clientesPedidosNaoFinalizado(Resto, NovoAcumulado, Count).
+clientesPedidosNaoFinalizado([_|Resto], Acumulado, Count) :-
+    clientesPedidosNaoFinalizado(Resto, Acumulado, Count).

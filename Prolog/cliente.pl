@@ -247,7 +247,7 @@ get_recomendacoes_gerais(2, Resposta) :-
 
 % Recomendações de jogos
 get_recomendacoes_gerais(3, Resposta) :- 
-    get_series(Produtos),
+    get_jogos(Produtos),
     get_n_destaques(Produtos, 3, 'mais_alugado', [], R),
     organizaListagemProdutos(R, Resposta).
 
@@ -261,7 +261,7 @@ get_recomendacoes_especificas(1, Historico, Resposta) :-
     get_n_destaques(Recs, 3, 'mais_alugado', [], R), % 3 mais alugados da lista anterior 
     length(R, LenHist),
     (LenHist = 0 -> 
-        get_recomendacoes_gerais(2, Resposta);
+        get_recomendacoes_gerais(1, Resposta);
         organizaListagemProdutos(R, Resposta)).
 
 % Próximos predicados de recomendação seguem a mesma lógica do anterior.
@@ -279,16 +279,16 @@ get_recomendacoes_especificas(2, Historico, Resposta) :-
         organizaListagemProdutos(R, Resposta)).
 
 % Recomendações de jogos
-get_recomendacoes_especificas(2, Historico, Resposta) :- 
+get_recomendacoes_especificas(3, Historico, Resposta) :- 
     getProdTipoHistorico(Historico, [], HisJogos, 'jogo'),
     listaCategorias(HisJogos, [], Categorias),
     get_jogos(TodosJogos),
-    listaNuncaAlugados(HisJogos, TodasSeries, [], NuncaAlugados),
+    listaNuncaAlugados(HisJogos, TodosJogos, [], NuncaAlugados),
     listaRecs(Categorias, NuncaAlugados, [], Recs),
     get_n_destaques(Recs, 3, 'mais_alugado', [], R),
     length(R, LenHist),
     (LenHist = 0 -> 
-        get_recomendacoes_gerais(2, Resposta);
+        get_recomendacoes_gerais(3, Resposta);
         organizaListagemProdutos(R, Resposta)).
 
 exibeHistorico(Id, Resposta) :-
@@ -296,7 +296,6 @@ exibeHistorico(Id, Resposta) :-
     get_cliente_by_id(IDAtom, Cliente),
     extract_info_clientes(Cliente, _, _, _, Historico),
     organizaListagemHistorico(Historico, Resposta).
-
 
 getProdTipoHistorico([], Res, Res, _).
 getProdTipoHistorico([H|T], Lista, Res, Tipo) :-

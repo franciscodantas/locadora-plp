@@ -113,3 +113,88 @@ calcula_renda_produtos([ProdutoAtual|ProdutosRestantes], RendaAcumulada, RendaTo
     NovaRendaAcumulada is RendaAcumulada + Renda,
     calcula_renda_produtos(ProdutosRestantes, NovaRendaAcumulada, RendaTotal).
 
+/*
+%estatistica
+rendaFilmes(Resposta) :-
+    get_filmes(Filmes),
+    calculaRendaFilmes(Filmes, 0, Resposta).
+
+calculaRendaFilmes([], SomaAtual, SomaAtual).
+calculaRendaFilmes([Filme | Tail], SomaAtual, SomaFinal) :-
+    extract_info_produtos(Filme, _, _, _, _, PrecoPorDia, QtdAlugueis),
+    RendaFilme is PrecoPorDia * QtdAlugueis,
+    NovaSoma is SomaAtual + RendaFilme,
+    calculaRendaFilmes(Tail, NovaSoma, SomaFinal).
+
+rendaJogos(Resposta) :-
+    get_jogos(Jogos),
+    calculaRendaJogos(Jogos, 0, Resposta).
+
+calculaRendaJogos([], SomaAtual, SomaAtual).
+calculaRendaJogos([Jogo | Tail], SomaAtual, SomaFinal) :-
+    extract_info_produtos(Jogo, _, _, _, _, PrecoPorDia, QtdAlugueis),
+    RendaJogo is PrecoPorDia * QtdAlugueis,
+    NovaSoma is SomaAtual + RendaJogo,
+    calculaRendaJogos(Tail, NovaSoma, SomaFinal).
+
+rendaSeries(Resposta) :-
+    get_series(Series),
+    calculaRendaSeries(Series, 0, Resposta).
+
+calculaRendaSeries([], SomaAtual, SomaAtual).
+calculaRendaSeries([Serie | Tail], SomaAtual, SomaFinal) :-
+    extract_info_produtos(Serie, _, _, _, _, PrecoPorDia, QtdAlugueis),
+    RendaSerie is PrecoPorDia * QtdAlugueis,
+    NovaSoma is SomaAtual + RendaSerie,
+    calculaRendaSeries(Tail, NovaSoma, SomaFinal).
+
+rendaTotal(RendaTotal) :-
+    rendaFilmes(RendaFilmes),
+    rendaJogos(RendaJogos),
+    rendaSeries(RendaSeries),
+    RendaTotal is RendaFilmes + RendaJogos + RendaSeries.
+
+totalFuncionarios(Quantidade) :-
+    get_funcionarios(Funcionarios),
+    length(Funcionarios, Quantidade).
+
+totalUsuarios(Quantidade) :-
+    get_cientes(Usuarios),
+    length(Usuarios, Quantidade).
+
+totalJogos(Quantidade) :-
+    get_jogos(Jogos),
+    length(Jogos, Quantidade).
+
+totalFilmes(Quantidade) :-
+    get_filmes(Filmes),
+    length(Filmes, Quantidade).
+
+totalSeries(Quantidade) :-
+    get_series(Series),
+    length(Series, Quantidade).
+
+totalJogosDisponiveis(Quantidade) :-
+    get_jogos(Jogos),
+    countJogosDisponiveis(Jogos, 0, Quantidade).
+
+countJogosDisponiveis([], Count, Count).
+countJogosDisponiveis([Jogo|Tail], Acumulado, Count) :-
+    extract_info_produtos(Jogo, _, _, _, _, _, QtdAlugueis),
+    (QtdAlugueis = 0 -> NovoAcumulado is Acumulado + 1; NovoAcumulado is Acumulado),
+    countJogosDisponiveis(Tail, NovoAcumulado, Count).
+
+totalClientesPedidosNaoFinalizado(Quantidade) :-
+    get_cientes(Usuarios),
+    clientesPedidosNaoFinalizado(Usuarios, 0, Quantidade).
+
+clientesPedidosNaoFinalizado([], Count, Count).
+clientesPedidosNaoFinalizado([Cliente|Resto], Acumulado, Count) :-
+    extract_info_clientes(Cliente, _, _, Carrinho, _),
+    length(Carrinho, Length),
+    Length =:= 0,
+    NovoAcumulado is Acumulado + 1,
+    clientesPedidosNaoFinalizado(Resto, NovoAcumulado, Count).
+clientesPedidosNaoFinalizado([_|Resto], Acumulado, Count) :-
+    clientesPedidosNaoFinalizado(Resto, Acumulado, Count).
+*/

@@ -463,3 +463,86 @@ selecionadoSubopcaoGerente(5) :-
 
 selecionadoSubopcaoGerente(6) :- write('Opcao invalida'),
     gerente.
+
+
+/*
+selecionadoGerente(4) :-
+  %Estatisticas de vendas
+  estatistica,
+
+  rendaFilmes(RendaF),
+  write("Total da renda de Filmes: "), write(RendaF), nl,
+  rendaJogos(RendaJ), 
+  write("Total da renda de Jogos: "), write(RendaJ), nl,
+  rendaSeries(RendaS), 
+  write("Total da renda de Series: "), write(RendaS), nl,
+  rendaTotal(RendaT), 
+  write("A renda total: "), write(RendaT), nl,
+  totalFuncionarios(FuncionariosT), 
+  write("Total de funcionários: "), write(FuncionariosT), nl,
+  totalFuncionarios(FuncionariosT), 
+  write("Total de funcionários: "), write(FuncionariosT), nl,
+  gerente.
+
+selecionadoGerente(5) :-
+  %menu principal
+  main.
+
+selecionadoGerente(_) :- write('Opcao invalida'),
+  gerente.
+
+estatistica :- 
+  writeln('\n======== Locadora - Sistema - Gerencia - Estatistica ========\n'),
+  write('1- Estatistica de renda\n'),
+  write('2- Quantidade usuarios\n'),
+  write('3- Clientes com carrinho abandonado\n'),
+  write('4- Quantidade produtos\n'),
+  write('5- menu principal\n'),
+  write('--->'),
+  read(Opcao),
+  write('\n'),
+  selecionadoEstatistica(Opcao).
+
+
+selecionadoEstatistica(1) :- 
+  rendaFilmes(RendaF),
+  write("Total da renda de Filmes: "), write(RendaF), nl,
+  rendaJogos(RendaJ), 
+  write("Total da renda de Jogos: "), write(RendaJ), nl,
+  rendaSeries(RendaS), 
+  write("Total da renda de Series: "), write(RendaS), nl,
+  rendaTotal(RendaT),
+  write("-------------------------------------------"), nl,
+  write("A renda total: "), write(RendaT), nl,
+  estatistica.
+
+selecionadoEstatistica(2) :- 
+  totalFuncionarios(FuncionariosT), 
+  write("Total de funcionários: "), write(FuncionariosT), nl,
+  totalUsuarios(UsuariosT), 
+  write("Total de usuarios: "), write(UsuariosT), nl,
+  estatistica.
+
+selecionadoEstatistica(3) :- 
+  %quantos estão com item no carrinho
+  totalClientesPedidosNaoFinalizado(ClientesPNF),
+  write("Quantidade de clientes que não finalizaram a compra: "), write(ClientesPNF), nl,
+  estatistica.
+
+selecionadoEstatistica(4) :- 
+  totalFilmes(FilmesT),
+  write("Quantidade de filmes disponiveis: "), write(FilmesT), nl,
+  totalJogos(JogosT),
+  write("Quantidade de jogos disponiveis: "), write(JogosT), nl,
+  totalSeries(SeriesT),
+  write("Quantidade de series disponiveis: "), write(SeriesT), nl,
+  estatistica.
+
+selecionadoEstatistica(5) :-
+  %menu principal
+  main.
+
+ selecionadoEstatistica(_) :- write('Opcao invalida'),
+  estatistica. 
+
+*/

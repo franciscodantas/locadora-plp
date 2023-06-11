@@ -56,36 +56,6 @@ validaGerente(IdGerente, Senha, Resposta) :-
     Gerente \= -1,
     Resposta = 'Gerente validado!', !.
 
-/* As regras get_produto_em_destaque e seleciona_aluguel_destaque são
-responsáveis por selecionar o produto em detaque positivo ou negativo
-em relação ao aluguel. O produto com maior número de alugueis
-pode ser obtido passando o átomo 'mais_alugado' para as regras.
-Já o produto com menor número de alugueis pode ser obtido 
-passando o átomo 'menos_alugado' para as regras */
-seleciona_aluguel_destaque('mais_alugado', QtdAlugueis1, QtdAlugueis2, Produto1, Produto2, Destaque) :- 
-    (QtdAlugueis1 > QtdAlugueis2 -> Destaque = Produto1 ; Destaque = Produto2).
-seleciona_aluguel_destaque('menos_alugado', QtdAlugueis1, QtdAlugueis2, Produto1, Produto2, Destaque) :- 
-    (QtdAlugueis1 > QtdAlugueis2 -> Destaque = Produto2 ; Destaque = Produto1).
-
-get_produto_em_destaque([], _, Produto_Maior_Atual, Produto_Maior_Atual).
-get_produto_em_destaque([Produto_Atual | Tail], Tipo_Destaque, Produto_Maior_Atual, Produto_Maior_Final) :- 
-    extract_info_produtos(Produto_Atual, _, _, _, _, _, QtdAlugueis_Atual),
-    extract_info_produtos(Produto_Maior_Atual, _, _, _, _, _, QtdAlugueis_Maior),
-    seleciona_aluguel_destaque(Tipo_Destaque, QtdAlugueis_Atual, QtdAlugueis_Maior, Produto_Atual, Produto_Maior_Atual, Novo_Maior),
-    get_produto_em_destaque(Tail, Tipo_Destaque, Novo_Maior, Produto_Maior_Final).
-
-/* Essa regra é responsável por pegar 'n' produtos em destaque.
-O destaque pode ser os 'n' produtos mais alugados ou os 'n' produtos
-menos alugados */
-get_n_destaques(_, 0, _, Destaques_Atuais, Destaques_Atuais_Dec) :- reverse(Destaques_Atuais, Destaques_Atuais_Dec).
-get_n_destaques([], _, _, Destaques_Atuais, Destaques_Atuais_Dec) :- reverse(Destaques_Atuais, Destaques_Atuais_Dec).
-get_n_destaques(Produtos, N, Tipo_Destaque, Destaques_Atuais, Destaques_Finais) :- 
-    [Primeiro_Produto | _] = Produtos,
-    get_produto_em_destaque(Produtos, Tipo_Destaque, Primeiro_Produto, Destaque),
-    Novos_Destaques = [Destaque | Destaques_Atuais],
-    remove_object(Produtos, Destaque, Novos_Produtos),
-    Novo_N is N - 1,
-    get_n_destaques(Novos_Produtos, Novo_N, Tipo_Destaque, Novos_Destaques, Destaques_Finais).
 
 /* Essa regra é responsável por pegar os 3 filmes mais alugados do sistema */
 get_top_filmes_mais_alugados(Resposta) :- 

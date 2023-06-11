@@ -7,7 +7,6 @@
 :- use_module(library(random)).
 
 alugaFilme(ID, NomeFilme, 1):-
-    prompt('', _),
     prompt('Quantidade de dias: ', Dias),
     number_string(DiasNum, Dias),
     atom_string(NomeFilmeAtom, NomeFilme),
@@ -22,7 +21,6 @@ alugaFilme(ID, NomeFilme, 1):-
     format('Aluguel de ~s realizado por ~2f reais.', [NomeFilme, Valor]).
 
 alugaFilme(ID, NomeFilme, 2):-
-    prompt('', _),
     prompt('Quantidade de semanas: ', Semanas),
     number_string(SemanasNum, Semanas),
     atom_string(NomeFilmeAtom, NomeFilme),
@@ -37,7 +35,6 @@ alugaFilme(ID, NomeFilme, 2):-
     format('Aluguel de ~s realizado por ~2f reais.', [NomeFilme, Valor]).
 
 alugaSerie(ID, NomeSerie, 1):-
-    prompt('', _),
     prompt('Quantidade de dias: ', Dias),
     number_string(DiasNum, Dias),
     atom_string(NomeSerieAtom, NomeSerie),
@@ -52,7 +49,6 @@ alugaSerie(ID, NomeSerie, 1):-
     format('Aluguel de ~s realizado por ~2f reais.', [NomeSerie, Valor]).
 
 alugaSerie(ID, NomeSerie, 2):-
-    prompt('', _),
     prompt('Quantidade de semanas: ', Semanas),
     number_string(SemanasNum, Semanas),
     atom_string(NomeSerieAtom, NomeSerie),
@@ -67,7 +63,6 @@ alugaSerie(ID, NomeSerie, 2):-
     format('Aluguel de ~s realizado por ~2f reais.', [NomeSerie, Valor]).
 
 alugaJogo(ID, NomeJogo, 1):-
-    prompt('', _),
     prompt('Quantidade de dias: ', Dias),
     number_string(DiasNum, Dias),
     atom_string(NomeJogoAtom, NomeJogo),
@@ -82,7 +77,6 @@ alugaJogo(ID, NomeJogo, 1):-
     format('Aluguel de ~s realizado por ~2f reais.', [NomeJogo, Valor]).
 
 alugaJogo(ID, NomeJogo, 2):-
-    prompt('', _),
     prompt('Quantidade de semanas: ', Semanas),
     number_string(SemanasNum, Semanas),
     atom_string(NomeJogoAtom, NomeJogo),
@@ -97,7 +91,6 @@ alugaJogo(ID, NomeJogo, 2):-
     format('Aluguel de ~s realizado por ~2f reais.', [NomeJogo, Valor]).
 
 produtoPorCategoria(1) :-
-    prompt('', _),
     prompt('Categoria: ', Categoria),
     atom_string(CatAtom, Categoria),
     get_objects_by_categoria('DataBase/Filme.json', CatAtom, Filmes),
@@ -105,7 +98,6 @@ produtoPorCategoria(1) :-
     write(FilmesListagem).
 
 produtoPorCategoria(2) :-
-    prompt('', _),
     prompt('Categoria: ', Categoria),
     atom_string(CatAtom, Categoria),
     get_objects_by_categoria('DataBase/Serie.json', CatAtom, Series),
@@ -113,7 +105,6 @@ produtoPorCategoria(2) :-
     write(SeriesListagem).
 
 produtoPorCategoria(3) :-
-    prompt('', _),
     prompt('Categoria: ', Categoria),
     atom_string(CatAtom, Categoria),
     get_objects_by_categoria('DataBase/Jogo.json', CatAtom, Jogos),
@@ -175,7 +166,6 @@ exibeCarrinho(Id, Resposta) :-
     organizaListagemCarrinho(Carrinho, Resposta).
 
 alugaCarrinho(Id, 1) :- 
-    prompt('', _),
     prompt('Quantidade de dias: ', Dias),
     number_string(DiasNum, Dias),
     atom_string(IDAtom, Id),
@@ -185,7 +175,6 @@ alugaCarrinho(Id, 1) :-
     format('Produtos alugados por ~2f reais.', [Total * DiasNum]).
 
 alugaCarrinho(Id, 2) :- 
-    prompt('', _),
     prompt('Quantidade de semanas: ', Semanas),
     number_string(SemanasNum, Semanas),
     atom_string(IDAtom, Id),
@@ -228,7 +217,6 @@ alugaProdutoId(Id, 'jogo', PrecoPorDia, IdCliente) :-
 
 get_recomendacoes(ID, Opc, Resposta) :- 
     atom_string(IDAtom, ID),
-    get_cliente_by_id(IDAtom, Cliente),
     get_cliente_historico(IDAtom, Historico),
     length(Historico, LenHist),
     (LenHist = 0 -> get_recomendacoes_gerais(Opc, Resposta); get_recomendacoes_especificas(Opc, Historico, Resposta)).

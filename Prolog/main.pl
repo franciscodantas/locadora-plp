@@ -30,8 +30,9 @@ selecionado(3) :-
   gerente,
   main.
 
-selecionado(4) :- write('Saindo...'), 
-halt.
+selecionado(4) :- 
+  write('Saindo...'), 
+  halt.
 
 selecionado(_) :-
   write('Selecione uma opção válida'),
@@ -174,21 +175,21 @@ subMenuDiasSemanas(Opc) :-
   write('1 - Alugar por dias\n'),
   write('2 - Alugar por semanas\n'),
   prompt('----> ', Input),
-  atom_number(Input, Opc).
+  number_string(Opc, Input).
 
 subMenuCategoria(Opc) :-
   write('1 - Filmes por categoria\n'),
   write('2 - Series por categoria\n'),
   write('3 - Jogos por categoria\n'),
   prompt('----> ', Input),
-  atom_number(Input, Opc).
+  number_string(Opc, Input).
 
 subMenuRecs(Opc) :-
   write('1 - Recomendações de filmes\n'),
   write('2 - Recomendações de séries\n'),
   write('3 - Recomendações de jogos\n'),
   prompt('----> ', Input),
-  atom_number(Input, Opc).
+  number_string(Opc, Input).
 
 %Menu funcionario
 funcionario :-

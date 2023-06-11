@@ -143,6 +143,4 @@ get_n_destaques(Produtos, N, Tipo_Destaque, Destaques_Atuais, Destaques_Finais) 
 get_produto_by_tipo(IdProduto, Produto, 'filme') :- get_filme_by_id(IdProduto, Produto).
 get_produto_by_tipo(IdProduto, Produto, 'serie') :- get_serie_by_id(IdProduto, Produto).
 get_produto_by_tipo(IdProduto, Produto, 'jogo') :- get_jogo_by_id(IdProduto, Produto).
-string_para_float(String, Float) :-
-    atom_chars(String, Chars),    % Converte a string em uma lista de caracteres
-    number_chars(Float, Chars).   % Converte a lista de caracteres em um número de ponto flutuante
+

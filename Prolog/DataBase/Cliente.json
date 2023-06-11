@@ -1,15 +1,24 @@
 [
   {
-    "id":"1221987612",
-    "nome":"Zenomio Silva",
-    "carrinho": [],
-    "historico": []
-  },
-  {
     "id":"14884447855",
     "nome":"Cleiton Machado",
     "carrinho": [],
-    "historico": []
+    "historico": [
+      {
+	"id":"264147036",
+	"dataCompra":"2023-06-11",
+	"idProduto":"12349678",
+	"tipo":"jogo",
+	"idCliente":"14884447855"
+      },
+      {
+	"id":"467952248",
+	"dataCompra":"2023-06-11",
+	"idProduto":"1234924678",
+	"tipo":"jogo",
+	"idCliente":"14884447855"
+      }
+    ]
   },
   {
     "id":"121221322",
@@ -17,9 +26,36 @@
     "carrinho": [],
     "historico": []
   },
+  {
+    "id":"9182736455",
+    "nome":"Jubilut",
+    "carrinho": [ {"id":"893193814", "idProduto":"1232578", "tipo":"filme"} ],
+    "historico": [
+      {
+	"id":"664887214",
+	"dataCompra":"2023-06-11",
+	"idProduto":"123245678",
+	"tipo":"serie",
+	"idCliente":"9182736455"
+      },
+      {
+	"id":"558413236",
+	"dataCompra":"2023-06-11",
+	"idProduto":"1235678",
+	"tipo":"filme",
+	"idCliente":"9182736455"
+      }
+    ]
+  },
+  {
+    "id":"1221987612",
+    "nome":"Zenomio Silva",
+    "carrinho": [],
+    "historico": []
+  },
   {"id":"1212112", "nome":"aninha", "carrinho": [], "historico": []},
-  {"id":"7554321-c", "nome":"José", "carrinho": [], "historico": []},
-  {"id":"12345678-c", "nome":"Paula", "carrinho": [], "historico": []},
+  {"id":"7554321", "nome":"José", "carrinho": [], "historico": []},
+  {"id":"12345678", "nome":"Paula", "carrinho": [], "historico": []},
   {
     "id":"1212345",
     "nome":"Josivaldo",
@@ -31,49 +67,9 @@
   {
     "id":"123454443",
     "nome":"Beatriz",
-    "carrinho": [ {"id":"1972949", "idProduto":"1232578-f", "tipo":"filme"} ],
+    "carrinho": [],
     "historico": []
   },
-  {
-    "id":"12343325",
-    "nome":"Naldo",
-    "carrinho": [ {"id":"1972949", "idProduto":"123245678-f", "tipo":"filme"} ],
-    "historico": [
-      {
-	"id":"1972957",
-	"dataCompra":"01/05/2023",
-	"idProduto":"12334678-j",
-	"tipo":"jogo",
-	"idCliente":"12343325"
-      },
-      {
-	"id":"tbpjliugh-c",
-	"dataCompra":"09/05/23",
-	"idProduto":"13245678-s",
-	"tipo":"serie",
-	"idCliente":"12343325"
-      }
-    ]
-  },
-  {
-    "id":"12398745",
-    "nome":"Roberto",
-    "carrinho": [ {"id":"tbpjliugh-p", "idProduto":"1235678-f", "tipo":"filme"} ],
-    "historico": [
-      {
-	"id":"1972949",
-	"dataCompra":"30/04/2023",
-	"idProduto":"1232578-f",
-	"tipo":"filme",
-	"idCliente":"12398745"
-      },
-      {
-	"id":"1972950",
-	"dataCompra":"01/05/2023",
-	"idProduto":"123245678-f",
-	"tipo":"serie",
-	"idCliente":"12398745"
-      }
-    ]
-  }
+  {"id":"12343325", "nome":"Naldo", "carrinho": [], "historico": []},
+  {"id":"12398745", "nome":"Roberto", "carrinho": [], "historico": []}
 ]

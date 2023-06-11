@@ -1,6 +1,14 @@
 [
   {
-    "id":"1345678-f",
+    "id":"1235678",
+    "nome":"O Exorcista do Papa",
+    "descricao":"Inspirado nos arquivos reais do Padre Gabriele Amorth, Chefe Exorcista do Vaticano, o padre que realizou mais de 100.000 exorcismos em sua vida, faleceu em 2016 aos 91 anos. Amorth escreveu duas memórias - An Exorcist Tells His Story e An Exorcist: More Stories - e detalhou suas experiências lutando contra Satanás e demônios que agarraram as pessoas em seu mal. O filme, sendo o retrato da figura da vida real, acompanha Amorth (Russell Crowe) enquanto ele investiga a terrível possessão de um menino e acaba descobrindo uma conspiração secular que o Vaticano tentou desesperadamente manter no esquecimento",
+    "categoria":"Terror",
+    "precoPorDia":15.25,
+    "qtdAlugueis":3
+  },
+  {
+    "id":"1345678",
     "nome":"Amor ao Primeiro Beijo",
     "descricao":"Com a habilidade de ver o futuro, Javier descobre quem é o grande amor de sua vida. Só tem um problema: ela é a namorada do seu melhor amigo",
     "categoria":"Romance",
@@ -8,15 +16,7 @@
     "qtdAlugueis":1
   },
   {
-    "id":"1235678-f",
-    "nome":"O Exorcista do Papa",
-    "descricao":"Inspirado nos arquivos reais do Padre Gabriele Amorth, Chefe Exorcista do Vaticano, o padre que realizou mais de 100.000 exorcismos em sua vida, faleceu em 2016 aos 91 anos. Amorth escreveu duas memórias - An Exorcist Tells His Story e An Exorcist: More Stories - e detalhou suas experiências lutando contra Satanás e demônios que agarraram as pessoas em seu mal. O filme, sendo o retrato da figura da vida real, acompanha Amorth (Russell Crowe) enquanto ele investiga a terrível possessão de um menino e acaba descobrindo uma conspiração secular que o Vaticano tentou desesperadamente manter no esquecimento",
-    "categoria":"Terror",
-    "precoPorDia":15.25,
-    "qtdAlugueis":2
-  },
-  {
-    "id":"1232578-f",
+    "id":"1232578",
     "nome":"Pantera Negra: Wakanda para Sempre",
     "descricao":"Rainha Ramonda, Shuri, M'Baku, Okoye e Dora Milaje, lutam para proteger sua nação das potências mundiais intervenientes após a morte do rei T'Challa. Enquanto os wakandanos se esforçam para abraçar seu próximo capítulo, os heróis devem se unir com a ajuda de War Dog Nakia e Everett Ross e forjar um novo caminho para o reino de Wakanda.",
     "categoria":"Acao",
@@ -24,7 +24,7 @@
     "qtdAlugueis":1
   },
   {
-    "id":"1234567-f",
+    "id":"1234567",
     "nome":"Power Rangers: Agora e Sempre",
     "descricao":"Tres decadas depois que o poderoso Zordon criou os Power Rangers, o grupo fica frente a frente com uma ameaça do passado. Em meio a uma crise global, os herois sao chamados mais uma vez para salvar o mundo. Este especial que celebra o trigesimo aniversario da franquia e inspirado no famoso lema \"Uma vez Ranger, sempre Ranger\", o que significa: os integrantes da família Ranger sao sempre recebidos de bracos abertos.",
     "categoria":"Acao",
@@ -32,7 +32,7 @@
     "qtdAlugueis":0
   },
   {
-    "id":"1234568-f",
+    "id":"1234568",
     "nome":"Super Mario Bros: O Filme",
     "descricao":"Mario é um encanador junto com seu irmão Luigi. Um dia, eles vão parar no reino dos cogumelos, governado pela Princesa Peach, mas ameaçado pelo rei dos Koopas, que faz de tudo para conseguir reinar em todos os lugares.",
     "categoria":"Aventura",

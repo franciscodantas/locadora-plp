@@ -1,3 +1,6 @@
+:- encoding(utf8).
+:- set_prolog_flag(encoding, utf8).
+
 % Regra que cadastra um funcionário no banco de dados
 cadastrarFuncionario(Id,Nome,SenhaFunc, IdGerente, Senha, Resposta):-
     validaGerente(IdGerente, Senha, Resposta1),
@@ -113,7 +116,7 @@ calcula_renda_produtos([ProdutoAtual|ProdutosRestantes], RendaAcumulada, RendaTo
     NovaRendaAcumulada is RendaAcumulada + Renda,
     calcula_renda_produtos(ProdutosRestantes, NovaRendaAcumulada, RendaTotal).
 
-%-----
+% Regras para pegar o total de entidades do nosso sistema
 totalFuncionarios(Quantidade) :-
     get_funcionarios(Funcionarios),
     length(Funcionarios, Quantidade).
@@ -134,11 +137,12 @@ totalSeries(Quantidade) :-
     get_series(Series),
     length(Series, Quantidade).
 
-%nao finalizados
+% Regra para pegar o total de compras não finalizados
 totalClientesPedidosNaoFinalizado(Quantidade) :-
     get_cientes(Usuarios),
     clientesPedidosNaoFinalizado(Usuarios, 0, Quantidade).
 
+% Regra com o loop para pegar as compras não finalizadas
 clientesPedidosNaoFinalizado([], Count, Count).
 clientesPedidosNaoFinalizado([Cliente|Resto], Acumulado, Count) :-
     extract_info_clientes(Cliente, _, _, Carrinho, _),

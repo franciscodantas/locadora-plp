@@ -1,3 +1,5 @@
+:- use_module(library(dcg/basics)).
+
 % Regra que retorna a lista de filmes, com nome e descrição
 listaFilmes(Resposta) :- 
     get_filmes(Data),
@@ -24,6 +26,18 @@ organizaListagemHistorico([], '').
 organizaListagemHistorico([H|T], Resposta) :- 
     organizaListagemHistorico(T, Resposta1),
     extract_info_historico(H, _, _, IdProduto, Tipo, _),
+    get_info(IdProduto, Tipo, Nome, Descricao),
+    string_concat(Nome, ' - ', NomeLinha),
+    string_concat(NomeLinha, Descricao, NomeLinhaComQuebraDeLinha),
+    string_concat(NomeLinhaComQuebraDeLinha, '\n\n', NomeLinhaComQuebraDeLinhaComQuebraDeLinha),
+    string_concat(NomeLinhaComQuebraDeLinhaComQuebraDeLinha, Resposta1, Resposta).
+
+% Regra que formata os dados do carrinho recebidos do banco de dados
+% Essa regra organiza o carrinho para a impressão no main
+organizaListagemCarrinho([], '').
+organizaListagemCarrinho([H|T], Resposta) :- 
+    organizaListagemCarrinho(T, Resposta1),
+    extract_info_carrinho(H, _, IdProduto, Tipo),
     get_info(IdProduto, Tipo, Nome, Descricao),
     string_concat(Nome, ' - ', NomeLinha),
     string_concat(NomeLinha, Descricao, NomeLinhaComQuebraDeLinha),
@@ -140,7 +154,35 @@ get_n_destaques(Produtos, N, Tipo_Destaque, Destaques_Atuais, Destaques_Finais) 
     Novo_N is N - 1,
     get_n_destaques(Novos_Produtos, Novo_N, Tipo_Destaque, Novos_Destaques, Destaques_Finais).
 
+% Regras para pegar produtos a partir do tipo
+% Os tipos possíveis são: filme, serie e jogo
 get_produto_by_tipo(IdProduto, Produto, 'filme') :- get_filme_by_id(IdProduto, Produto).
 get_produto_by_tipo(IdProduto, Produto, 'serie') :- get_serie_by_id(IdProduto, Produto).
 get_produto_by_tipo(IdProduto, Produto, 'jogo') :- get_jogo_by_id(IdProduto, Produto).
 
+% Regra para remover espaços em branco antes e depois de uma string
+trim(String, TrimmedString) :-
+    atom_chars(String, Chars),
+    trim_front(Chars, TrimmedFront),
+    reverse(TrimmedFront, Reversed),
+    trim_front(Reversed, ReversedTrimmed),
+    reverse(ReversedTrimmed, Trimmed),
+    atom_chars(TrimmedString, Trimmed).
+
+% Regra para remover espaços em branco antes de uma string
+trim_front([], []).
+trim_front([X|Xs], [X|Xs]) :-
+    X \= ' ',
+    X \= '\t',
+    X \= '\n'.
+trim_front([_|Xs], TrimmedFront) :-
+    trim_front(Xs, TrimmedFront).
+
+% Regra de validação que gera false se a string recebida é composta apenas por espaços em branco
+valida_valor_espacos(Valor) :- 
+  trim(Valor, ValorTrimmed), ValorTrimmed \= ''.
+
+% Regra de validação que gera false se o valor recebido não é positivo
+valida_valor_negativo(Valor) :-
+    number_string(Float, Valor),
+    Float > 0.

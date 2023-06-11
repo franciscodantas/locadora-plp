@@ -96,6 +96,7 @@ selecionadoCliente(2) :-
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome do filme: ', Nome),
+  valida_valor_espacos(Nome),
   subMenuDiasSemanas(Opc),
   alugaFilme(Id, Nome, Opc),
   cliente.
@@ -110,6 +111,7 @@ selecionadoCliente(4) :-
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome da serie: ', Nome),
+  valida_valor_espacos(Nome),
   subMenuDiasSemanas(Opc),
   alugaSerie(Id, Nome, Opc),
   cliente.
@@ -124,6 +126,7 @@ selecionadoCliente(6) :-
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome do jogo: ', Nome),
+  valida_valor_espacos(Nome),
   subMenuDiasSemanas(Opc),
   alugaJogo(Id, Nome, Opc),
   cliente.
@@ -137,6 +140,7 @@ selecionadoCliente(8) :-
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome do filme: ', Nome),
+  valida_valor_espacos(Nome),
   addFilmeCarrinho(Id, Nome),
   cliente.
 
@@ -144,6 +148,7 @@ selecionadoCliente(9) :-
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome do jogo: ', Nome),
+  valida_valor_espacos(Nome),
   addJogoCarrinho(Id, Nome),
   cliente.
 
@@ -151,6 +156,7 @@ selecionadoCliente(10) :-
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome da série: ', Nome),
+  valida_valor_espacos(Nome),
   addSerieCarrinho(Id, Nome),
   cliente.
 
@@ -158,11 +164,13 @@ selecionadoCliente(11) :-
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome do produto: ', Nome),
+  valida_valor_espacos(Nome),
   removeDoCarrinhoTipo(Id, Nome),
   cliente.
 
 selecionadoCliente(12) :-
   prompt('Seu Id: ', Id),
+  valida_cliente(Id),
   exibeCarrinho(Id, Resposta),
   write(Resposta),
   cliente.
@@ -261,6 +269,7 @@ selecionadoFuncionario(3) :-
 selecionadoFuncionario(4) :-
   %Cadastrar cliente
   prompt('Digite o nome do cliente: ', Nome),
+  valida_valor_espacos(Nome),
   prompt('Digite o CPF do cliente: ', ID),
   prompt('Digite o seu Id: ', IdFuncionario),
   prompt('Digite a senha: ', Senha),
@@ -300,6 +309,10 @@ selecionadoFuncionario(8) :-
     prompt('Digite a categoria: ', Categoria),
     prompt('Digite a descrição: ', Descricao),
     prompt('Digite o preço: ', Preco),
+    valida_valor_espacos(Nome),
+    valida_valor_espacos(Categoria),
+    valida_valor_espacos(Descricao),
+    valida_valor_negativo(Preco),
     adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
     write(Resposta),
     funcionario.
@@ -322,6 +335,10 @@ selecionadoFuncionario(10) :-
     prompt('Digite a categoria: ', Categoria),
     prompt('Digite a descrição: ', Descricao),
     prompt('Digite o preço: ', Preco),
+    valida_valor_espacos(Nome),
+    valida_valor_espacos(Categoria),
+    valida_valor_espacos(Descricao),
+    valida_valor_negativo(Preco),
     adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
     write(Resposta),
     funcionario.
@@ -344,6 +361,10 @@ selecionadoFuncionario(12) :-
     prompt('Digite a categoria: ', Categoria),
     prompt('Digite a descrição: ', Descricao),
     prompt('Digite o preço: ', Preco),
+    valida_valor_espacos(Nome),
+    valida_valor_espacos(Categoria),
+    valida_valor_espacos(Descricao),
+    valida_valor_negativo(Preco),
     adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
     write(Resposta),
     funcionario.
@@ -384,6 +405,9 @@ selecionadoGerente(1) :-
     prompt('Digite a senha do Funcionário: ', SenhaFunc),
     prompt('Digite a senha: ', Senha),
     prompt('Digite o seu Id: ', IdGerente),
+    valida_valor_espacos(Nome),
+    valida_valor_espacos(Id),
+    valida_valor_espacos(SenhaFunc),
     cadastrarFuncionario(Id,Nome,SenhaFunc, IdGerente, Senha, Resposta),
     write(Resposta),
     gerente.

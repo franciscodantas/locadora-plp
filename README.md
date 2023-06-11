@@ -15,6 +15,8 @@ Clique [aqui](https://docs.google.com/document/d/1Hd8hqg1ZLk40Qy2-A8kXrYkZBt3Vb7
 
 Para esse projeto foi usado o Cabal, por isso será necessária sua instalação na máquina. Recomenda-se instalar o [GHCup](https://www.haskell.org/ghcup/) para tal.
 
+##### [Video Exemplo](https://youtu.be/r0mzOcGGWSw)
+
 ### Instruções para execução
 
 1. Certifique-se de ter clonado a `branch main`.
@@ -37,6 +39,8 @@ Para esse projeto foi usado o Cabal, por isso será necessária sua instalação
 ## Implementação Lógica (Prolog)
 
 Para esse projeto foi usado o SWI-Prolog, por isso será necessária sua instalação na máquina. Recomenda-se instalar o [SWI](https://www.swi-prolog.org) para tal.
+
+##### [Video Exemplo](https://youtu.be/r0mzOcGGWSw)
 
 ### Instruções para execução
 

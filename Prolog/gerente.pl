@@ -39,10 +39,8 @@ organizaListagemFuncionarios([], '').
 organizaListagemFuncionarios([H|T], Resposta) :-
     organizaListagemFuncionarios(T, Resposta1),
     extract_info_funcionarios_gerentes(H, ID, Nome, _),
-    string_concat(Nome, ' - ', NomeTraco),
-    string_concat(NomeTraco, ID, NomeTracoID),
-    string_concat(NomeTracoID, '\n', Resposta2),
-    string_concat(Resposta2, Resposta1, Resposta).
+    concatena_strings(['\nNome: ', Nome, '\nId: ', ID,'\n'], ProdutosConcatenados),
+    string_concat(ProdutosConcatenados, Resposta1, Resposta).
 
 % Regra que valida um gerente, verificando se a senha dele está correta
 validaGerente(IdGerente, Senha, Resposta) :-

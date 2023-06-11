@@ -3,193 +3,172 @@
 :- consult('DataBase/GerenciadorBD.pl').
 :- encoding(utf8).
 :- set_prolog_flag(encoding, utf8).
-:- use_module(library(date)).
-:- use_module(library(random)).
 
-alugaFilme(ID, NomeFilme, 1):-
-    prompt('', _),
-    prompt('Quantidade de dias: ', Dias),
-    atom_string(NomeFilmeAtom, NomeFilme),
-    atom_string(IDAtom, ID),
-    data_atual(DataCompra),
-    random_id(IdElemento),
-    get_filme_by_nome(NomeFilmeAtom, Filme),
-    extract_info_produtos(Filme, IdProduto, _, _, _, PrecoPorDia, _),
-    adiciona_produto_historico(IDAtom, IdElemento, DataCompra, IdProduto, 'filme'),
-    incrementa_qtd_alugueis_filmes(IDAtom),
-    Valor = PrecoPorDia * Dias,
-    format('Aluguel de ~s realizado por ~2f reais.', [NomeFilme, Valor]).
+% Gerador de id
+% Inicializa o contador com o valor 1000
+initialize_counter :-
+    retractall(counter(_)),
+    assertz(counter(1000)).
+% Gera um novo ID incrementando o contador
+generate_id(ID) :-
+    retract(counter(Counter)),
+    NewCounter is Counter + 1,
+    assertz(counter(NewCounter)),
+    atom_concat('ID', NewCounter, ID).
+% Inicializa o contador antes de usar a função
+:- initialization initialize_counter.
 
-alugaFilme(ID, NomeFilme, 2):-
-    prompt('', _),
-    prompt('Quantidade de semanas: ', Semanas),
-    atom_string(NomeFilmeAtom, NomeFilme),
-    atom_string(IDAtom, ID),
-    data_atual(DataCompra),
-    random_id(IdElemento),
-    get_filme_by_nome(NomeFilmeAtom, Filme),
-    extract_info_produtos(Filme, IdProduto, _, _, _, PrecoPorDia, _),
-    adiciona_produto_historico(IDAtom, IdElemento, DataCompra, IdProduto, 'filme'),
-    incrementa_qtd_alugueis_filmes(IDAtom),
-    Valor = PrecoPorDia * Semanas * 7,
-    format('Aluguel de ~s realizado por ~2f reais.', [NomeFilme, Valor]).
+% Escolhe filme usando o idFilme e o idCliente e adiciona o filme selecionado ao carrinho correspondente ao cliente selecionado
+adicionaFilme(IdFilme, IdCliente, Resposta) :-
+  atom_string(IDAtomf, IdFilme),
+  get_filme_by_id(IDAtomf, Filme),
+  Filme \= -1,
+  atom_string(IDAtomc, IdCliente),
+  get_cliente_by_id(IDAtomc, Cliente),
+  Cliente \= -1,
+  generate_id(IdElemento),
+  adiciona_produto_carrinho(IDAtomc, IdElemento, IDAtomf, 'filme'),
+  Resposta = 'Filme adicionado ao carrinho'.
 
-alugaSerie(ID, NomeSerie, 1):-
-    prompt('', _),
-    prompt('Quantidade de dias: ', Dias),
-    atom_string(NomeSerieAtom, NomeSerie),
-    atom_string(IDAtom, ID),
-    data_atual(DataCompra),
-    random_id(IdElemento),
-    get_serie_by_nome(NomeSerieAtom, Serie),
-    extract_info_produtos(Serie, IdProduto, _, _, _, PrecoPorDia, _),
-    adiciona_produto_historico(IDAtom, IdElemento, DataCompra, IdProduto, 'serie'),
-    incrementa_qtd_alugueis_series(IDAtom),
-    Valor = PrecoPorDia * Dias,
-    format('Aluguel de ~s realizado por ~2f reais.', [NomeSerie, Valor]).
 
-alugaSerie(ID, NomeSerie, 2):-
-    prompt('', _),
-    prompt('Quantidade de semanas: ', Semanas),
-    atom_string(NomeSerieAtom, NomeSerie),
-    atom_string(IDAtom, ID),
-    data_atual(DataCompra),
-    random_id(IdElemento),
-    get_serie_by_nome(NomeSerieAtom, Serie),
-    extract_info_produtos(Serie, IdProduto, _, _, _, PrecoPorDia, _),
-    adiciona_produto_historico(IDAtom, IdElemento, DataCompra, IdProduto, 'jogo'),
-    incrementa_qtd_alugueis_series(IDAtom),
-    Valor = PrecoPorDia * Semanas * 7,
-    format('Aluguel de ~s realizado por ~2f reais.', [NomeSerie, Valor]).
+adicionaFilme(IdFilme, _, 'Cliente não existente') :-
+  atom_string(_, IdFilme).
 
-alugaJogo(ID, NomeJogo, 1):-
-    prompt('', _),
-    prompt('Quantidade de dias: ', Dias),
-    atom_string(NomeJogoAtom, NomeJogo),
-    atom_string(IDAtom, ID),
-    data_atual(DataCompra),
-    random_id(IdElemento),
-    get_jogo_by_nome(NomeJogoAtom, Jogo),
-    extract_info_produtos(Jogo, IdProduto, _, _, _, PrecoPorDia, _),
-    adiciona_produto_historico(IDAtom, IdElemento, DataCompra, IdProduto, 'jogo'),
-    incrementa_qtd_alugueis_jogos(IDAtom),
-    Valor = PrecoPorDia * Dias,
-    format('Aluguel de ~s realizado por ~2f reais.', [NomeJogo, Valor]).
+adicionaFilme(_, IdCliente, 'Filme não existente') :-
+  atom_string(_, IdCliente).
 
-alugaJogo(ID, NomeJogo, 2):-
-    prompt('', _),
-    prompt('Quantidade de semanas: ', Semanas),
-    atom_string(NomeJogoAtom, NomeJogo),
-    atom_string(IDAtom, ID),
-    data_atual(DataCompra),
-    random_id(IdElemento),
-    get_jogo_by_nome(NomeJogoAtom, Jogo),
-    extract_info_produtos(Jogo, IdProduto, _, _, _, PrecoPorDia, _),
-    adiciona_produto_historico(IDAtom, IdElemento, DataCompra, IdProduto, 'jogo'),
-    incrementa_qtd_alugueis_jogos(IDAtom),
-    Valor = PrecoPorDia * Semanas * 7,
-    format('Aluguel de ~s realizado por ~2f reais.', [NomeJogo, Valor]).
+% Escolhe serie usando o idSerie e o idCliente e adiciona a serie selecionada ao carrinho correspondente ao cliente selecionado
+adicionaSerie(IdSerie, IdCliente, Resposta) :-
+  atom_string(IDAtoms, IdSerie),
+  get_serie_by_id(IDAtoms, Serie),
+  Serie \= -1,
+  atom_string(IDAtomc, IdCliente),
+  get_cliente_by_id(IDAtomc, Cliente),
+  Cliente \= -1,
+  generate_id(IdElemento),
+  adiciona_produto_carrinho(IDAtomc, IdElemento, IDAtoms, 'serie'),
+  Resposta = 'Serie adicionado ao carrinho'.
 
-produtoPorCategoria(1) :-
-    prompt('', _),
-    prompt('Categoria: ', Categoria),
-    atom_string(CatAtom, Categoria),
-    get_objects_by_categoria('DataBase/Filme.json', CatAtom, Filmes),
-    organizaListagemProdutos(Filmes, FilmesListagem),
-    write(FilmesListagem).
 
-produtoPorCategoria(2) :-
-    prompt('', _),
-    prompt('Categoria: ', Categoria),
-    atom_string(CatAtom, Categoria),
-    get_objects_by_categoria('DataBase/Serie.json', CatAtom, Series),
-    organizaListagemProdutos(Series, SeriesListagem),
-    write(SeriesListagem).
+adicionaSerie(IdSerie, _, 'Cliente não existente') :-
+  atom_string(_, IdSerie).
 
-produtoPorCategoria(3) :-
-    prompt('', _),
-    prompt('Categoria: ', Categoria),
-    atom_string(CatAtom, Categoria),
-    get_objects_by_categoria('DataBase/Jogo.json', CatAtom, Jogos),
-    organizaListagemProdutos(Jogos, JogosListagem),
-    write(JogosListagem).
+adicionaSerie(_, IdCliente, 'Serie não existente') :-
+  atom_string(_, IdCliente).
 
-addFilmeCarrinho(Id, Nome) :-
-    random_id(IdElemento),
-    atom_string(IDAtom, Id),
-    atom_string(NomeAtom, Nome),
-    get_filme_by_nome(NomeAtom, Prod),
-    extract_id_object('produtos', Prod, IdProduto),
-    adiciona_produto_carrinho(IDAtom, IdElemento, IdProduto, 'filme'),
-    format('~s adicionado ao carrinho.', [Nome]).
+% Escolhe jogo usando o idJogo e o idCliente e adiciona o jogo selecionado ao carrinho correspondente ao cliente selecionado
+adicionaJogo(IdJogo, IdCliente, Resposta) :-
+  atom_string(IDAtomj, IdJogo),
+  get_jogo_by_id(IDAtomj, Jogo),
+  Jogo \= -1,
+  atom_string(IDAtomc, IdCliente),
+  get_cliente_by_id(IDAtomc, Cliente),
+  Cliente \= -1,
+  generate_id(IdElemento),
+  adiciona_produto_carrinho(IDAtomc, IdElemento, IDAtomj, 'jogo'),
+  Resposta = 'Jogo adicionado ao carrinho'.
 
-addJogoCarrinho(Id, Nome) :-
-    random_id(IdElemento),
-    atom_string(IDAtom, Id),
-    atom_string(NomeAtom, Nome),
-    get_filme_by_nome(NomeAtom, Prod),
-    extract_id_object('produtos', Prod, IdProduto),
-    adiciona_produto_carrinho(IDAtom, IdElemento, IdProduto, 'jogo'),
-    format('~s adicionado ao carrinho.', [Nome]).
 
-addSerieCarrinho(Id, Nome) :-
-    random_id(IdElemento),
-    atom_string(IDAtom, Id),
-    atom_string(NomeAtom, Nome),
-    get_filme_by_nome(NomeAtom, Prod),
-    extract_id_object('produtos', Prod, IdProduto),
-    adiciona_produto_carrinho(IDAtom, IdElemento, IdProduto, 'serie'),
-    format('~s adicionado ao carrinho.', [Nome]).
+adicionaJogo(IdJogo, _, 'Cliente não existente') :-
+  atom_string(_, IdJogo).
 
-removeDoCarrinhoTipo(Id, Nome) :-
-    atom_string(NomeAtom, Nome),
-    get_filme_by_nome(NomeAtom, Filme),
-    get_serie_by_nome(NomeAtom, Serie),
-    get_jogo_by_nome(NomeAtom, Jogo),
-    (Filme \= -1 -> removeCarrinho(Id, Filme);
-    Serie \= -1 -> removeCarrinho(Id, Serie);
-    Jogo \= -1 -> removeCarrinho(Id, Jogo)).
+adicionaJogo(_, IdCliente, 'Jogo não existente') :-
+  atom_string(_, IdCliente).  
 
-removeCarrinho(Id, Produto) :-
-    atom_string(IDAtom, Id),
-    get_cliente_by_id(IDAtom, Cliente),
-    extract_info_clientes(Cliente, _, _, Carrinho, _),
-    extract_id_object('produtos', Produto, IdProduto),
-    removeCarrinhoLoop(Carrinho, IdProduto, IDAtom).
 
-removeCarrinhoLoop([], _, _) :- write('Produto não está no carrinho.').
-removeCarrinhoLoop([H|T], IdProduto, IdCliente) :-
-    extract_info_carrinho(H, IdElemento, ProdId, _),
-    (IdProduto = ProdId -> remove_produto_carrinho(IdCliente, IdElemento), write('Produto removido.');
-    removeCarrinhoLoop(T, IdProduto, IdCliente)).
+% Retorna o carrinho de um cliente especifico utilizando o IdCliente como referencia
+verCarrinho(IdCliente, Resposta) :-
+  atom_string(IdAtom, IdCliente),
+  get_cliente_by_id(IdAtom, Cliente),
+  Cliente \= -1,
+  get_cliente_carrinho(IdAtom, Carrinho),
+  Resposta = Carrinho.
 
-exibeCarrinho(Id, Resposta) :-
-    atom_string(IDAtom, Id),
-    get_cliente_carrinho(IDAtom, Carrinho),
-    organizaListagemCarrinho(Carrinho, Resposta).
+verCarrinho(_, "Cliente não existente").
 
-exibeHistorico(Id, Resposta) :-
-    atom_string(IDAtom, Id),
-    get_cliente_by_id(IDAtom, Cliente),
-    Cliente \= -1,
-    extract_info_clientes(Cliente, _, Nome, _, Historico),
-    organizaListagemHistorico(Historico, Resposta).
+% Remove um produto referenciado pelo IdProduto de um carrinho de um cliente referenciado por IdCliente.
+removeProdutoCarrinho(IdProduto, IdCliente, Resposta) :-
+  atom_string(IdAtomc, IdCliente),
+  get_cliente_by_id(IdAtomc, Cliente),
+  Cliente \= -1,
+  atom_string(IdAtomp, IdProduto),
+  remove_produto_carrinho(IdAtomc, IdAtomp),
+  Resposta = 'Produto removido'.
 
-data_atual(Data) :-
-    get_time(Stamp),
-    stamp_date_time(Stamp, DateTime, local),
-    format_time(atom(Data), '%Y-%m-%d', DateTime).
+removeProdutoCarrinho(_, IdCliente, 'Produto não encontrado') :-
+  atom_string(_, IdCliente).
 
-random_id(ID) :-
-    random_between(100000000, 999999999, RandomNumber),
-    number_codes(RandomNumber, RandomNumberCodes),
-    string_codes(ID, RandomNumberCodes).
+removeProdutoCarrinho(IdProduto, _, 'Cliente não existente') :-
+  atom_string(_, IdProduto).
 
-valida_cliente(ID) :- 
-    atom_string(IDAtom, ID),
-    get_cliente_by_id(IDAtom, Cliente),
-    Cliente \= -1.
+% Adiciona o jogo referente ao IdProduto ao historico de um cliente referente ao IdCliente utilizando o DataCompra como parametro de tempo de aluguel.
+alugarJogo(IdCliente, DataCompra, IdProduto, Resposta) :-
+  atom_string(IdAtomc, IdCliente),
+  get_cliente_by_id(IdAtomc, Cliente),
+  Cliente \= -1,
+  atom_string(IdAtomj, IdProduto),
+  get_jogo_by_id(IdAtomj, Jogo),
+  Jogo \= -1,
+  atom_string(Data, DataCompra),
+  generate_id(IdElemento),
+  adiciona_produto_historico(IdAtomc, IdElemento, Data, IdAtomj, 'jogo'),
+  add_historico_geral(IdElemento, Data, IdAtomj, 'jogo', IdAtomc),
+  Resposta = 'Jogo alugado com sucesso'.
 
-add(E, [], [E]).
-add(E, [H|T], [H|R]) :-
-    add(E, T, R).
+alugarJogo(_, DataCompra, IdProduto, 'Cliente não existente') :-
+  atom_string(_, DataCompra),
+  atom_string(_, IdProduto).
+alugarJogo(IdCliente, _, IdProduto, 'Data invalida') :- 
+  atom_string(_, IdProduto),
+  atom_string(_, IdCliente).
+alugarJogo(IdCliente, DataCompra, _, 'Produto não encontrado') :- 
+  atom_string(_, DataCompra),
+  atom_string(_, IdCliente).
+
+% Adiciona o filme referente ao IdProduto ao historico de um cliente referente ao IdCliente utilizando o DataCompra como parametro de tempo de aluguel.
+alugarFilme(IdCliente, DataCompra, IdProduto, Resposta) :-
+  atom_string(IdAtomc, IdCliente),
+  get_cliente_by_id(IdAtomc, Cliente),
+  Cliente \= -1,
+  atom_string(IdAtomf, IdProduto),
+  get_filme_by_id(IdAtomf, Filme),
+  Filme \= -1,
+  atom_string(Data, DataCompra),
+  generate_id(IdElemento),
+  adiciona_produto_historico(IdAtomc, IdElemento, Data, IdAtomf, 'filme'),
+  add_historico_geral(IdElemento, Data, IdAtomf, 'filme', IdAtomc),
+  Resposta = 'Filme alugado com sucesso'.
+
+alugarFilme(_, DataCompra, IdProduto, 'Cliente não existente') :- 
+  atom_string(_, DataCompra),
+  atom_string(_, IdProduto).
+alugarFilme(IdCliente, _, IdProduto, 'Data invalida') :- 
+  atom_string(_, IdProduto),
+  atom_string(_, IdCliente).
+alugarFilme(IdCliente, DataCompra, _, 'Produto não encontrado'):-
+  atom_string(_, DataCompra),
+  atom_string(_, IdCliente).
+
+% Adiciona a serie referente ao IdProduto ao historico de um cliente referente ao IdCliente utilizando o DataCompra como parametro de tempo de aluguel.
+alugarSerie(IdCliente, DataCompra, IdProduto, Resposta) :-
+  atom_string(IdAtomc, IdCliente),
+  get_cliente_by_id(IdAtomc, Cliente),
+  Cliente \= -1,
+  atom_string(IdAtoms, IdProduto),
+  get_serie_by_id(IdAtoms, Serie),
+  Serie \= -1,
+  atom_string(Data, DataCompra),
+  generate_id(IdElemento),
+  adiciona_produto_historico(IdAtomc, IdElemento, Data, IdAtoms, 'serie'),
+  add_historico_geral(IdElemento, Data, IdAtoms, 'serie', IdAtomc),
+  Resposta = 'Serie alugada com sucesso'.
+
+alugarSerie(_, DataCompra, IdProduto, 'Cliente não existente') :-
+  atom_string(_, DataCompra),
+  atom_string(_, IdProduto).
+alugarSerie(IdCliente, _, IdProduto, 'Data invalida') :-
+  atom_string(_, IdProduto),
+  atom_string(_, IdCliente).
+alugarSerie(IdCliente, DataCompra, _, 'Produto não encontrado') :-
+  atom_string(_, DataCompra),
+  atom_string(_, IdCliente).

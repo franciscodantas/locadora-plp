@@ -6,6 +6,7 @@ Clique [aqui](https://docs.google.com/document/d/1Hd8hqg1ZLk40Qy2-A8kXrYkZBt3Vb7
 
 | Desenvolvedor                           | Github                                  | Função                         |
 | -------------------------------------- | --------------------------------------- | ------------------------------|
+|Felipe Jerônimo Bernardo da Silva | [Github](https://github.com/FelipeJer)| Estatistica de vendas (Quantidade)
 | Francisco Antonio Dantas de Sousa      | [Github](https://github.com/franciscodantas) | Funções em Funcionário e Gerente |
 | João Pedro Juvino dos Santos           | [Github](https://github.com/joao-juvino) | Funções em Banco de Dados e Gerente |
 | Paulo Victor Machado de Souza          | [Github](https://github.com/paulo-vms)  | Funções em Cliente             |
@@ -40,7 +41,7 @@ Para esse projeto foi usado o Cabal, por isso será necessária sua instalação
 
 Para esse projeto foi usado o SWI-Prolog, por isso será necessária sua instalação na máquina. Recomenda-se instalar o [SWI](https://www.swi-prolog.org) para tal.
 
-##### [Video Exemplo](https://youtu.be/r0mzOcGGWSw)
+##### [Video Exemplo](https://youtu.be/xB7VKc5A_IM)
 
 ### Instruções para execução
 

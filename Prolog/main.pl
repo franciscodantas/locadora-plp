@@ -13,22 +13,19 @@ main :-
   write('2 - Funcionario\n'),
   write('3 - Gerencia\n'),
   write('4 - Sair\n'),
-  write('---->'),
-  read(Opcao),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionado(Opcao).
 
 selecionado(1) :-
-  cliente,
-  main.
+  cliente.
 
 selecionado(2) :-
-  funcionario,
-  main.
+  funcionario.
 
 selecionado(3) :-
-  gerente,
-  main.
+  gerente.
 
 selecionado(4) :- write('Saindo...'), 
 halt.
@@ -52,24 +49,14 @@ cliente :-
   write('10 - Adicionar Série ao carrinho\n'),
   write('11 - Remover do carrinho\n'),
   write('12 - Ver carrinho\n'),
-  write('13 - Recomendações\n'),
-  write('14 - Listar histórico cliente\n'),
-  write('15 - menu principal\n'),
-  write('--->'),
-  read(Opcao),
+  write('13 - Alugar produtos no carrinho\n'),
+  write('14 - Recomendações\n'),
+  write('15 - Listar histórico cliente\n'),
+  write('16 - menu principal\n'),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionadoCliente(Opcao).
-
-subMenuDiasSemanas(Opc) :-
-  write('1 - Alugar por dias\n'),
-  write('2 - Alugar por semanas\n'),
-  read(Opc).
-
-subMenuCategoria(Opc) :-
-  write('1 - Filmes por categoria\n'),
-  write('2 - Series por categoria\n'),
-  write('3 - Jogos por categoria\n'),
-  read(Opc).
 
 selecionadoCliente(1) :-
   %Listar filmes
@@ -78,7 +65,6 @@ selecionadoCliente(1) :-
   cliente.
 
 selecionadoCliente(2) :-
-  prompt('', _),
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome do filme: ', Nome),
@@ -93,7 +79,6 @@ selecionadoCliente(3) :-
   cliente.
 
 selecionadoCliente(4) :-
-  prompt('', _),
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome da serie: ', Nome),
@@ -108,7 +93,6 @@ selecionadoCliente(5) :-
   cliente.
 
 selecionadoCliente(6) :-
-  prompt('', _),
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome do jogo: ', Nome),
@@ -122,7 +106,6 @@ selecionadoCliente(7) :-
   cliente.
 
 selecionadoCliente(8) :-
-  prompt('', _),
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome do filme: ', Nome),
@@ -130,7 +113,6 @@ selecionadoCliente(8) :-
   cliente.
 
 selecionadoCliente(9) :-
-  prompt('', _),
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome do jogo: ', Nome),
@@ -138,7 +120,6 @@ selecionadoCliente(9) :-
   cliente.
 
 selecionadoCliente(10) :-
-  prompt('', _),
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome da série: ', Nome),
@@ -146,7 +127,6 @@ selecionadoCliente(10) :-
   cliente.
 
 selecionadoCliente(11) :-
-  prompt('', _),
   prompt('Seu Id: ', Id),
   valida_cliente(Id),
   prompt('Nome do produto: ', Nome),
@@ -154,28 +134,59 @@ selecionadoCliente(11) :-
   cliente.
 
 selecionadoCliente(12) :-
-  prompt('', _),
   prompt('Seu Id: ', Id),
   exibeCarrinho(Id, Resposta),
-  write(Resposta).
+  write(Resposta),
   cliente.
 
 selecionadoCliente(13) :-
-  %Recomendações
+  prompt('Seu Id: ', Id),
+  valida_cliente(Id),
+  subMenuDiasSemanas(Opc),
+  alugaCarrinho(Id, Opc),
   cliente.
 
 selecionadoCliente(14) :-
-  prompt('', _),
   prompt('Seu Id: ', Id),
-  exibeHistorico(Id, Resposta),
-  write(Resposta).
+  valida_cliente(Id),
+  subMenuRecs(Opc),
+  get_recomendacoes(Id, Opc, Resposta),
+  write(Resposta),
   cliente.
+  
 
 selecionadoCliente(15) :-
+  prompt('Seu Id: ', Id),
+  valida_cliente(Id),
+  exibeHistorico(Id, Resposta),
+  write(Resposta),
+  cliente.
+
+selecionadoCliente(16) :-
   %menu principal
   main.
 
 selecionadoCliente(_) :- write('Opcao invalida'), cliente.
+
+subMenuDiasSemanas(Opc) :-
+  write('1 - Alugar por dias\n'),
+  write('2 - Alugar por semanas\n'),
+  prompt('----> ', Input),
+  atom_number(Input, Opc).
+
+subMenuCategoria(Opc) :-
+  write('1 - Filmes por categoria\n'),
+  write('2 - Series por categoria\n'),
+  write('3 - Jogos por categoria\n'),
+  prompt('----> ', Input),
+  atom_number(Input, Opc).
+
+subMenuRecs(Opc) :-
+  write('1 - Recomendações de filmes\n'),
+  write('2 - Recomendações de séries\n'),
+  write('3 - Recomendações de jogos\n'),
+  prompt('----> ', Input),
+  atom_number(Input, Opc).
 
 %Menu funcionario
 funcionario :-

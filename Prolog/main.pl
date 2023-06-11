@@ -1,5 +1,5 @@
 :- initialization (main).
-:- include('cliente.pl').
+:- consult('cliente.pl').
 :- include('funcionario.pl').
 :- include('gerente.pl').
 :- consult('utils.pl').
@@ -13,8 +13,8 @@ main :-
   write('2 - Funcionario\n'),
   write('3 - Gerencia\n'),
   write('4 - Sair\n'),
-  write('---->'),
-  read(Opcao),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionado(Opcao).
 
@@ -55,8 +55,8 @@ cliente :-
   write('13 - Recomendações\n'),
   write('14 - Listar histórico cliente\n'),
   write('15 - menu principal\n'),
-  write('--->'),
-  read(Opcao),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionadoCliente(Opcao).
 
@@ -69,6 +69,13 @@ selecionadoCliente(1) :-
 
 selecionadoCliente(2) :-
   %Escolher filme
+  write('Aluguel de filme \n'),
+  prompt('', _),
+  prompt('Cpf do cliente: ', IdCliente),
+  prompt('Id do filme: ', IdFilme),
+  prompt('Data do Aluguel: ', DataCompra),
+  alugarFilme(IdCliente, DataCompra, IdFilme, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(3) :-
@@ -79,6 +86,13 @@ selecionadoCliente(3) :-
 
 selecionadoCliente(4) :-
   %Escolher serie
+  write('Aluguel de serie \n'),
+  prompt('', _),
+  prompt('Cpf do cliente: ', IdCliente),
+  prompt('Id da serie: ', IdSerie),
+  prompt('Data do Aluguel: ', DataCompra),
+  alugarSerie(IdCliente, DataCompra, IdSerie, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(5) :-
@@ -89,6 +103,13 @@ selecionadoCliente(5) :-
 
 selecionadoCliente(6) :-
   %Escolher jogo
+  write('Aluguel de jogo \n'),
+  prompt('', _),
+  prompt('Cpf do cliente: ', IdCliente),
+  prompt('Id do jogo: ', IdJogo),
+  prompt('Data do Aluguel: ', DataCompra),
+  alugarJogo(IdCliente, DataCompra, IdJogo, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(7) :-
@@ -97,22 +118,50 @@ selecionadoCliente(7) :-
 
 selecionadoCliente(8) :-
   %Adicionar Filme ao carrinho
+  write('Escolha de filme \n'),
+  prompt('', _),
+  prompt('Id do filme: ', IdFilme),
+  prompt('Cpf do cliente: ', IdCliente),
+  adicionaFilme(IdFilme, IdCliente, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(9) :-
   %Adicionar Jogo ao carrinho
+  write('Escolha de jogo \n'),
+  prompt('', _),
+  prompt('Id do jogo: ', IdJogo),
+  prompt("Cpf do cliente: ", IdCliente),
+  adicionaJogo(IdJogo, IdCliente, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(10) :-
   %Adicionar Série ao carrinho
+  write('Escolha de serie \n'),
+  prompt('', _),
+  prompt('Id da serie: ', IdSerie),
+  prompt('Cpf do cliente: ', IdCliente),
+  adicionaSerie(IdSerie, IdCliente, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(11) :-
   %Remover de carrinho
+  write("Removendo do carrinho"),
+  prompt("", _),
+  prompt("Cpf do cliente: ", IdCliente),
+  prompt("Id do produto no carrinho: ", IdProduto),
+  removeProdutoCarrinho(IdProduto, IdCliente, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(12) :-
   %Ver carrinho
+  prompt('', _),
+  prompt('Cpf do cliente: ', IdCliente),
+  verCarrinho(IdCliente, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(13) :-
@@ -121,6 +170,10 @@ selecionadoCliente(13) :-
 
 selecionadoCliente(14) :-
   %Listar histórico cliente
+  prompt('', _),
+  prompt('Digite o CPF do cliente: ', ID),
+  exibirHistoricoCliente(ID, Resposta),
+  write(Resposta),
   cliente.
 
 selecionadoCliente(15) :-
@@ -146,8 +199,8 @@ funcionario :-
   write('12 - Cadastrar jogo\n'),
   write('13 - Exlcuir jogo\n'),
   write('14 - menu principal\n'),
-  write('--->'),
-  read(Opcao),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionadoFuncionario(Opcao).
 
@@ -295,8 +348,8 @@ gerente :-
   write('3- Listar funcionários\n'),
   write('4- Estatisticas de vendas\n'),
   write('5- menu principal\n'),
-  write('--->'),
-  read(Opcao),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionadoGerente(Opcao).
 
@@ -334,8 +387,8 @@ selecionadoGerente(4) :-
   write('3- Estatistica de jogos\n'),
   write('4- Estatistica de renda\n'),
   write('5- Menu principal\n'),
-  write('--->'),
-  read(Opcao),
+  prompt('----> ', Input),
+  atom_number(Input, Opcao),
   write('\n'),
   selecionadoSubopcaoGerente(Opcao),
   gerente.

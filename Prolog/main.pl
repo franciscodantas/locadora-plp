@@ -19,13 +19,16 @@ main :-
   selecionado(Opcao).
 
 selecionado(1) :-
-  cliente.
+  cliente,
+  main.
 
 selecionado(2) :-
-  funcionario.
+  funcionario,
+  main.
 
 selecionado(3) :-
-  gerente.
+  gerente,
+  main.
 
 selecionado(4) :- write('Saindo...'), 
 halt.

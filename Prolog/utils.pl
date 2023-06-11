@@ -48,6 +48,35 @@ organizaListagemProdutos([H|T], Resposta) :-
     string_concat(Produtos, '\n', ProdutosConcatenados),
     string_concat(ProdutosConcatenados, Resposta1, Resposta).
 
+concatena_strings(ListaStrings, Resultado) :-
+    concatena_strings_aux(ListaStrings, '', Resultado).
+
+concatena_strings_aux([], Acumulador, Acumulador).
+concatena_strings_aux([String | Resto], Acumulador, Resultado) :-
+    atom_concat(Acumulador, String, NovoAcumulador),
+    concatena_strings_aux(Resto, NovoAcumulador, Resultado).
+
+formata_valor(Valor, ValorFormatado) :-
+    format(atom(AtomValorFormatado), 'R$ ~2f', [Valor]),
+    atom_chars(AtomValorFormatado, ListaChars),
+    substitui_ponto_virgula(ListaChars, ListaCharsFormatada),
+    atom_chars(ValorFormatado, ListaCharsFormatada).
+
+substitui_ponto_virgula([], []).
+substitui_ponto_virgula(['.'|T], [','|T2]) :-
+    substitui_ponto_virgula(T, T2).
+substitui_ponto_virgula([H|T], [H|T2]) :-
+    substitui_ponto_virgula(T, T2).
+
+% Organiza a listagem de produtos, apresentando nome, categoria e quantidade de aluguéis
+organizaListagemEstatistica([], '').
+organizaListagemEstatistica([H|T], Resposta) :-
+    organizaListagemEstatistica(T, Resposta1),
+    extract_info_produtos(H, _, Nome, _, Categoria, PrecoPorDia, QtdAlugueis),
+    formata_valor(PrecoPorDia, PrecoPorDiaFormatado),
+    concatena_strings(['\nNome: ', Nome, '\nCategoria: ', Categoria, '\nQuantidade de alugueis: ', QtdAlugueis, '\nPreco por dia: ', PrecoPorDiaFormatado, '\n'], ProdutosConcatenados),
+    string_concat(ProdutosConcatenados, Resposta1, Resposta).
+
 organizaListagemCliente([], '').
 organizaListagemCliente([H|T], Resposta) :-
     organizaListagemCliente(T, Resposta1),
@@ -74,6 +103,11 @@ prompt(Message, String) :-
     flush_output,
     read_line_to_codes(user_input, Codes),
     string_codes(String, Codes).
+
+
+string_para_float(String, Float) :-
+    atom_chars(String, Chars),    % Converte a string em uma lista de caracteres
+    number_chars(Float, Chars).   % Converte a lista de caracteres em um número de ponto flutuante
 
 /* As regras get_produto_em_destaque e seleciona_aluguel_destaque são
 responsáveis por selecionar o produto em detaque positivo ou negativo
@@ -109,3 +143,6 @@ get_n_destaques(Produtos, N, Tipo_Destaque, Destaques_Atuais, Destaques_Finais) 
 get_produto_by_tipo(IdProduto, Produto, 'filme') :- get_filme_by_id(IdProduto, Produto).
 get_produto_by_tipo(IdProduto, Produto, 'serie') :- get_serie_by_id(IdProduto, Produto).
 get_produto_by_tipo(IdProduto, Produto, 'jogo') :- get_jogo_by_id(IdProduto, Produto).
+string_para_float(String, Float) :-
+    atom_chars(String, Chars),    % Converte a string em uma lista de caracteres
+    number_chars(Float, Chars).   % Converte a lista de caracteres em um número de ponto flutuante

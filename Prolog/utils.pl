@@ -93,3 +93,7 @@ prompt(Message, String) :-
     flush_output,
     read_line_to_codes(user_input, Codes),
     string_codes(String, Codes).
+
+string_para_float(String, Float) :-
+    atom_chars(String, Chars),    % Converte a string em uma lista de caracteres
+    number_chars(Float, Chars).   % Converte a lista de caracteres em um número de ponto flutuante

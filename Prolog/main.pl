@@ -153,25 +153,27 @@ funcionario :-
 
 selecionadoFuncionario(1) :-
   %Listar filmes disponiveis
+  write('Lista de filmes disponiveis:\n\n'),
   listaFilmes(Resposta),
   write(Resposta),
   funcionario.
 
 selecionadoFuncionario(2) :-
   %Listar series disponiveis
+  write('Lista de series disponiveis:\n\n'),
   listaSeries(Resposta),
   write(Resposta),
   funcionario.
 
 selecionadoFuncionario(3) :-
   %Listar jogos disponiveis
+  write('Lista de jogos disponiveis:\n\n'),
   listaJogos(Resposta),
   write(Resposta),
   funcionario.
 
 selecionadoFuncionario(4) :-
   %Cadastrar cliente
-  write('Cadastro de cliente\n'),
   prompt('', _),
   prompt('Digite o nome do cliente: ', Nome),
   prompt('Digite o CPF do cliente: ', ID),
@@ -183,6 +185,7 @@ selecionadoFuncionario(4) :-
 
 selecionadoFuncionario(5) :-
   %Listar clientes
+  write('Lista de clientes:\n\n'),
   listaClientes(Resposta),
   write(Resposta),
   funcionario.

@@ -24,7 +24,8 @@ adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Res
     atom_string(IDAtom, ID),
     get_serie_by_id(IDAtom, Serie),
     Serie = -1,
-    add_serie(ID, Nome, Descricao, Categoria, Preco),
+    string_para_float(Preco, PrecoFloat),
+    add_serie(ID, Nome, Descricao, Categoria, PrecoFloat),
     Resposta = 'Serie adicionada!'.
 
 % Caso algo não ocorra como o esperado, retorna uma mensagem de erro
@@ -50,7 +51,8 @@ adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Res
     atom_string(IDAtom, ID),
     get_filme_by_id(IDAtom, Filme),
     Filme = -1,
-    add_filme(ID, Nome, Descricao, Categoria, Preco),
+    string_para_float(Preco, PrecoFloat),
+    add_filme(ID, Nome, Descricao, Categoria, PrecoFloat),
     Resposta = 'Filme adicionado!'.
 
 % Caso algo não ocorra como o esperado, retorna uma mensagem de erro
@@ -76,7 +78,8 @@ adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resp
     atom_string(IDAtom, ID),
     get_jogo_by_id(IDAtom, Jogo),
     Jogo = -1,
-    add_jogo(ID, Nome, Descricao, Categoria, Preco),
+    string_para_float(Preco, PrecoFloat),
+    add_jogo(ID, Nome, Descricao, Categoria, PrecoFloat),
     Resposta = 'Jogo adicionado!'.
 
 % Caso algo não ocorra como o esperado, retorna uma mensagem de erro

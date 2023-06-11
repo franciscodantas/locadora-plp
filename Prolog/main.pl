@@ -60,6 +60,16 @@ cliente :-
   write('\n'),
   selecionadoCliente(Opcao).
 
+subMenuDiasSemanas(Opc) :-
+  write('1 - Alugar por dias\n'),
+  write('2 - Alugar por semanas\n'),
+  read(Opc).
+
+subMenuCategoria(Opc) :-
+  write('1 - Filmes por categoria\n'),
+  write('2 - Series por categoria\n'),
+  write('3 - Jogos por categoria\n'),
+  read(Opc).
 
 selecionadoCliente(1) :-
   %Listar filmes
@@ -68,14 +78,12 @@ selecionadoCliente(1) :-
   cliente.
 
 selecionadoCliente(2) :-
-  %Escolher filme
-  write('Aluguel de filme \n'),
   prompt('', _),
-  prompt('Cpf do cliente: ', IdCliente),
-  prompt('Id do filme: ', IdFilme),
-  prompt('Data do Aluguel: ', DataCompra),
-  alugarFilme(IdCliente, DataCompra, IdFilme, Resposta),
-  write(Resposta),
+  prompt('Seu Id: ', Id),
+  valida_cliente(Id),
+  prompt('Nome do filme: ', Nome),
+  subMenuDiasSemanas(Opc),
+  alugaFilme(Id, Nome, Opc),
   cliente.
 
 selecionadoCliente(3) :-
@@ -85,14 +93,12 @@ selecionadoCliente(3) :-
   cliente.
 
 selecionadoCliente(4) :-
-  %Escolher serie
-  write('Aluguel de serie \n'),
   prompt('', _),
-  prompt('Cpf do cliente: ', IdCliente),
-  prompt('Id da serie: ', IdSerie),
-  prompt('Data do Aluguel: ', DataCompra),
-  alugarSerie(IdCliente, DataCompra, IdSerie, Resposta),
-  write(Resposta),
+  prompt('Seu Id: ', Id),
+  valida_cliente(Id),
+  prompt('Nome da serie: ', Nome),
+  subMenuDiasSemanas(Opc),
+  alugaSerie(Id, Nome, Opc),
   cliente.
 
 selecionadoCliente(5) :-
@@ -102,66 +108,56 @@ selecionadoCliente(5) :-
   cliente.
 
 selecionadoCliente(6) :-
-  %Escolher jogo
-  write('Aluguel de jogo \n'),
   prompt('', _),
-  prompt('Cpf do cliente: ', IdCliente),
-  prompt('Id do jogo: ', IdJogo),
-  prompt('Data do Aluguel: ', DataCompra),
-  alugarJogo(IdCliente, DataCompra, IdJogo, Resposta),
-  write(Resposta),
+  prompt('Seu Id: ', Id),
+  valida_cliente(Id),
+  prompt('Nome do jogo: ', Nome),
+  subMenuDiasSemanas(Opc),
+  alugaJogo(Id, Nome, Opc),
   cliente.
 
 selecionadoCliente(7) :-
-  %Produto por categoria
+  subMenuCategoria(Opc),
+  produtoPorCategoria(Opc),
   cliente.
 
 selecionadoCliente(8) :-
-  %Adicionar Filme ao carrinho
-  write('Escolha de filme \n'),
   prompt('', _),
-  prompt('Id do filme: ', IdFilme),
-  prompt('Cpf do cliente: ', IdCliente),
-  adicionaFilme(IdFilme, IdCliente, Resposta),
-  write(Resposta),
+  prompt('Seu Id: ', Id),
+  valida_cliente(Id),
+  prompt('Nome do filme: ', Nome),
+  addFilmeCarrinho(Id, Nome),
   cliente.
 
 selecionadoCliente(9) :-
-  %Adicionar Jogo ao carrinho
-  write('Escolha de jogo \n'),
   prompt('', _),
-  prompt('Id do jogo: ', IdJogo),
-  prompt("Cpf do cliente: ", IdCliente),
-  adicionaJogo(IdJogo, IdCliente, Resposta),
-  write(Resposta),
+  prompt('Seu Id: ', Id),
+  valida_cliente(Id),
+  prompt('Nome do jogo: ', Nome),
+  addJogoCarrinho(Id, Nome),
   cliente.
 
 selecionadoCliente(10) :-
-  %Adicionar Série ao carrinho
-  write('Escolha de serie \n'),
   prompt('', _),
-  prompt('Id da serie: ', IdSerie),
-  prompt('Cpf do cliente: ', IdCliente),
-  adicionaSerie(IdSerie, IdCliente, Resposta),
-  write(Resposta),
+  prompt('Seu Id: ', Id),
+  valida_cliente(Id),
+  prompt('Nome da série: ', Nome),
+  addSerieCarrinho(Id, Nome),
   cliente.
 
 selecionadoCliente(11) :-
-  %Remover de carrinho
-  write("Removendo do carrinho"),
-  prompt("", _),
-  prompt("Cpf do cliente: ", IdCliente),
-  prompt("Id do produto no carrinho: ", IdProduto),
-  removeProdutoCarrinho(IdProduto, IdCliente, Resposta),
-  write(Resposta),
+  prompt('', _),
+  prompt('Seu Id: ', Id),
+  valida_cliente(Id),
+  prompt('Nome do produto: ', Nome),
+  removeDoCarrinhoTipo(Id, Nome),
   cliente.
 
 selecionadoCliente(12) :-
-  %Ver carrinho
   prompt('', _),
-  prompt('Cpf do cliente: ', IdCliente),
-  verCarrinho(IdCliente, Resposta),
-  write(Resposta),
+  prompt('Seu Id: ', Id),
+  exibeCarrinho(Id, Resposta),
+  write(Resposta).
   cliente.
 
 selecionadoCliente(13) :-
@@ -169,11 +165,10 @@ selecionadoCliente(13) :-
   cliente.
 
 selecionadoCliente(14) :-
-  %Listar histórico cliente
   prompt('', _),
-  prompt('Digite o CPF do cliente: ', ID),
-  exibirHistoricoCliente(ID, Resposta),
-  write(Resposta),
+  prompt('Seu Id: ', Id),
+  exibeHistorico(Id, Resposta),
+  write(Resposta).
   cliente.
 
 selecionadoCliente(15) :-

@@ -259,7 +259,10 @@ get_recomendacoes_especificas(1, Historico, Resposta) :-
     listaNuncaAlugados(HisFilmes, TodosFilmes, [], NuncaAlugados), % Todos os filmes que o cliente não viu
     listaRecs(Categorias, NuncaAlugados, [], Recs), % Filmes que o cliente não viu e são das categorias que o cliente mostrou interesse
     get_n_destaques(Recs, 3, 'mais_alugado', [], R), % 3 mais alugados da lista anterior 
-    organizaListagemProdutos(R, Resposta).
+    length(R, LenHist),
+    (LenHist = 0 -> 
+        get_recomendacoes_gerais(2, Resposta);
+        organizaListagemProdutos(R, Resposta)).
 
 % Próximos predicados de recomendação seguem a mesma lógica do anterior.
 % Recomendações de séries
@@ -270,7 +273,10 @@ get_recomendacoes_especificas(2, Historico, Resposta) :-
     listaNuncaAlugados(HisSeries, TodasSeries, [], NuncaAlugados),
     listaRecs(Categorias, NuncaAlugados, [], Recs),
     get_n_destaques(Recs, 3, 'mais_alugado', [], R),
-    organizaListagemProdutos(R, Resposta).
+    length(R, LenHist),
+    (LenHist = 0 -> 
+        get_recomendacoes_gerais(2, Resposta);
+        organizaListagemProdutos(R, Resposta)).
 
 % Recomendações de jogos
 get_recomendacoes_especificas(2, Historico, Resposta) :- 
@@ -280,7 +286,10 @@ get_recomendacoes_especificas(2, Historico, Resposta) :-
     listaNuncaAlugados(HisJogos, TodasSeries, [], NuncaAlugados),
     listaRecs(Categorias, NuncaAlugados, [], Recs),
     get_n_destaques(Recs, 3, 'mais_alugado', [], R),
-    organizaListagemProdutos(R, Resposta).
+    length(R, LenHist),
+    (LenHist = 0 -> 
+        get_recomendacoes_gerais(2, Resposta);
+        organizaListagemProdutos(R, Resposta)).
 
 exibeHistorico(Id, Resposta) :-
     atom_string(IDAtom, Id),

@@ -27,22 +27,8 @@ organizaListagemHistorico([H|T], Resposta) :-
     organizaListagemHistorico(T, Resposta1),
     extract_info_historico(H, _, _, IdProduto, Tipo, _),
     get_info(IdProduto, Tipo, Nome, Descricao),
-    string_concat(Nome, ' - ', NomeLinha),
-    string_concat(NomeLinha, Descricao, NomeLinhaComQuebraDeLinha),
-    string_concat(NomeLinhaComQuebraDeLinha, '\n\n', NomeLinhaComQuebraDeLinhaComQuebraDeLinha),
-    string_concat(NomeLinhaComQuebraDeLinhaComQuebraDeLinha, Resposta1, Resposta).
-
-% Regra que formata os dados do carrinho recebidos do banco de dados
-% Essa regra organiza o carrinho para a impressão no main
-organizaListagemCarrinho([], '').
-organizaListagemCarrinho([H|T], Resposta) :- 
-    organizaListagemCarrinho(T, Resposta1),
-    extract_info_carrinho(H, _, IdProduto, Tipo),
-    get_info(IdProduto, Tipo, Nome, Descricao),
-    string_concat(Nome, ' - ', NomeLinha),
-    string_concat(NomeLinha, Descricao, NomeLinhaComQuebraDeLinha),
-    string_concat(NomeLinhaComQuebraDeLinha, '\n\n', NomeLinhaComQuebraDeLinhaComQuebraDeLinha),
-    string_concat(NomeLinhaComQuebraDeLinhaComQuebraDeLinha, Resposta1, Resposta).
+    concatena_strings(['\nNome: ', Nome, '\nDescrição: ', Descricao,'\n'], ProdutosConcatenados),
+    string_concat(ProdutosConcatenados, Resposta1, Resposta).
 
 % Regra que formata os dados dos produtos recebidos do banco de dados
 % Essa regra organiza os produtos para a impressão no main
@@ -50,10 +36,7 @@ organizaListagemProdutos([], '').
 organizaListagemProdutos([H|T], Resposta) :-
     organizaListagemProdutos(T, Resposta1),
     extract_info_produtos(H, _, Nome, Descricao, _, _, _),
-    string_concat(Nome, '\n', NomeComQuebraDeLinha),
-    string_concat(Descricao, '\n', DescricaoComQuebraDeLinha),
-    string_concat(NomeComQuebraDeLinha, DescricaoComQuebraDeLinha, Produtos),
-    string_concat(Produtos, '\n', ProdutosConcatenados),
+    concatena_strings(['\nNome: ', Nome, '\nDescrição: ', Descricao,'\n'], ProdutosConcatenados),
     string_concat(ProdutosConcatenados, Resposta1, Resposta).
 
 % Regra que formata os dados recebidos do banco de dados com os produtos mais vendidos
@@ -72,10 +55,19 @@ organizaListagemCliente([], '').
 organizaListagemCliente([H|T], Resposta) :-
     organizaListagemCliente(T, Resposta1),
     extract_info_clientes(H, Id, Nome, _, _),
-    string_concat(Nome, ' - ', NomeLinha),
-    string_concat(NomeLinha, Id, Clientes),
-    string_concat(Clientes, '\n', ClientesConcatenados),
-    string_concat(ClientesConcatenados, Resposta1, Resposta).
+    concatena_strings(['\nNome: ', Nome, '\nCPF: ', Id,'\n'], ProdutosConcatenados),
+    string_concat(ProdutosConcatenados, Resposta1, Resposta).
+
+
+% Regra que formata os dados do carrinho recebidos do banco de dados
+% Essa regra organiza o carrinho para a impressão no main
+organizaListagemCarrinho([], '').
+organizaListagemCarrinho([H|T], Resposta) :- 
+    organizaListagemCarrinho(T, Resposta1),
+    extract_info_carrinho(H, _, IdProduto, Tipo),
+    get_info(IdProduto, Tipo, Nome, Descricao),
+    concatena_strings(['\nNome: ', Nome, '\nDescrição: ', Descricao,'\n'], ProdutosConcatenados),
+    string_concat(ProdutosConcatenados, Resposta1, Resposta).
 
 % Regra que recebe uma lista de string retorna a concatenação de todas
 concatena_strings(ListaStrings, Resultado) :-

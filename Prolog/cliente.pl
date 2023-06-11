@@ -1,11 +1,3 @@
-:- use_module(library(http/json)).
-:- import('utils.pl').
-:- consult('DataBase/GerenciadorBD.pl').
-:- encoding(utf8).
-:- set_prolog_flag(encoding, utf8).
-:- use_module(library(date)).
-:- use_module(library(random)).
-
 alugaFilme(ID, NomeFilme, 1):-
     prompt('Quantidade de dias: ', Dias),
     number_string(DiasNum, Dias),

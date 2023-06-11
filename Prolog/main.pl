@@ -1,10 +1,34 @@
 :- initialization (main).
-:- consult('cliente.pl').
+% Inclusão da base de dados
+:- consult('DataBase/gerenciadorGeral.pl').
+:- consult('DataBase/gerenciadorProdutos.pl').
+:- consult('DataBase/gerenciadorClientes.pl').
+:- consult('DataBase/gerenciadorFuncionarios.pl').
+:- consult('DataBase/gerenciadorGerentes.pl').
+
+% Inclusão das constantes
+:- consult('constantes.pl').
+
+% Inclusão das funções das entidades
+:- include('cliente.pl').
 :- include('funcionario.pl').
 :- include('gerente.pl').
+
+% Inclusão dos utilitários
 :- consult('utils.pl').
 :- encoding(utf8).
 :- set_prolog_flag(encoding, utf8).
+:- use_module(library(http/json)).
+:- use_module(library(date)).
+:- use_module(library(random)).
+
+% Regra que generaliza a interação com o usuário
+% Esse regra imprime uma mensagem no terminal e pega um dado usuário
+prompt(Message, String) :-
+    write(Message),
+    flush_output,
+    read_line_to_codes(user_input, Codes),
+    string_codes(String, Codes).
 
 main :- 
   writeln('\n======== Locadora - Sistema ========\n'),
@@ -19,24 +43,24 @@ main :-
   selecionado(Opcao).
 
 selecionado(1) :-
-  cliente,
-  main.
+    cliente,
+    main.
 
 selecionado(2) :-
-  funcionario,
-  main.
+    funcionario,
+    main.
 
 selecionado(3) :-
-  gerente,
-  main.
+    gerente,
+    main.
 
 selecionado(4) :- 
   write('Saindo...'), 
   halt.
 
 selecionado(_) :-
-  write('Selecione uma opção válida'),
-  main.
+    write('Selecione uma opção válida'),
+    main.
 
 %Menu cliente
 cliente :-
@@ -63,10 +87,10 @@ cliente :-
   selecionadoCliente(Opcao).
 
 selecionadoCliente(1) :-
-  %Listar filmes
-  listaFilmes(Resposta),
-  write(Resposta),
-  cliente.
+    %Listar filmes
+    listaFilmes(Resposta),
+    write(Resposta),
+    cliente.
 
 selecionadoCliente(2) :-
   prompt('Seu Id: ', Id),
@@ -77,10 +101,10 @@ selecionadoCliente(2) :-
   cliente.
 
 selecionadoCliente(3) :-
-  %Listar series
-  listaSeries(Resposta),
-  write(Resposta),
-  cliente.
+    %Listar series
+    listaSeries(Resposta),
+    write(Resposta),
+    cliente.
 
 selecionadoCliente(4) :-
   prompt('Seu Id: ', Id),
@@ -91,10 +115,10 @@ selecionadoCliente(4) :-
   cliente.
 
 selecionadoCliente(5) :-
-  %Listar jogos
-  listaJogos(Resposta),
-  write(Resposta),
-  cliente.
+    %Listar jogos
+    listaJogos(Resposta),
+    write(Resposta),
+    cliente.
 
 selecionadoCliente(6) :-
   prompt('Seu Id: ', Id),
@@ -253,101 +277,101 @@ selecionadoFuncionario(5) :-
   funcionario.
 
 selecionadoFuncionario(6) :-
-  %Encerrar cadastro de cliente
-  prompt('', _),
-  prompt('Digite o CPF do cliente: ', ID),
-  prompt('Digite o seu Id: ', IdFuncionario),
-  prompt('Digite a senha: ', Senha),
-  removerCliente(ID, IdFuncionario, Senha, Resposta),  
-  write(Resposta),
-  funcionario.
+    %Encerrar cadastro de cliente
+    prompt('', _),
+    prompt('Digite o CPF do cliente: ', ID),
+    prompt('Digite o seu Id: ', IdFuncionario),
+    prompt('Digite a senha: ', Senha),
+    removerCliente(ID, IdFuncionario, Senha, Resposta),    
+    write(Resposta),
+    funcionario.
 
 selecionadoFuncionario(7) :-
-  %Exibir historico cliente
-  prompt('', _),
-  prompt('Digite o CPF do cliente: ', ID),
-  exibirHistoricoCliente(ID, Resposta),
-  write(Resposta),
-  funcionario.
+    %Exibir historico cliente
+    prompt('', _),
+    prompt('Digite o CPF do cliente: ', ID),
+    exibirHistoricoCliente(ID, Resposta),
+    write(Resposta),
+    funcionario.
 
 selecionadoFuncionario(8) :-
-  %Cadastrar série
-  prompt('', _),
-  prompt('Digite o nome da série: ', Nome),
-  prompt('Digite o ID da série: ', ID),
-  prompt('Digite o ID do funcionário: ', IdFuncionario),
-  prompt('Digite a senha: ', Senha),
-  prompt('Digite a categoria: ', Categoria),
-  prompt('Digite a descrição: ', Descricao),
-  prompt('Digite o preço: ', Preco),
-  adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
-  write(Resposta),
-  funcionario.
+    %Cadastrar série
+    prompt('', _),
+    prompt('Digite o nome da série: ', Nome),
+    prompt('Digite o ID da série: ', ID),
+    prompt('Digite o ID do funcionário: ', IdFuncionario),
+    prompt('Digite a senha: ', Senha),
+    prompt('Digite a categoria: ', Categoria),
+    prompt('Digite a descrição: ', Descricao),
+    prompt('Digite o preço: ', Preco),
+    adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
+    write(Resposta),
+    funcionario.
 
 selecionadoFuncionario(9) :-
-  %Excluir série
-  prompt('', _),
-  prompt('Digite o ID da série: ', ID),
-  prompt('Digite o ID do funcionário: ', IdFuncionario),
-  prompt('Digite a senha: ', Senha),
-  removerSeries(ID, IdFuncionario, Senha, Resposta),
-  write(Resposta),
-  funcionario.
+    %Excluir série
+    prompt('', _),
+    prompt('Digite o ID da série: ', ID),
+    prompt('Digite o ID do funcionário: ', IdFuncionario),
+    prompt('Digite a senha: ', Senha),
+    removerSeries(ID, IdFuncionario, Senha, Resposta),
+    write(Resposta),
+    funcionario.
 
 selecionadoFuncionario(10) :-
-  %Cadastrar filme
-  prompt('', _),
-  prompt('Digite o nome do filme: ', Nome),
-  prompt('Digite o ID do filme: ', ID),
-  prompt('Digite o ID do funcionário: ', IdFuncionario),
-  prompt('Digite a senha: ', Senha),
-  prompt('Digite a categoria: ', Categoria),
-  prompt('Digite a descrição: ', Descricao),
-  prompt('Digite o preço: ', Preco),
-  adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
-  write(Resposta),
-  funcionario.
+    %Cadastrar filme
+    prompt('', _),
+    prompt('Digite o nome do filme: ', Nome),
+    prompt('Digite o ID do filme: ', ID),
+    prompt('Digite o ID do funcionário: ', IdFuncionario),
+    prompt('Digite a senha: ', Senha),
+    prompt('Digite a categoria: ', Categoria),
+    prompt('Digite a descrição: ', Descricao),
+    prompt('Digite o preço: ', Preco),
+    adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
+    write(Resposta),
+    funcionario.
 
 selecionadoFuncionario(11) :-
-  %Excluir filme
-  prompt('', _),
-  prompt('Digite o ID do filme: ', ID),
-  prompt('Digite o ID do funcionário: ', IdFuncionario),
-  prompt('Digite a senha: ', Senha),
-  removerFilmes(ID, IdFuncionario, Senha, Resposta),
-  write(Resposta),
-  funcionario.
+    %Excluir filme
+    prompt('', _),
+    prompt('Digite o ID do filme: ', ID),
+    prompt('Digite o ID do funcionário: ', IdFuncionario),
+    prompt('Digite a senha: ', Senha),
+    removerFilmes(ID, IdFuncionario, Senha, Resposta),
+    write(Resposta),
+    funcionario.
 
 selecionadoFuncionario(12) :-
-  %Cadastrar jogo
-  prompt('', _),
-  prompt('Digite o nome do jogo: ', Nome),
-  prompt('Digite o ID do jogo: ', ID),
-  prompt('Digite o ID do funcionário: ', IdFuncionario),
-  prompt('Digite a senha: ', Senha),
-  prompt('Digite a categoria: ', Categoria),
-  prompt('Digite a descrição: ', Descricao),
-  prompt('Digite o preço: ', Preco),
-  adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
-  write(Resposta),
-  funcionario.
+    %Cadastrar jogo
+    prompt('', _),
+    prompt('Digite o nome do jogo: ', Nome),
+    prompt('Digite o ID do jogo: ', ID),
+    prompt('Digite o ID do funcionário: ', IdFuncionario),
+    prompt('Digite a senha: ', Senha),
+    prompt('Digite a categoria: ', Categoria),
+    prompt('Digite a descrição: ', Descricao),
+    prompt('Digite o preço: ', Preco),
+    adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta),
+    write(Resposta),
+    funcionario.
 
 selecionadoFuncionario(13) :-
-  %Exlcuir jogo
-  prompt('', _),
-  prompt('Digite o ID do jogo: ', ID),
-  prompt('Digite o ID do funcionário: ', IdFuncionario),
-  prompt('Digite a senha: ', Senha),
-  removerJogos(ID, IdFuncionario, Senha, Resposta),
-  write(Resposta),
-  funcionario.
+    %Exlcuir jogo
+    prompt('', _),
+    prompt('Digite o ID do jogo: ', ID),
+    prompt('Digite o ID do funcionário: ', IdFuncionario),
+    prompt('Digite a senha: ', Senha),
+    removerJogos(ID, IdFuncionario, Senha, Resposta),
+    write(Resposta),
+    funcionario.
 
 selecionadoFuncionario(14) :-
-  %menu principal
-  main.
+    %menu principal
+    main.
 
 selecionadoFuncionario(_) :- write('Opcao invalida'),
-  funcionario.
+    funcionario.
 
 %Menu gerente
 gerente :- 
@@ -363,30 +387,30 @@ gerente :-
   selecionadoGerente(Opcao).
 
 selecionadoGerente(1) :-
-  %Cadastrar funcionário
-  prompt('', _),
-  prompt('Digite o nome do funcionário: ', Nome),
-  prompt('Digite o ID do funcionário: ', Id),
-  prompt('Digite a senha do Funcionário: ', SenhaFunc),
-  prompt('Digite a senha: ', Senha),
-  prompt('Digite o seu Id: ', IdGerente),
-  cadastrarFuncionario(Id,Nome,SenhaFunc, IdGerente, Senha, Resposta),
-  write(Resposta),
-  gerente.
-  
+    %Cadastrar funcionário
+    prompt('', _),
+    prompt('Digite o nome do funcionário: ', Nome),
+    prompt('Digite o ID do funcionário: ', Id),
+    prompt('Digite a senha do Funcionário: ', SenhaFunc),
+    prompt('Digite a senha: ', Senha),
+    prompt('Digite o seu Id: ', IdGerente),
+    cadastrarFuncionario(Id,Nome,SenhaFunc, IdGerente, Senha, Resposta),
+    write(Resposta),
+    gerente.
+    
 selecionadoGerente(2) :-
-  %Exibir funcionário
-  prompt('', _),
-  prompt('Digite o ID do funcionário: ', ID),
-  exibirFuncionario(ID, Resposta),
-  write(Resposta),
-  gerente.
+    %Exibir funcionário
+    prompt('', _),
+    prompt('Digite o ID do funcionário: ', ID),
+    exibirFuncionario(ID, Resposta),
+    write(Resposta),
+    gerente.
 
 selecionadoGerente(3) :-
-  %Listar funcionários
-  listaFuncionarios(Resposta),
-  write(Resposta),
-  gerente.
+    %Listar funcionários
+    listaFuncionarios(Resposta),
+    write(Resposta),
+    gerente.
 
 selecionadoGerente(4) :-
   %Estatisticas de vendas
@@ -403,50 +427,50 @@ selecionadoGerente(4) :-
   gerente.
 
 selecionadoGerente(5) :-
-  %menu principal
-  main.
+    %menu principal
+    main.
 
 selecionadoGerente(_) :- write('Opcao invalida'),
-  gerente.
+    gerente.
 
 selecionadoSubopcaoGerente(1) :- 
-  get_top_filmes_mais_alugados(Filmes_Mais_Alugados),
-  get_top_filmes_menos_alugados(Filmes_Menos_Alugados),
-  writeln('======== FILMES MAIS ALUGADOS ========'),
-  writeln(Filmes_Mais_Alugados),
-  writeln('======== FILMES MENOS ALUGADOS ========'),
-  writeln(Filmes_Menos_Alugados),
+    get_top_filmes_mais_alugados(Filmes_Mais_Alugados),
+    get_top_filmes_menos_alugados(Filmes_Menos_Alugados),
+    writeln('======== FILMES MAIS ALUGADOS ========'),
+    writeln(Filmes_Mais_Alugados),
+    writeln('======== FILMES MENOS ALUGADOS ========'),
+    writeln(Filmes_Menos_Alugados),
 
-  gerente.
+    gerente.
 
 selecionadoSubopcaoGerente(2) :- 
-  get_top_series_mais_alugadas(Series_Mais_Alugadas),
-  get_top_series_menos_alugadas(Series_Menos_Alugadas),
-  writeln('======== SÉRIES MAIS ALUGADAS ========'),
-  writeln(Series_Mais_Alugadas),
-  writeln('======== SÉRIES MENOS ALUGADAS ========'),
-  writeln(Series_Menos_Alugadas),
+    get_top_series_mais_alugadas(Series_Mais_Alugadas),
+    get_top_series_menos_alugadas(Series_Menos_Alugadas),
+    writeln('======== SÉRIES MAIS ALUGADAS ========'),
+    writeln(Series_Mais_Alugadas),
+    writeln('======== SÉRIES MENOS ALUGADAS ========'),
+    writeln(Series_Menos_Alugadas),
 
-  gerente.
+    gerente.
 
 selecionadoSubopcaoGerente(3) :- 
-  get_top_jogos_mais_alugados(Jogos_Mais_Alugados),
-  get_top_jogos_menos_alugados(Jogos_Menos_Alugados),
-  writeln('======== JOGOS MAIS ALUGADOS ========'),
-  writeln(Jogos_Mais_Alugados),
-  writeln('======== JOGOS MENOS ALUGADOS ========'),
-  writeln(Jogos_Menos_Alugados),
-  
-  gerente.
+    get_top_jogos_mais_alugados(Jogos_Mais_Alugados),
+    get_top_jogos_menos_alugados(Jogos_Menos_Alugados),
+    writeln('======== JOGOS MAIS ALUGADOS ========'),
+    writeln(Jogos_Mais_Alugados),
+    writeln('======== JOGOS MENOS ALUGADOS ========'),
+    writeln(Jogos_Menos_Alugados),
+    
+    gerente.
 
 selecionadoSubopcaoGerente(4) :- 
-  writeln('======== ESTATÍSTICA DE RENDA ========'),
-  calcular_renda_total(Renda),
-  writeln(Renda),
-  gerente.
+    writeln('======== ESTATÍSTICA DE RENDA ========'),
+    calcular_renda_total(Renda),
+    writeln(Renda),
+    gerente.
 
 selecionadoSubopcaoGerente(5) :- 
-  main.
+    main.
 
 selecionadoSubopcaoGerente(6) :- write('Opcao invalida'),
-  gerente.
+    gerente.

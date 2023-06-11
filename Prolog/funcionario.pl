@@ -1,10 +1,4 @@
-:- use_module(library(http/json)).
-:- import('utils.pl').
-:- consult('DataBase/GerenciadorBD.pl').
-:- encoding(utf8).
-:- set_prolog_flag(encoding, utf8).
-
-% Adiciona um cliente com seu ID e nome, sendo verificado se o cliente já existe e se o funcionario existe
+% Regra que adiciona um cliente
 adicionaCliente(ID,Nome,IdFuncionario, Senha, Resposta) :-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -14,10 +8,10 @@ adicionaCliente(ID,Nome,IdFuncionario, Senha, Resposta) :-
     add_cliente(ID,Nome),
     Resposta = 'Cadastro realizado!'.
 
-% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
+% Regra que  valida a adição de um cliente
 adicionaCliente(_, _, _, _, 'Cadastro não realizado!').
 
-% Adiciona uma Serie com seu ID, nome, categoria, descrição e preço, sendo verificado se a serie já existe e se o funcionario existe
+% Regra que adiciona uma série
 adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta) :-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -28,10 +22,10 @@ adicionarSeries(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Res
     add_serie(ID, Nome, Descricao, Categoria, PrecoFloat),
     Resposta = 'Serie adicionada!'.
 
-% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
+% Regra que  valida a adição de uma série
 adicionarSeries(_, _, _, _, _, _, _, 'Serie não adicionada!').
 
-% Remove uma serie com seu ID, sendo verificado se a serie existe e se o funcionario existe
+% Regra que remove uma série por ID
 removerSeries(ID, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -41,10 +35,10 @@ removerSeries(ID, IdFuncionario, Senha, Resposta):-
     remove_serie_by_id(IDAtom),
     Resposta = 'Serie removida!'.
 
-% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
+% Regra que valida a adição de uma série
 removerSeries(_, _, _, 'Serie não removida!').
 
-% Adiciona um filme com seu ID, nome, categoria, descrição e preço, sendo verificado se o filme já existe e se o funcionario existe
+% Regra que adiciona um filme
 adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -55,10 +49,10 @@ adicionarFilmes(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Res
     add_filme(ID, Nome, Descricao, Categoria, PrecoFloat),
     Resposta = 'Filme adicionado!'.
 
-% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
+% Regra que valida a adição de um filme
 adicionarFilmes(_, _, _, _, _, _, _, 'Filme não adicionado!').
 
-% Remove um filme com seu ID, sendo verificado se o filme existe e se o funcionario existe
+% Regra que remove um filme por ID
 removerFilmes(ID, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -68,10 +62,10 @@ removerFilmes(ID, IdFuncionario, Senha, Resposta):-
     remove_filme_by_id(IDAtom),
     Resposta = 'Filme removido!'.
 
-% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
+% Regra que valida a remoção de um filme
 removerFilmes(_, _, _, 'Filme não removido!').
 
-% Adiciona um jogo com seu ID, nome, categoria, descrição e preço, sendo verificado se o jogo já existe e se o funcionario existe
+% Regra que adiciona um jogo
 adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resposta):- 
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -82,10 +76,10 @@ adicionarJogos(Nome, ID, Categoria, Descricao, Preco, IdFuncionario, Senha, Resp
     add_jogo(ID, Nome, Descricao, Categoria, PrecoFloat),
     Resposta = 'Jogo adicionado!'.
 
-% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
+% Regra que valida a adição de um jogo
 adicionarJogos(_, _, _, _, _, _, _, 'Jogo não adicionado!').
 
-% Remove um jogo com seu ID, sendo verificado se o jogo existe e se o funcionario existe
+% Regra que remove um jogo por ID
 removerJogos(ID, IdFuncionario, Senha, Resposta):-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -95,10 +89,10 @@ removerJogos(ID, IdFuncionario, Senha, Resposta):-
     remove_jogo_by_id(IDAtom),
     Resposta = 'Jogo removido!'.
 
-% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
+% Regra que valida a remoção de um jogo
 removerJogos(_, _, _, 'Jogo não removido!').
 
-% Remove um cliente com seu ID, sendo verificado se o cliente existe e se o funcionario existe
+% Regra que remove um cliete por ID
 removerCliente(ID, IdFuncionario, Senha, Resposta) :-
     validaFuncionario(IdFuncionario, Senha, Resposta1),
     Resposta1 = 'Funcionario validado!',
@@ -108,10 +102,10 @@ removerCliente(ID, IdFuncionario, Senha, Resposta) :-
     remove_cliente_by_id(IDAtom),
     Resposta = 'Cliente removido!'.
 
-% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
+% Regra que valida a remoção de um cliente
 removerCliente(_, _, _, 'Cliente não removido!').
 
-% exibi o historico de compras de um cliente com seu ID, sendo verificado se o cliente existe
+% Regra que exibe o histórico de um ciente por ID
 exibirHistoricoCliente(ID, Resposta) :-
     atom_string(IDAtom, ID),
     get_cliente_by_id(IDAtom, Cliente),
@@ -122,10 +116,10 @@ exibirHistoricoCliente(ID, Resposta) :-
     string_concat(NomeLinha, '\n\n', NomeLinhaComQuebraDeLinha),
     string_concat(NomeLinhaComQuebraDeLinha, Resposta1, Resposta).
 
-% Caso algo não ocorra como o esperado, retorna uma mensagem de erro
+% Regra que valida a exibição do histórico de um cliente
 exibirHistoricoCliente(_, 'Cliente não encontrado!').
 
-% Valida um funcionario com seu ID e senha, sendo verificado se o funcionario existe e possue senha valida
+% Regra que valida um funcionário verificando se a senha dele está correta
 validaFuncionario(IdFuncionario, Senha, Resposta) :-
     atom_string(IdFuncionarioAtom, IdFuncionario),
     get_funcionario_by_id(IdFuncionarioAtom, Funcionario),

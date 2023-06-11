@@ -1,32 +1,25 @@
-:- consult('DataBase/GerenciadorBD.pl').
-
-% Retorna a lista de filmes, com nome e descrição
+% Regra que retorna a lista de filmes, com nome e descrição
 listaFilmes(Resposta) :- 
     get_filmes(Data),
     organizaListagemProdutos(Data, Resposta).
 
+% Regra que retorna a lista de séries, com nome e descrição
 listaSeries(Resposta) :- 
     get_series(Data),
     organizaListagemProdutos(Data, Resposta).
 
+% Regra que retorna a lista de jogos, com nome e descrição
 listaJogos(Resposta) :- 
     get_jogos(Data),
     organizaListagemProdutos(Data, Resposta).
 
+% Regra que retorna a lista de clientes, com nome e ID
 listaClientes(Resposta) :- 
     get_cientes(Data),
     organizaListagemCliente(Data, Resposta).
 
-organizaListagemCarrinho([], '').
-organizaListagemCarrinho([H|T], Resposta) :- 
-    organizaListagemCarrinho(T, Resposta1),
-    extract_info_carrinho(H, _, IdProduto, Tipo),
-    get_info(IdProduto, Tipo, Nome, Descricao),
-    string_concat(Nome, ' - ', NomeLinha),
-    string_concat(NomeLinha, Descricao, NomeLinhaComQuebraDeLinha),
-    string_concat(NomeLinhaComQuebraDeLinha, '\n\n', NomeLinhaComQuebraDeLinhaComQuebraDeLinha),
-    string_concat(NomeLinhaComQuebraDeLinhaComQuebraDeLinha, Resposta1, Resposta).
-
+% Regra que formata os dados do histórico recebidos do banco de dados
+% Essa regra organiza históricos gerais e históricos específicos para a impressão no main
 organizaListagemHistorico([], '').
 organizaListagemHistorico([H|T], Resposta) :- 
     organizaListagemHistorico(T, Resposta1),
@@ -37,7 +30,8 @@ organizaListagemHistorico([H|T], Resposta) :-
     string_concat(NomeLinhaComQuebraDeLinha, '\n\n', NomeLinhaComQuebraDeLinhaComQuebraDeLinha),
     string_concat(NomeLinhaComQuebraDeLinhaComQuebraDeLinha, Resposta1, Resposta).
 
-% Organiza a listagem de produtos
+% Regra que formata os dados dos produtos recebidos do banco de dados
+% Essa regra organiza os produtos para a impressão no main
 organizaListagemProdutos([], '').
 organizaListagemProdutos([H|T], Resposta) :-
     organizaListagemProdutos(T, Resposta1),
@@ -48,27 +42,9 @@ organizaListagemProdutos([H|T], Resposta) :-
     string_concat(Produtos, '\n', ProdutosConcatenados),
     string_concat(ProdutosConcatenados, Resposta1, Resposta).
 
-concatena_strings(ListaStrings, Resultado) :-
-    concatena_strings_aux(ListaStrings, '', Resultado).
-
-concatena_strings_aux([], Acumulador, Acumulador).
-concatena_strings_aux([String | Resto], Acumulador, Resultado) :-
-    atom_concat(Acumulador, String, NovoAcumulador),
-    concatena_strings_aux(Resto, NovoAcumulador, Resultado).
-
-formata_valor(Valor, ValorFormatado) :-
-    format(atom(AtomValorFormatado), 'R$ ~2f', [Valor]),
-    atom_chars(AtomValorFormatado, ListaChars),
-    substitui_ponto_virgula(ListaChars, ListaCharsFormatada),
-    atom_chars(ValorFormatado, ListaCharsFormatada).
-
-substitui_ponto_virgula([], []).
-substitui_ponto_virgula(['.'|T], [','|T2]) :-
-    substitui_ponto_virgula(T, T2).
-substitui_ponto_virgula([H|T], [H|T2]) :-
-    substitui_ponto_virgula(T, T2).
-
-% Organiza a listagem de produtos, apresentando nome, categoria e quantidade de aluguéis
+% Regra que formata os dados recebidos do banco de dados com os produtos mais vendidos
+% Essa regra organiza os produtos para imprimir as informações importantes para
+% a seção de estatística de vendas
 organizaListagemEstatistica([], '').
 organizaListagemEstatistica([H|T], Resposta) :-
     organizaListagemEstatistica(T, Resposta1),
@@ -77,15 +53,45 @@ organizaListagemEstatistica([H|T], Resposta) :-
     concatena_strings(['\nNome: ', Nome, '\nCategoria: ', Categoria, '\nQuantidade de alugueis: ', QtdAlugueis, '\nPreco por dia: ', PrecoPorDiaFormatado, '\n'], ProdutosConcatenados),
     string_concat(ProdutosConcatenados, Resposta1, Resposta).
 
+% Regra que formata os dados dos clientes presentes no banco de dados
 organizaListagemCliente([], '').
 organizaListagemCliente([H|T], Resposta) :-
     organizaListagemCliente(T, Resposta1),
     extract_info_clientes(H, Id, Nome, _, _),
     string_concat(Nome, ' - ', NomeLinha),
-    string_concat(NomeLinha, Id, Produtos),
-    string_concat(Produtos, '\n', ProdutosConcatenados),
-    string_concat(ProdutosConcatenados, Resposta1, Resposta).
+    string_concat(NomeLinha, Id, Clientes),
+    string_concat(Clientes, '\n', ClientesConcatenados),
+    string_concat(ClientesConcatenados, Resposta1, Resposta).
 
+% Regra que recebe uma lista de string retorna a concatenação de todas
+concatena_strings(ListaStrings, Resultado) :-
+    concatena_strings_loop(ListaStrings, '', Resultado).
+
+% Regra que auxilia a concatenação de uma lista da lista de strings recebidas
+concatena_strings_loop([], Acumulador, Acumulador).
+concatena_strings_loop([String | Resto], Acumulador, Resultado) :-
+    atom_concat(Acumulador, String, NovoAcumulador),
+    concatena_strings_loop(Resto, NovoAcumulador, Resultado).
+
+% Regra que formata um valor de ponto flutuante recebido para
+% um formato de valor em reais: R$ valor
+formata_valor(Valor, ValorFormatado) :-
+    format(atom(AtomValorFormatado), 'R$ ~2f', [Valor]),
+    atom_chars(AtomValorFormatado, ListaChars),
+    substitui_ponto_virgula(ListaChars, ListaCharsFormatada),
+    atom_chars(ValorFormatado, ListaCharsFormatada).
+
+% Regra que auxilia que completa a formatação de um valor de
+% ponto flutuante para reais, substituindo o ponto por vírgula
+substitui_ponto_virgula([], []).
+substitui_ponto_virgula(['.'|T], [','|T2]) :-
+    substitui_ponto_virgula(T, T2).
+substitui_ponto_virgula([H|T], [H|T2]) :-
+    substitui_ponto_virgula(T, T2).
+
+% Regras que generalizam a extração de informações relevantes para a impressão da lista de produtos
+% - Os produtos podem ser filmes, séries e jogos
+% - As informações extraídas para a impressão são nome e descrição
 get_info(Id, 'filme',  Nome, Descricao) :- 
     get_filme_by_id(Id, Object),
     extract_info_produtos(Object, _, Nome, Descricao, _, _, _),!.
@@ -98,28 +104,22 @@ get_info(Id, 'serie', Nome, Descricao) :-
     get_serie_by_id(Id, Object),
     extract_info_produtos(Object, _, Nome, Descricao, _, _, _),!.
 
-prompt(Message, String) :-
-    write(Message),
-    flush_output,
-    read_line_to_codes(user_input, Codes),
-    string_codes(String, Codes).
-
-
 string_para_float(String, Float) :-
     atom_chars(String, Chars),    % Converte a string em uma lista de caracteres
     number_chars(Float, Chars).   % Converte a lista de caracteres em um número de ponto flutuante
 
-/* As regras get_produto_em_destaque e seleciona_aluguel_destaque são
-responsáveis por selecionar o produto em detaque positivo ou negativo
-em relação ao aluguel. O produto com maior número de alugueis
-pode ser obtido passando o átomo 'mais_alugado' para as regras.
-Já o produto com menor número de alugueis pode ser obtido 
-passando o átomo 'menos_alugado' para as regras */
+% As regras get_produto_em_destaque e seleciona_aluguel_destaque são
+% responsáveis por selecionar o produto em detaque positivo ou negativo
+% em relação ao aluguel. O produto com maior número de alugueis
+% pode ser obtido passando o átomo 'mais_alugado' para as regras.
+% Já o produto com menor número de alugueis pode ser obtido 
+% passando o átomo 'menos_alugado' para as regras 
 seleciona_aluguel_destaque('mais_alugado', QtdAlugueis1, QtdAlugueis2, Produto1, Produto2, Destaque) :- 
     (QtdAlugueis1 > QtdAlugueis2 -> Destaque = Produto1 ; Destaque = Produto2).
 seleciona_aluguel_destaque('menos_alugado', QtdAlugueis1, QtdAlugueis2, Produto1, Produto2, Destaque) :- 
     (QtdAlugueis1 > QtdAlugueis2 -> Destaque = Produto2 ; Destaque = Produto1).
 
+% Regra que pega um produto em destaque(como explicado acima)
 get_produto_em_destaque([], _, Produto_Maior_Atual, Produto_Maior_Atual).
 get_produto_em_destaque([Produto_Atual | Tail], Tipo_Destaque, Produto_Maior_Atual, Produto_Maior_Final) :- 
     extract_info_produtos(Produto_Atual, _, _, _, _, _, QtdAlugueis_Atual),
@@ -127,9 +127,9 @@ get_produto_em_destaque([Produto_Atual | Tail], Tipo_Destaque, Produto_Maior_Atu
     seleciona_aluguel_destaque(Tipo_Destaque, QtdAlugueis_Atual, QtdAlugueis_Maior, Produto_Atual, Produto_Maior_Atual, Novo_Maior),
     get_produto_em_destaque(Tail, Tipo_Destaque, Novo_Maior, Produto_Maior_Final).
 
-/* Essa regra é responsável por pegar 'n' produtos em destaque.
-O destaque pode ser os 'n' produtos mais alugados ou os 'n' produtos
-menos alugados */
+% Essa regra é responsável por pegar 'n' produtos em destaque.
+% O destaque pode ser os 'n' produtos mais alugados ou os 'n' produtos
+% menos alugados 
 get_n_destaques(_, 0, _, Destaques_Atuais, Destaques_Atuais_Dec) :- reverse(Destaques_Atuais, Destaques_Atuais_Dec).
 get_n_destaques([], _, _, Destaques_Atuais, Destaques_Atuais_Dec) :- reverse(Destaques_Atuais, Destaques_Atuais_Dec).
 get_n_destaques(Produtos, N, Tipo_Destaque, Destaques_Atuais, Destaques_Finais) :- 
